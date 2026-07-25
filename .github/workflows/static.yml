@@ -2,7 +2,7 @@ name: Compila LaTeX e Pubblica PDF
 
 on:
   push:
-    branches: ["Doc"] 
+    branches: ["main"] 
   workflow_dispatch:
 
 permissions:
