@@ -1,0 +1,177 @@
+\newcommand{\myName}{Andrea Masiero}
+\newcommand{\myTitle}{Progettazione e sviluppo di un Relying Party conforme allo standard EUDI Wallet: dal parsing di query DCQL alla convalida crittografica}
+\newcommand{\myDegree}{Tesi di laurea triennale}
+\newcommand{\myUni}{Università degli Studi di Padova}
+\newcommand{\myFaculty}{Corso di Laurea in Informatica}
+\newcommand{\myDepartment}{Dipartimento di Matematica "Tullio Levi-Civita"}
+\newcommand{\profTitle}{Prof. }
+\newcommand{\myProf}{Giovanni Da San Martino}
+\newcommand{\myLocation}{Padova}
+\newcommand{\myAA}{2025-2026}
+\newcommand{\myTime}{Settembre 2026}
+
+\setlength{\parindent}{14pt}
+\setlength{\parskip}{0pt}
+
+\bibliography{bibliografia}
+
+\defbibheading{bibliography} {
+    \cleardoublepage
+    \phantomsection 
+    \addcontentsline{toc}{chapter}{\bibname}
+    \chapter*{\bibname\markboth{\bibname}{\bibname}}
+}
+
+\setlength\bibitemsep{1.5\itemsep}
+
+\DeclareBibliographyCategory{opere}
+\DeclareBibliographyCategory{web}
+
+\addtocategory{opere}{womak:lean-thinking}
+\addtocategory{web}{site:agile-manifesto}
+
+\defbibheading{opere}{\section*{Riferimenti bibliografici}}
+\defbibheading{web}{\section*{Siti Web consultati}}
+
+\captionsetup{
+    tableposition=top,
+    figureposition=bottom,
+    font=small,
+    format=hang,
+    labelfont=bf
+}
+
+\input{glossario}
+
+\graphicspath{{immagini/}}
+
+\hypersetup{
+    colorlinks=true,
+    linktocpage=true,
+    pdfstartpage=1,
+    pdfstartview=FitV,
+    breaklinks=true,
+    pdfpagemode=UseNone,
+    pageanchor=true,
+    pdfpagemode=UseOutlines,
+    plainpages=false,
+    bookmarksnumbered,
+    bookmarksopen=true,
+    bookmarksopenlevel=1,
+    hypertexnames=true,
+    pdfhighlight=/O,
+    urlcolor=webbrown,
+    linkcolor=RoyalBlue,
+    citecolor=webgreen,
+    pdftitle={\myTitle},
+    pdfauthor={\textcopyright\ \myName, \myUni, \myFaculty},
+    pdfsubject={},
+    pdfkeywords={},
+    pdfcreator={pdfLaTeX},
+    pdfproducer={LaTeX}
+}
+
+\definecolor{tableHead}{RGB}{158,9,46}
+\definecolor{tableLight}{RGB}{255, 247, 234}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{purple}{rgb}{0.0, 0.5, 0.0}
+
+\lstdefinelanguage{JavaScript}{
+    keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywords={class, export, boolean, throw, implements, import, this, console, module},
+    ndkeywordstyle=\color{blue}\bfseries,
+    identifierstyle=\color{black},
+    sensitive=false,
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{purple}\ttfamily,
+    stringstyle=\color{tableHead}\ttfamily,
+    morestring=[b]',
+    morestring=[b]"
+}
+
+\lstset{
+	language=JavaScript,
+	backgroundcolor=\color{lightgray},
+	extendedchars=true,
+	basicstyle=\footnotesize\ttfamily,
+	showstringspaces=false,
+	showspaces=false,
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=9pt,
+	tabsize=2,
+	breaklines=true,
+	showtabs=false,
+	captionpos=b
+}
+
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+
+\newcommand{\omissis}{[\dots\negthinspace]}
+\hyphenation
+{
+    ma-cro-istru-zio-ne
+    gi-ral-din
+}
+
+\newcommand{\sectionname}{sezione}
+\addto\captionsitalian{\renewcommand{\figurename}{Figura}
+                       \renewcommand{\tablename}{Tabella}}
+
+\newcommand{\glsfirstoccur}{\ap{{[g]}}}
+
+\newcommand{\intro}[1]{\emph{\textsf{#1}}}
+\newcommand{\fonte}[1]{\small{\textbf{Fonte:} \url{#1}}}
+
+\newcounter{riskcounter}
+\setcounter{riskcounter}{0}
+
+\newenvironment{risk}[1]{
+    \refstepcounter{riskcounter}
+    \par \noindent
+    \textbf{\arabic{riskcounter}. #1}
+}{
+    \par\medskip
+}
+
+\newcommand{\riskname}{Rischio}
+
+\newcommand{\riskdescription}[1]{\textbf{\\Descrizione:} #1.}
+
+\newcommand{\risksolution}[1]{\textbf{\\Soluzione:} #1.}
+
+\newcounter{usecasecounter}
+\setcounter{usecasecounter}{0}
+
+\newenvironment{usecase}[2]{
+    \renewcommand{\theusecasecounter}{\usecasename #1}
+    \refstepcounter{usecasecounter}
+    \vspace{10pt}
+    \par \noindent
+    {\large \textbf{\usecasename #1: #2}}
+    \medskip
+}{
+    \medskip
+}
+
+\newcommand{\usecasename}{UC}
+
+\newcommand{\usecaseactors}[1]{\textbf{\\Attori Principali:} #1. \vspace{4pt}}
+\newcommand{\usecasepre}[1]{\textbf{\\Precondizioni:} #1. \vspace{4pt}}
+\newcommand{\usecasedesc}[1]{\textbf{\\Descrizione:} #1. \vspace{4pt}}
+\newcommand{\usecasepost}[1]{\textbf{\\Postcondizioni:} #1. \vspace{4pt}}
+\newcommand{\usecasealt}[1]{\textbf{\\Scenario Alternativo:} #1. \vspace{4pt}}
+
+\newenvironment{namespacedesc}{
+    \vspace{10pt}
+    \par \noindent
+    \begin{description} 
+}{
+    \end{description}
+    \medskip
+}
+
+\newcommand{\classdesc}[2]{\item[\textbf{#1:}] #2}

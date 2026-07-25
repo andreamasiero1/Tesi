@@ -1,0 +1,32 @@
+\chapter{Il contesto aziendale}
+\label{cap:contesto_aziendale}
+
+\section{Scelta dello stage}
+L'opportunità di svolgere lo stage aziendale è scaturita dalla partecipazione all'evento \emph{Stage-IT 2026}, un'iniziativa promossa per favorire il confronto tra gli studenti e diverse realtà aziendali operanti in svariati ambiti del \emph{software development}. Tra le diverse proposte presentate, l'attenzione si è focalizzata sul progetto offerto dall'azienda \emph{Monokee}, incentrato sui temi dell'identità digitale e delle credenziali decentralizzate.
+
+Tale scelta è stata dettata da fattori chiave distinti: da un lato, il vivo interesse per gli aspetti innovativi e le sfide tecnologiche del progetto; dall'altro, la stretta coerenza con gli obiettivi accademici e professionali futuri, orientati al proseguimento degli studi nella laurea magistrale in cybersicurezza. L'analisi della documentazione tecnica preliminare fornita dall'azienda, unitamente ai colloqui conoscitivi effettuati, ha permesso di delineare nel dettaglio gli obiettivi del progetto, consolidando la decisione di svolgere il percorso di tirocinio presso Monokee. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./immagini/logo-monokee.png}    
+    \caption{Logo di Monokee}
+    \fonte{www.monokee.com}
+    \label{fig:monokee}
+\end{figure}
+
+
+\section{Dominio applicativo}
+
+Monokee implementa una piattaforma avanzata focalizzata sui sistemi di \emph{Identity and Access Management} (IAM) e sull'orchestrazione delle identità digitali. La soluzione aziendale propone un approccio innovativo che integra la gestione dell'identità con un orchestratore visivo \emph{low-code/no-code}, consentendo alle organizzazioni di modellare, automatizzare e personalizzare flussi complessi di autenticazione e autorizzazione per utenti e dispositivi (\emph{Identity Journeys}) senza la necessità di sviluppare codice ad hoc.
+
+All'interno di questa architettura tecnologica, l'attività di stage si è focalizzata sulla progettazione e sullo sviluppo \emph{ex novo} del modulo \texttt{monokee-relying-party}. Tale componente consente alla piattaforma Monokee di operare come \emph{Relying Party} (o \emph{Verifier}) nell'ambito del paradigma delle credenziali decentralizzate e dell'ecosistema EUDI Wallet. Il modulo ha il compito di richiedere, ricevere e verificare le \emph{Verifiable Credentials} presentate dai \emph{wallet} digitali degli utenti, convertendole in sessioni di accesso sicure e integrate nell'infrastruttura IAM aziendale.
+
+Nello specifico, il componente si articola nelle seguenti funzionalità principali:
+\begin{enumerate}
+    \item \textbf{Gestione delle \emph{Presentation Requests}:} generazione e invio di richieste di presentazione standardizzate volte ad attestare specifici attributi dell'utente (ad esempio la maggiore età o la cittadinanza);
+    \item \textbf{Implementazione del protocollo OpenID4VP:} gestione completa del protocollo \emph{OpenID for Verifiable Presentations} per la ricezione e l'elaborazione sicura dei \emph{Verifiable Presentation Tokens} (\emph{VP Tokens}) tramite \emph{endpoint} dedicati;
+    \item \textbf{Validazione delle prove crittografiche:} verifica dell'integrità e dell'autenticità delle attestazioni ricevute — comprese quelle strutturate secondo lo standard \emph{Selective Disclosure JWT} (SD-JWT) — e convalida della catena di fiducia (\emph{Trust Chain}) legata agli emettitori (\emph{Issuers}).
+\end{enumerate}
+
+\section{Tecnologie utilizzate}
+\subsection{Node.js}
+\label{nodejs}
