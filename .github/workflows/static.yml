@@ -24,7 +24,7 @@ jobs:
       - name: Compila TUTTI i file LaTeX in PDF
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: "*.tex" # Il carattere * fa compilare qualsiasi file .tex
+          root_file: "tesi.tex" # Il carattere * fa compilare qualsiasi file .tex
           # args: -pdf -file-line-error -interaction=nonstopmode
 
       - name: Prepara i file e genera la lista dinamica nell'HTML

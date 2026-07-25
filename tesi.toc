@@ -1,0 +1,26 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {chapter}{\numberline {1}Il contesto aziendale}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Scelta dello stage}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Dominio applicativo}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Tecnologie utilizzate}{2}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Node.js}{2}{subsection.1.3.1}%
+\contentsline {chapter}{\numberline {2}Analisi dei Requisiti}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Obbiettivo}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Utenti coinvolti}{3}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Requisiti richiesti}{3}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Identificazione dei Requisiti}{3}{subsection.2.3.1}%
+\contentsline {section}{\numberline {2.4}Casi d'uso}{3}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Attori}{3}{subsection.2.4.1}%
+\contentsline {section}{\numberline {2.5}Limiti}{3}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Progettazione}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Architettura}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Codifica}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Organizzazione del codice}{7}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Verifica e validazione}{9}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Valutazione finale}{11}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Risultati ottenuti}{11}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Analisi critica del prodotto}{11}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Analisi critica del lavoro}{11}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Valutazione degli strumenti utilizzati}{13}{section.6.4}%
+\contentsline {chapter}{Bibliografia}{15}{appendix*.10}%
