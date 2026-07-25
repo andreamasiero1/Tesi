@@ -1,0 +1,86 @@
+name: Compila LaTeX e Pubblica PDF
+
+on:
+  push:
+    branches: ["Doc"] 
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il codice repository
+        uses: actions/checkout@v4
+
+      - name: Compila TUTTI i file LaTeX in PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: "*.tex" # Il carattere * fa compilare qualsiasi file .tex
+          # args: -pdf -file-line-error -interaction=nonstopmode
+
+      - name: Prepara i file e genera la lista dinamica nell'HTML
+        run: |
+          mkdir -p public
+          cp *.pdf public/ 2>/dev/null || true
+          if [ -f style.css ]; then cp style.css public/; fi
+          if [ -f index.html ]; then cp index.html public/; fi
+
+          cd public
+          
+          # Costruisce il codice HTML per ogni file PDF trovato
+          CARDS_HTML=""
+          for pdf in *.pdf; do
+            if [ -f "$pdf" ]; then
+              # Rimuove l'estensione .pdf per ricavare il nome grezzo
+              filename="${pdf%.*}"
+              
+              # Trasforma trattini (-) e underscore (_) in spazi e mette la prima lettera maiuscola
+              title=$(echo "$filename" | tr '_-' ' ' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+              
+              # Crea la scheda HTML per questo documento
+              CARDS_HTML="$CARDS_HTML \
+              <article class=\"doc-card\"> \
+                <div class=\"doc-info\"> \
+                  <div class=\"doc-icon\">PDF</div> \
+                  <h2 class=\"doc-title\">$title</h2> \
+                </div> \
+                <div class=\"button-group\"> \
+                  <a href=\"$pdf\" class=\"btn\" target=\"_blank\" rel=\"noopener\">Apri a tutto schermo</a> \
+                  <a href=\"$pdf\" class=\"btn btn-secondary\" download>Scarica</a> \
+                </div> \
+              </article>"
+            fi
+          done
+
+          # Se non è stato trovato nessun PDF, mostra un messaggio
+          if [ -z "$CARDS_HTML" ]; then
+            CARDS_HTML="<p style='text-align:center;'>Nessun documento PDF disponibile.</p>"
+          fi
+
+          # Sostituisce il segnaposto nel file index.html con le schede generate
+          sed -i "s|<!-- DOCS-PLACEHOLDER -->|$CARDS_HTML|g" index.html
+
+      - name: Carica l'artefatto di build
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public/
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Pubblica su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
