@@ -1,15 +1,40 @@
 \chapter{Analisi dei Requisiti}
 \label{cap:analisi_requisiti}
 
-\section{Obbiettivo}
+\section{Panoramica e Attori}
 
-\section{Utenti coinvolti}
+L'obiettivo dello stage è lo sviluppo di un modulo di relying party (come definito nella sezione \ref{sec:dominio_applicativo}) che si occuperà di creare e inviare richieste standardizzate per ottenere attributi specifici degli utenti, gestire la ricezione dei VP Tokens tramite endpoint dedicati e verificare l'integrità delle presentazioni e la validità degli emettitori.
 
-\section{Requisiti richiesti}
-\label{requisti-richiesti}
+\subsection{Attori del sistema}
+Gli attori rappresentanoleentità(utenti fisici o sistemi esterni)che interagiscono con l’applicazione. Per il progetto sviluppato, sono stati individuati i seguenti attori principali:
+\begin{itemize}
+    \item \textbf{Relying Party}
+    \item \textbf{Wallet}
+    \item \textbf{Utente finale}
+\end{itemize}
 
-\subsection{Identificazione dei Requisiti}
-\label{indentificazione-requisiti}
+\subsection{Requisiti Obbligatori}
+\begin{enumerate}
+    \item{O01:} Inizializzazione sessione di presentazione
+    \item{O02:} Generazione Authorization Request URL
+    \item{O03:} Hosting Endpoint request\_uri
+    \item{O04:} Metadati Verifier (client\_metadata)
+    \item{O05:} Prevenzione replay attack
+    \item{O06:} Ricezione risposta del wallet
+    \item{O07:} Validazione Struttura e Criteri DCQL Query
+    \item{O08:} Verifica Firma Issuer SD-JWT
+    \item{O09:} Verifica Holder Binding (KB-JWT)
+    \item{O10:} Fetch della presentazione 
+    \item{O11:} Gestione errori del Wallet
+    \item{O12:} Gestione configurazione Client RP (SCIM)
+\end{enumerate}
+\subsection{Requisiti Desiderabili}
+\begin{enumerate}
+    \item{D01:} Supporto direct\_post.jwt (JWE)
+    \item{D02:} Generazione chiavi effimere per JWE
+    \item{D03:} Risoluzione e verifica ricorsiva della trust chain
+    \item{D04:} Sopportio di vari Client ID Scheme (redirect\_uri, x509\_san\_dns, x509\_hash, openid\_federation, verifier\_attestation, pre\_registered )
+    \item {D05:} Hosting /.well-known/openid-federation
+\end{enumerate}
 \section{Casi d'uso}
-\subsection{Attori}
 \section{Limiti}
