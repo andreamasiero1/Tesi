@@ -6,11 +6,11 @@
 L'obiettivo dello stage è lo sviluppo di un modulo di relying party (come definito nella sezione \ref{sec:dominio_applicativo}) che si occuperà di creare e inviare richieste standardizzate per ottenere attributi specifici degli utenti, gestire la ricezione dei VP Tokens tramite endpoint dedicati e verificare l'integrità delle presentazioni e la validità degli emettitori.
 
 \subsection{Attori del sistema}
-Gli attori rappresentanoleentità(utenti fisici o sistemi esterni)che interagiscono con l’applicazione. Per il progetto sviluppato, sono stati individuati i seguenti attori principali:
+Gli attori rappresentano le entità (utenti fisici o sistemi esterni) che interagiscono con l'applicazione. Per il progetto sviluppato, sono stati individuati i seguenti attori principali:
 \begin{itemize}
-    \item \textbf{Relying Party}
-    \item \textbf{Wallet}
-    \item \textbf{Utente finale}
+    \item \textbf{Relying Party:} rappresenta la componente backend del sistema che funge da entità richiedente e verificatrice delle Credenziali Verificabili. Gestisce l'intero ciclo di vita di una richiesta di presentazione: dall'inizializzazione della sessione, alla generazione del Request Object firmato crittograficamente, fino alla validazione delle presentazioni ricevute dal Wallet.
+    \item \textbf{Wallet:} rappresenta un sistema esterno,tipicamente un'app mobile o un'estensione del browser, che custodisce le Credenziali Verificabili (Verifiable Credentials) emesse da uno o più Issuer fidati e le presenta su richiesta del Verifier. Nel contesto del protocollo OID4VP, il Wallet agisce come un intermediario tecnico tra l'Utente e il Relying Party: riceve la richiesta di presentazione, la interpreta, presenta all'Utente le credenziali richieste per ottenerne il consenso, e infine assembla e trasmette la Verifiable Presentation al Backend.
+    \item \textbf{Utente finale:} è la persona fisica che interagisce con il sistema attraverso il Frontend del Relying Party e il proprio Wallet digitale. È il titolare delle Credenziali Verificabili, ovvero possiede documenti o attestazioni digitali (ad esempio un documento d'identità, una patente, un attestato professionale) emessi da Issuer fidati e memorizzati nel proprio Wallet. L'Utente rappresenta il soggetto che deve dimostrare il possesso di determinati attributi o qualifiche richieste dal servizio offerto dal Relying Party, ed è l'unico attore che può autorizzare la condivisione delle proprie credenziali.4
 \end{itemize}
 
 \subsection{Requisiti Obbligatori}
@@ -37,4 +37,23 @@ Gli attori rappresentanoleentità(utenti fisici o sistemi esterni)che interagisc
     \item {D05:} Hosting /.well-known/openid-federation
 \end{enumerate}
 \section{Casi d'uso}
+I diagrammi dei casi d'uso (Use Case Diagram) sono diagrammi di tipo Unified Modelling Language (UML) che hanno lo scopo di descrivere le interazioni tra gli attori del sistema e i casi d'uso, ovvero le funzionalità che il sistema deve fornire. 
+Di seguito verranno escritti nel dettaglio i casi d'uso relativi all'integrazione del modulo di relying party nel sistema.
+Ognuno dei casi d'uso seguirà la seguente struttura:
+\begin{itemize}
+ \item{\textbf{Caso d’uso:}} codice e nome del caso d’uso;
+ \item{\textbf{Attori:}} attori dello scenario;
+ \item{\textbf{Descrizione:}} descrizione dettagliata del caso d’uso, con i passaggi che lo caratterizzano;
+ \item{\textbf{Precondizioni:}} condizioni che devono essere soddisfatte affinché l’attore possa accedere al caso d’uso;
+ \item{\textbf{Postcondizioni:}} stato del sistema dopo che il caso d’uso si è verificato;
+ \item {\textbf{Scenario principale:}} sequenza di passi che descrivono il flusso principale del caso d’uso, ovvero la sequenza di azioni che si verificano quando tutto va come previsto;
+ \item {\textbf{Scenario alternativo:}} eventuali scenari alternativi che possono verificarsi durante l’esecuzione del caso d’uso, con le relative condizioni e conseguenze.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./immagini/usecase/UC-Scenario Principale.png}    
+    \caption{Relying Party - Scenario Principale}
+    \label{fig:UC-Scenario Principale}
+\end{figure}
+
 \section{Limiti}

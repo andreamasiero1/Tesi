@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.27)  1 AUG 2026 11:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.27)  6 AUG 2026 15:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -907,14 +907,14 @@ Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
 File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO)
 \BKM@id=\count516
 )) (./tesi-config.tex (./glossario.tex)
-Package hyperref Info: Option `colorlinks' set `true' on input line 72.
-Package hyperref Info: Option `linktocpage' set `true' on input line 72.
-Package hyperref Info: Option `breaklinks' set `true' on input line 72.
-Package hyperref Info: Option `pageanchor' set `true' on input line 72.
-Package hyperref Info: Option `plainpages' set `false' on input line 72.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 72.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 72.
-Package hyperref Info: Option `hypertexnames' set `true' on input line 72.
+Package hyperref Info: Option `colorlinks' set `true' on input line 70.
+Package hyperref Info: Option `linktocpage' set `true' on input line 70.
+Package hyperref Info: Option `breaklinks' set `true' on input line 70.
+Package hyperref Info: Option `pageanchor' set `true' on input line 70.
+Package hyperref Info: Option `plainpages' set `false' on input line 70.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 70.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 70.
+Package hyperref Info: Option `hypertexnames' set `true' on input line 70.
 \c@riskcounter=\count517
 \c@usecasecounter=\count518
 )
@@ -922,39 +922,39 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'italian'.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 56.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 57.
  (/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (./tesi.aux)
 \openout1 = `tesi.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Info: Redefining \it@ocap on input line 56.
-LaTeX Info: Redefining \it@ccap on input line 56.
-LaTeX Info: Redefining \microtypecontext on input line 56.
-Package microtype Info: Applying patch `item' on input line 56.
-Package microtype Info: Applying patch `toc' on input line 56.
-Package microtype Info: Applying patch `eqnum' on input line 56.
-Package microtype Info: Applying patch `footnote' on input line 56.
-Package microtype Info: Applying patch `verbatim' on input line 56.
-LaTeX Info: Redefining \microtypesetup on input line 56.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Info: Redefining \it@ocap on input line 57.
+LaTeX Info: Redefining \it@ccap on input line 57.
+LaTeX Info: Redefining \microtypecontext on input line 57.
+Package microtype Info: Applying patch `item' on input line 57.
+Package microtype Info: Applying patch `toc' on input line 57.
+Package microtype Info: Applying patch `eqnum' on input line 57.
+Package microtype Info: Applying patch `footnote' on input line 57.
+Package microtype Info: Applying patch `verbatim' on input line 57.
+LaTeX Info: Redefining \microtypesetup on input line 57.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1052,9 +1052,9 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'tesi.bbl' not found.
 
 No file tesi.bbl.
-Package biblatex Info: Reference section=0 on input line 56.
-Package biblatex Info: Reference segment=0 on input line 56.
-Package hyperref Info: Link coloring ON on input line 56.
+Package biblatex Info: Reference section=0 on input line 57.
+Package biblatex Info: Reference segment=0 on input line 57.
+Package hyperref Info: Link coloring ON on input line 57.
 (./inizio-fine/frontespizio.tex
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/14.4'.
@@ -1125,12 +1125,12 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 ]) (./capitoli/capitolo-1.tex
 Capitolo 1.
-<./immagini/logo-monokee.png, id=124, 168.02776pt x 38.0622pt>
+<./immagini/logo-monokee.png, id=126, 168.02776pt x 38.0622pt>
 File: ./immagini/logo-monokee.png Graphic file (type png)
 <use ./immagini/logo-monokee.png>
-Package pdftex.def Info: ./immagini/logo-monokee.png  used on input line 10.
+Package pdftex.def Info: ./immagini/logo-monokee.png  used on input line 9.
 (pdftex.def)             Requested size: 277.19879pt x 62.80162pt.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 12.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 11.
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1139,51 +1139,57 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 12.
+(Font)              <9> on input line 11.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 12.
+(Font)              <6> on input line 11.
  [1
 
 
 
  <./immagini/logo-monokee.png>] [2] [3]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 73.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 72.
  (/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [4{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]) (./capitoli/capitolo-2.tex [5] [6
+)) (./capitoli/capitolo-2.tex [4{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [5] [6
 
 ]
 Capitolo 2.
-[7]) (./capitoli/capitolo-3.tex [8]
+[7]
+<./immagini/usecase/UC-Scenario Principale.png, id=175, 627.34375pt x 613.29124pt>
+File: ./immagini/usecase/UC-Scenario Principale.png Graphic file (type png)
+<use ./immagini/usecase/UC-Scenario Principale.png>
+Package pdftex.def Info: ./immagini/usecase/UC-Scenario Principale.png  used on input line 54.
+(pdftex.def)             Requested size: 277.19879pt x 271.00002pt.
+ [8]) (./capitoli/capitolo-3.tex [9 <./immagini/usecase/UC-Scenario Principale.png>] [10
+
+]
 Capitolo 3.
 
-LaTeX Warning: Hyper reference `nodejs' on page 9 undefined on input line 3.
+LaTeX Warning: Hyper reference `nodejs' on page 11 undefined on input line 3.
 
 
-LaTeX Warning: Hyper reference `serivizi-aws' on page 9 undefined on input line 6.
+LaTeX Warning: Hyper reference `serivizi-aws' on page 11 undefined on input line 6.
 
-) (./capitoli/capitolo-4.tex [9
-
-] [10
+) (./capitoli/capitolo-4.tex [11] [12
 
 ]
 Capitolo 4.
-) (./capitoli/capitolo-5.tex [11] [12
+) (./capitoli/capitolo-5.tex [13] [14
 
 ]
 Capitolo 5.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 4.
-) (./capitoli/capitolo-6.tex [13] [14
+) (./capitoli/capitolo-6.tex [15] [16
 
 ]
 Capitolo 6.
-[15] [16])
-Underfull \hbox (badness 10000) in paragraph at lines 18--70
+[17] [18])
+Underfull \hbox (badness 10000) in paragraph at lines 18--71
 
  []
 
-[17] [18
+[19] [20
 
 ] (./inizio-fine/bibliografia.tex
 
@@ -1192,7 +1198,7 @@ Package biblatex Warning: Type 'online' not found on input line 5.
 
 LaTeX Warning: Empty bibliography on input line 5.
 
-) [19
+) [21
 
 
 ] (./tesi.aux)
@@ -1214,18 +1220,18 @@ Package logreq Info: Writing requests to 'tesi.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33423 strings out of 468933
- 626279 string characters out of 5453091
- 1583506 words of memory out of 5000000
- 61347 multiletter control sequences out of 15000+600000
- 739534 words of font info for 195 fonts, out of 8000000 for 9000
+ 33440 strings out of 468933
+ 626794 string characters out of 5453091
+ 1583478 words of memory out of 5000000
+ 61359 multiletter control sequences out of 15000+600000
+ 739650 words of font info for 196 fonts, out of 8000000 for 9000
  366 hyphenation exceptions out of 8191
  78i,8n,83p,2582b,1874s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmro10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmro12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmtt9.pfb>
-Output written on tesi.pdf (25 pages, 594375 bytes).
+Output written on tesi.pdf (27 pages, 644320 bytes).
 PDF statistics:
- 467 PDF objects out of 1000 (max. 8388607)
- 398 compressed objects within 4 object streams
- 98 named destinations out of 1000 (max. 500000)
- 66891 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 480 PDF objects out of 1000 (max. 8388607)
+ 406 compressed objects within 5 object streams
+ 101 named destinations out of 1000 (max. 500000)
+ 66896 words of extra memory for PDF output out of 74296 (max. 10000000)
 
