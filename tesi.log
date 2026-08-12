@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.27)  6 AUG 2026 15:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.27)  12 AUG 2026 18:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1125,7 +1125,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 ]) (./capitoli/capitolo-1.tex
 Capitolo 1.
-<./immagini/logo-monokee.png, id=126, 168.02776pt x 38.0622pt>
+<./immagini/logo-monokee.png, id=128, 168.02776pt x 38.0622pt>
 File: ./immagini/logo-monokee.png Graphic file (type png)
 <use ./immagini/logo-monokee.png>
 Package pdftex.def Info: ./immagini/logo-monokee.png  used on input line 9.
@@ -1155,41 +1155,81 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ]
 Capitolo 2.
 [7]
-<./immagini/usecase/UC-Scenario Principale.png, id=175, 627.34375pt x 613.29124pt>
+Overfull \hbox (13.96303pt too wide) in paragraph at lines 36--37
+[]\T1/lmr/bx/n/10 (-20) D04\T1/lmr/m/n/10 (-20) : Sup-por-to a mol-te-pli-ci \T1/lmr/m/it/10 (-20) Client ID Sche-me \T1/lmr/m/n/10 (-20) (\T1/lmtt/m/n/10 redirect_uri\T1/lmr/m/n/10 (-20) , \T1/lmtt/m/n/10 x509_san_dns\T1/lmr/m/n/10 (-20) , \T1/lmtt/m/n/10 x509_hash\T1/lmr/m/n/10 (-20) ,
+ []
+
+<./immagini/usecase/UC-Scenario Principale.png, id=177, 627.34375pt x 613.29124pt>
 File: ./immagini/usecase/UC-Scenario Principale.png Graphic file (type png)
 <use ./immagini/usecase/UC-Scenario Principale.png>
-Package pdftex.def Info: ./immagini/usecase/UC-Scenario Principale.png  used on input line 54.
+Package pdftex.def Info: ./immagini/usecase/UC-Scenario Principale.png  used on input line 56.
 (pdftex.def)             Requested size: 277.19879pt x 271.00002pt.
- [8]) (./capitoli/capitolo-3.tex [9 <./immagini/usecase/UC-Scenario Principale.png>] [10
+[8]
+<./immagini/usecase/UC1.png, id=196, 847.165pt x 382.42876pt>
+File: ./immagini/usecase/UC1.png Graphic file (type png)
+<use ./immagini/usecase/UC1.png>
+Package pdftex.def Info: ./immagini/usecase/UC1.png  used on input line 64.
+(pdftex.def)             Requested size: 277.19879pt x 125.13399pt.
 
-]
+Underfull \hbox (badness 10000) in paragraph at lines 61--67
+
+ []
+
+[9 <./immagini/usecase/UC-Scenario Principale.png> <./immagini/usecase/UC1.png>]
+Overfull \hbox (54.19495pt too wide) in paragraph at lines 79--80
+[]\T1/lmr/m/n/10 (-20) Qualora il pre-fis-so sia \T1/lmtt/m/n/10 verifier_attestation\T1/lmr/m/n/10 (-20) , la va-ria-bi-le d'am-bien-te \T1/lmtt/m/n/10 VERIFIER_ATTESTATION_JWT
+ []
+
+
+Overfull \hbox (11.3845pt too wide) in paragraph at lines 84--85
+[]\T1/lmr/m/n/10 (-20) La ses-sio-ne con-tie-ne i se-guen-ti pa-ra-me-tri: \T1/lmtt/m/n/10 sessionId\T1/lmr/m/n/10 (-20) , \T1/lmtt/m/n/10 requestId\T1/lmr/m/n/10 (-20) , \T1/lmtt/m/n/10 nonce\T1/lmr/m/n/10 (-20) , \T1/lmtt/m/n/10 transactionId\T1/lmr/m/n/10 (-20) ,
+ []
+
+[10]
+Overfull \hbox (29.0064pt too wide) in paragraph at lines 151--152
+[]\T1/lmr/m/n/10 (-20) Il ri-sul-ta-to del-la va-li-da-zio-ne in-clu-de i se-guen-ti at-tri-bu-ti: \T1/lmtt/m/n/10 clientIdValue\T1/lmr/m/n/10 (-20) , \T1/lmtt/m/n/10 requiresSignature\T1/lmr/m/n/10 (-20) ,
+ []
+
+
+Overfull \hbox (29.27626pt too wide) in paragraph at lines 161--162
+[]\T1/lmtt/m/n/10 openid_federation\T1/lmr/m/n/10 (-20) : co-me iden-ti-fi-ca-ti-vo vie-ne adot-ta-to il va-lo-re dell'\T1/lmtt/m/n/10 entityIdentifier\T1/lmr/m/n/10 (-20) .
+ []
+
+[11] [12] [13]
+Overfull \hbox (17.98906pt too wide) in paragraph at lines 257--258
+\T1/lmr/m/n/10 (-20) men-te i pa-ra-me-tri \T1/lmtt/m/n/10 client_id\T1/lmr/m/n/10 (-20) , \T1/lmtt/m/n/10 request_uri \T1/lmr/m/n/10 (-20) (pun-tan-te al-l'end-point \T1/lmtt/m/n/10 /request/:requestId\T1/lmr/m/n/10 (-20) )
+ []
+
+) (./capitoli/capitolo-3.tex [14]
 Capitolo 3.
 
-LaTeX Warning: Hyper reference `nodejs' on page 11 undefined on input line 3.
+LaTeX Warning: Hyper reference `nodejs' on page 15 undefined on input line 3.
 
 
-LaTeX Warning: Hyper reference `serivizi-aws' on page 11 undefined on input line 6.
+LaTeX Warning: Hyper reference `serivizi-aws' on page 15 undefined on input line 6.
 
-) (./capitoli/capitolo-4.tex [11] [12
+) (./capitoli/capitolo-4.tex [15
+
+] [16
 
 ]
 Capitolo 4.
-) (./capitoli/capitolo-5.tex [13] [14
+) (./capitoli/capitolo-5.tex [17] [18
 
 ]
 Capitolo 5.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 4.
-) (./capitoli/capitolo-6.tex [15] [16
+) (./capitoli/capitolo-6.tex [19] [20
 
 ]
 Capitolo 6.
-[17] [18])
+[21] [22])
 Underfull \hbox (badness 10000) in paragraph at lines 18--71
 
  []
 
-[19] [20
+[23] [24
 
 ] (./inizio-fine/bibliografia.tex
 
@@ -1198,7 +1238,7 @@ Package biblatex Warning: Type 'online' not found on input line 5.
 
 LaTeX Warning: Empty bibliography on input line 5.
 
-) [21
+) [25
 
 
 ] (./tesi.aux)
@@ -1220,18 +1260,18 @@ Package logreq Info: Writing requests to 'tesi.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33440 strings out of 468933
- 626794 string characters out of 5453091
- 1583478 words of memory out of 5000000
- 61359 multiletter control sequences out of 15000+600000
- 739650 words of font info for 196 fonts, out of 8000000 for 9000
+ 33511 strings out of 468933
+ 627686 string characters out of 5453091
+ 1583931 words of memory out of 5000000
+ 61375 multiletter control sequences out of 15000+600000
+ 741152 words of font info for 208 fonts, out of 8000000 for 9000
  366 hyphenation exceptions out of 8191
  78i,8n,83p,2582b,1874s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmro10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmro12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmtt9.pfb>
-Output written on tesi.pdf (27 pages, 644320 bytes).
+Output written on tesi.pdf (31 pages, 693851 bytes).
 PDF statistics:
- 480 PDF objects out of 1000 (max. 8388607)
- 406 compressed objects within 5 object streams
- 101 named destinations out of 1000 (max. 500000)
- 66896 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 539 PDF objects out of 1000 (max. 8388607)
+ 459 compressed objects within 5 object streams
+ 132 named destinations out of 1000 (max. 500000)
+ 66901 words of extra memory for PDF output out of 74296 (max. 10000000)
 

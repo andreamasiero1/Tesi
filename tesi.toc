@@ -24,15 +24,21 @@
 \contentsline {subsection}{\numberline {2.1.2}Requisiti Obbligatori}{7}{subsection.2.1.2}%
 \contentsline {subsection}{\numberline {2.1.3}Requisiti Desiderabili}{8}{subsection.2.1.3}%
 \contentsline {section}{\numberline {2.2}Casi d'uso}{8}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Limiti}{9}{section.2.3}%
-\contentsline {chapter}{\numberline {3}Progettazione}{11}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Architettura}{11}{section.3.1}%
-\contentsline {chapter}{\numberline {4}Codifica}{13}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Organizzazione del codice}{13}{section.4.1}%
-\contentsline {chapter}{\numberline {5}Verifica e validazione}{15}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Valutazione finale}{17}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Risultati ottenuti}{17}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Analisi critica del prodotto}{17}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Analisi critica del lavoro}{17}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Valutazione degli strumenti utilizzati}{19}{section.6.4}%
-\contentsline {chapter}{Bibliografia}{21}{appendix*.11}%
+\contentsline {paragraph}{\large \bfseries UC1: Inizializzazione della richiesta di presentazione}{9}{section*.11}%
+\contentsline {paragraph}{\large \bfseries UC1.1: Verifica dell'identità del client configurato}{11}{section*.13}%
+\contentsline {paragraph}{\large \bfseries UC1.2: Validazione del prefisso di identificazione del client}{11}{section*.14}%
+\contentsline {paragraph}{\large \bfseries UC1.3: Validazione della Trust Chain}{12}{section*.15}%
+\contentsline {paragraph}{\large \bfseries UC1.4: Creazione della sessione temporanea su Redis}{13}{section*.16}%
+\contentsline {paragraph}{\large \bfseries UC1.5: Costruzione dell'Authorization URL}{14}{section*.17}%
+\contentsline {section}{\numberline {2.3}Limiti}{14}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Progettazione}{15}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Architettura}{15}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Codifica}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Organizzazione del codice}{17}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Verifica e validazione}{19}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Valutazione finale}{21}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Risultati ottenuti}{21}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Analisi critica del prodotto}{21}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Analisi critica del lavoro}{21}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Valutazione degli strumenti utilizzati}{23}{section.6.4}%
+\contentsline {chapter}{Bibliografia}{25}{appendix*.18}%
