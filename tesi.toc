@@ -30,15 +30,23 @@
 \contentsline {paragraph}{\large \bfseries UC1.3: Validazione della Trust Chain}{12}{section*.15}%
 \contentsline {paragraph}{\large \bfseries UC1.4: Creazione della sessione temporanea su Redis}{13}{section*.16}%
 \contentsline {paragraph}{\large \bfseries UC1.5: Costruzione dell'Authorization URL}{14}{section*.17}%
-\contentsline {section}{\numberline {2.3}Limiti}{14}{section.2.3}%
-\contentsline {chapter}{\numberline {3}Progettazione}{15}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Architettura}{15}{section.3.1}%
-\contentsline {chapter}{\numberline {4}Codifica}{17}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Organizzazione del codice}{17}{section.4.1}%
-\contentsline {chapter}{\numberline {5}Verifica e validazione}{19}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Valutazione finale}{21}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Risultati ottenuti}{21}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Analisi critica del prodotto}{21}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Analisi critica del lavoro}{21}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Valutazione degli strumenti utilizzati}{23}{section.6.4}%
-\contentsline {chapter}{Bibliografia}{25}{appendix*.18}%
+\contentsline {paragraph}{\large \bfseries UC2: Generazione del Request Object}{14}{section*.18}%
+\contentsline {paragraph}{\large \bfseries UC2.1: Recupero e validazione della sessione}{16}{section*.20}%
+\contentsline {paragraph}{\large \bfseries UC2.2: Analisi dei metadati del Wallet}{17}{section*.21}%
+\contentsline {paragraph}{\large \bfseries UC2.3: Generazione della coppia di chiavi effimere}{18}{section*.22}%
+\contentsline {paragraph}{\large \bfseries UC2.4: Assemblaggio del payload del Request Object}{18}{section*.23}%
+\contentsline {paragraph}{\large \bfseries UC2.5: Generazione e firma del JWT dell'Entity Configuration}{19}{section*.24}%
+\contentsline {paragraph}{\large \bfseries UC2.6: Firma del Request Object}{20}{section*.25}%
+\contentsline {paragraph}{\large \bfseries UC2.7: Aggiornamento della sessione}{21}{section*.26}%
+\contentsline {section}{\numberline {2.3}Limiti}{21}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Progettazione}{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Architettura}{23}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Codifica}{25}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Organizzazione del codice}{25}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Verifica e validazione}{27}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Valutazione finale}{29}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Risultati ottenuti}{29}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Analisi critica del prodotto}{29}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Analisi critica del lavoro}{29}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Valutazione degli strumenti utilizzati}{31}{section.6.4}%
+\contentsline {chapter}{Bibliografia}{33}{appendix*.27}%

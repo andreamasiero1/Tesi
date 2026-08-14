@@ -257,4 +257,283 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \item Qualora la firma crittografica sia richiesta: l'URL viene costruito includendo esclusivamente i parametri \texttt{client\_id}, \texttt{request\_uri} (puntante all'endpoint \texttt{/request/:requestId}) e \texttt{request\_uri\_method=post}.
 \end{enumerate}
 
+\paragraph{\large\bfseries UC2: Generazione del Request Object}\mbox{}\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./immagini/usecase/UC2.png}    
+    \caption{UC2 -- Generazione del Request Object}
+    \label{fig:UC2}
+\end{figure}
+
+\noindent\textbf{Attori:} Verifier, Wallet.
+\\
+\noindent\textbf{Descrizione:} Il Wallet dell'Utente, dopo aver acquisito l'\texttt{authUrl} mediante scansione del codice QR o attivazione del \textit{deep link}, contatta il Verifier al fine di ottenere il \textit{Request Object} completo. Il Verifier recupera la sessione associata, negozia i parametri di sicurezza con il Wallet, quali gli algoritmi di cifratura JWE e gli algoritmi di firma, genera eventuali chiavi crittografiche effimere, assembla il \textit{Request Object} sotto forma di JWT e lo restituisce al Wallet.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item La sessione corrispondente al \texttt{requestId} deve risultare presente su Redis e trovarsi in stato \texttt{pending}.
+    \item Il \textit{Request URI} non deve essere stato precedentemente consumato per la sessione in esame.
+    \item Il client (Verifier) deve essere configurato nell'istanza MongoDB con un JWKS contenente la chiave privata di firma, qualora la firma sia richiesta dal prefisso adottato.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Il \textit{Request Object} è stato generato sotto forma di JWT firmato crittograficamente.
+    \item Qualora il Wallet supporti la cifratura JWE, una coppia di chiavi effimere è stata generata: la chiave pubblica è inclusa nel campo \texttt{client\_metadata.jwks} del \textit{Request Object}, mentre la chiave privata è stata persistita su Redis.
+    \item La sessione è stata aggiornata in modo da impedire il riutilizzo del \textit{Request URI}.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Wallet invia una richiesta HTTP \texttt{POST} (o \texttt{GET}) contenente, opzionalmente, i parametri \texttt{wallet\_nonce} e \texttt{wallet\_metadata} nel corpo della richiesta.
+    \item Il Verifier recupera la sessione da Redis mediante il \texttt{requestId}.
+    \item Il Verifier verifica che il \textit{Request URI} non sia stato precedentemente consumato.
+    \item Il Verifier analizza i metadati del Wallet (\texttt{wallet\_metadata}), procedendo alla negoziazione di alcuni parametri.
+    \item Qualora sia necessaria la cifratura JWE, il Verifier genera una coppia di chiavi effimere, persiste la chiave privata su Redis con TTL configurato e include la chiave pubblica nel campo \texttt{client\_metadata.jwks}.
+    \item Il Verifier assembla il payload del \textit{Request Object} conformemente alla specifica OID4VP.
+    \item Qualora il prefisso sia \texttt{openid\_federation}, il Verifier genera e firma un \textit{Entity Configuration} JWT con le proprie chiavi crittografiche, includendolo nel campo \texttt{trust\_chain}.
+    \item Il Verifier appone la firma crittografica al \textit{Request Object} mediante la propria chiave privata.
+    \item La sessione viene aggiornata impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}.
+    \item Il Verifier restituisce il JWT con \textit{content-type} \texttt{application/oauth-authz-req+jwt} e codice di stato HTTP \texttt{200 OK}.
+\end{enumerate}
+\newpage
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Qualora la sessione associata al \texttt{requestId} non risulti presente su Redis (ad esempio per scadenza del TTL), il sistema restituisce una risposta HTTP \texttt{404 Not Found}.
+    \item Qualora il Wallet tenti di recuperare il \textit{Request Object} per una sessione il cui \textit{Request URI} sia stato già consumato, il sistema restituisce una risposta HTTP \texttt{403 Forbidden}. Tale meccanismo previene gli attacchi di tipo \textit{replay}.
+    \item Qualora il Wallet e il Verifier non dispongano di algoritmi JWE comuni, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora i formati \textit{Verifiable Presentation} supportati dal Wallet non presentino alcuna intersezione con quelli del Verifier, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora l'algoritmo di firma indicato dal Wallet non sia compreso tra quelli supportati dal Verifier, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora il prefisso richieda la firma crittografica ma il JWKS del client non contenga chiavi private, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora la chiave privata non corrisponda al certificato \textit{leaf} nella catena \texttt{x5c}, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC2.1: Recupero e validazione della sessione}
+\label{uc:verifier:uc2.1}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier, Wallet.
+\\
+\noindent\textbf{Descrizione:} Il Verifier recupera la sessione da Redis mediante il \texttt{requestId} fornito dal Wallet e ne verifica lo stato, accertando che il \textit{Request URI} non sia stato precedentemente consumato. Tale verifica è finalizzata alla prevenzione di richieste duplicate e di attacchi di tipo \textit{replay}.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item Il Wallet ha estratto il \texttt{requestId} dall'\texttt{authUrl} ricevuto.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item La sessione è stata recuperata da Redis e risulta valida (non scaduta e non precedentemente consumata).
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il componente \texttt{SessionService} effettua la ricerca della sessione su Redis mediante il \texttt{requestId}.
+    \item Il sistema verifica che il flag \texttt{isRequestUriConsumed} risulti impostato al valore \texttt{false}.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Qualora il TTL della sessione su Redis sia scaduto, il sistema solleva un'eccezione di tipo \texttt{NotFoundError}. Viene restituita una risposta HTTP \texttt{404 Not Found}.
+    \item Qualora il flag \texttt{isRequestUriConsumed} risulti impostato al valore \texttt{true}, il sistema solleva un'eccezione di tipo \texttt{ForbiddenError}. Viene restituita una risposta HTTP \texttt{403 Forbidden}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC2.2: Analisi dei metadati del Wallet}
+\label{uc:verifier:uc2.2}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Il Verifier analizza i metadati del Wallet (\texttt{wallet\_metadata}) ricevuti nella richiesta HTTP \texttt{POST} e li confronta con la propria configurazione al fine di selezionare gli algoritmi crittografici comuni per la cifratura JWE della risposta, la firma del \textit{Request Object} e i formati \textit{Verifiable Presentation} supportati.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item La sessione risulta valida (rif.\ \ref{uc:verifier:uc2.1}).
+    \item La configurazione del client è stata recuperata con successo (rif.\ \ref{uc:verifier:uc1.1}).
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Sono stati selezionati, ove disponibili, i seguenti parametri: l'algoritmo JWE (\texttt{alg}), l'algoritmo di cifratura del contenuto (\texttt{enc}) e l'algoritmo di firma (\texttt{signingAlg}).
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier effettua il \textit{parsing} dei \texttt{wallet\_metadata} (da stringa JSON o oggetto strutturato).
+    \item Qualora i metadati risultino assenti o vuoti, vengono adottati i valori predefiniti dalla configurazione del Verifier.
+    \item Qualora i metadati siano presenti, il sistema procede alla ricerca dell'intersezione tra gli algoritmi supportati:
+    \begin{itemize}
+        \item selezione dell'algoritmo \texttt{jweAlg}; qualora sia stato individuato un \texttt{jweAlg} ma non un corrispondente \texttt{enc}, viene tentato il \textit{fallback} all'algoritmo \texttt{A128GCM};
+        \item selezione dell'algoritmo \texttt{enc};
+        \item selezione dell'algoritmo \texttt{signingAlg}.
+    \end{itemize}
+    \item Il sistema verifica la compatibilità dei formati \textit{Verifiable Presentation}.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Qualora non esista alcun algoritmo \texttt{alg} comune tra Wallet e Verifier, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora non esista alcun algoritmo \texttt{enc} comune, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora non esista alcun algoritmo di firma comune, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora non esista alcun formato \textit{Verifiable Presentation} comune, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora sia stato negoziato esclusivamente il parametro \texttt{alg} o esclusivamente il parametro \texttt{enc} (ma non entrambi), il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC2.3: Generazione della coppia di chiavi effimere}
+\label{uc:verifier:uc2.3}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Il Verifier genera una coppia di chiavi crittografiche effimere destinate alla cifratura JWE della risposta del Wallet. La chiave pubblica viene inclusa nel \textit{Request Object} affinché il Wallet possa cifrare la propria risposta; la chiave privata viene persistita su Redis per consentire la successiva decifratura da parte del Verifier.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item L'algoritmo JWE è stato negoziato con successo nel caso d'uso UC2.2 (rif.\ \ref{uc:verifier:uc2.2}).
+    \item La \texttt{clientMetadataPolicy} è impostata al valore \texttt{MUST\_INCLUDE}.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Una coppia di chiavi effimere (pubblica/privata) è stata generata con un identificativo \texttt{kid} univoco in formato UUID.
+    \item La chiave privata è stata persistita su Redis con un TTL configurato.
+    \item La chiave pubblica è disponibile per l'inclusione nel \textit{Request Object}.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier determina la tipologia di chiave crittografica in funzione dell'algoritmo JWE negoziato.
+    \item La coppia di chiavi viene generata.
+    \item Le chiavi vengono esportate in formato JWK (\textit{JSON Web Key}).
+    \item La chiave privata in formato JWK viene serializzata in JSON e persistita su Redis con il TTL configurato.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Qualora l'algoritmo negoziato non appartenga alle famiglie ECDH o RSA, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC2.4: Assemblaggio del payload del Request Object}
+\label{uc:verifier:uc2.4}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Il Verifier assembla il payload del \textit{Request Object} includendo tutti i parametri richiesti dalla specifica OID4VP. Il payload comprende i parametri della sessione, la \textit{DCQL Query} e, opzionalmente, i \texttt{client\_metadata},contenenti le chiavi effimere e i formati \textit{Verifiable Presentation} supportati e il campo \texttt{trust\_chain} nel caso di OpenID Federation.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item La sessione risulta valida (rif.\ \ref{uc:verifier:uc2.1}).
+    \item L'analisi dei \texttt{wallet\_metadata} è stata completata (rif.\ \ref{uc:verifier:uc2.2}).
+    \item Ove applicabile, le chiavi effimere sono state generate (rif.\ \ref{uc:verifier:uc2.3}).
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Il payload del \textit{Request Object} è stato assemblato come oggetto strutturato contenente tutti i campi richiesti dal protocollo.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier compone il payload includendo i seguenti claim obbligatori:
+    \begin{itemize}
+        \item \texttt{iss}: identificativo del Verifier (\texttt{clientIdValue} derivato dal risultato della validazione del prefisso);
+        \item \texttt{aud}: destinatario (\textit{audience}) del token;
+        \item \texttt{iat}: \textit{timestamp} di emissione;
+        \item \texttt{exp}: \textit{timestamp} di scadenza;
+        \item \texttt{client\_id}: identificativo del client;
+        \item \texttt{response\_type}: impostato al valore \texttt{vp\_token};
+        \item \texttt{response\_mode}: modalità di risposta (\texttt{direct\_post} o \texttt{direct\_post.jwt});
+        \item \texttt{response\_uri}: URI sul quale il Wallet trasmetterà la risposta;
+        \item \texttt{nonce}: \textit{nonce} crittografico della sessione;
+        \item \texttt{state}: corrispondente al \texttt{requestId} della sessione;
+        \item \texttt{dcql\_query}: \textit{DCQL Query} serializzata.
+    \end{itemize}
+    \item Il Verifier aggiunge i claim opzionali in funzione del contesto operativo:
+    \begin{itemize}
+        \item \texttt{wallet\_nonce}: incluso qualora il Wallet abbia fornito un \textit{nonce} nella richiesta HTTP \texttt{POST};
+        \item \texttt{client\_metadata}: incluso qualora la \texttt{clientMetadataPolicy} sia impostata a \texttt{MUST\_INCLUDE}.
+    \end{itemize}
+    \item Il Verifier costruisce l'header JWT con i seguenti campi: \texttt{typ} impostato a \texttt{oauth-authz-req+jwt}, \texttt{alg} corrispondente all'algoritmo di firma negoziato, e le eventuali \textit{header extensions} specifiche del prefisso.
+\end{enumerate}
+
+\paragraph{\large\bfseries UC2.5: Generazione e firma del JWT dell'Entity Configuration}
+\label{uc:verifier:uc2.5}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Qualora il prefisso di identificazione del client sia \texttt{openid\_federation}, il Verifier genera un \textit{Entity Configuration} JWT firmato con le proprie chiavi crittografiche. Tale JWT viene incluso nel campo \texttt{trust\_chain} del payload del \textit{Request Object}, consentendo al Wallet di verificare l'identità del Verifier nell'ambito della federazione di fiducia.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item Il prefisso di identificazione del client è \texttt{openid\_federation}.
+    \item La variabile \texttt{VERIFIER\_ENTITY\_IDENTIFIER} è configurata.
+    \item Il JWKS del client contiene almeno una chiave privata idonea alla firma crittografica.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Un \textit{Entity Configuration} JWT è stato generato e firmato crittograficamente con l'algoritmo negoziato.
+    \item Il JWT è stato inserito nel campo \texttt{trust\_chain} del payload assemblato (rif.\ \ref{uc:verifier:uc2.4}).
+\end{itemize}
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier estrae la chiave privata dal JWKS del client e ne deriva la corrispondente chiave pubblica.
+    \item Il Verifier assembla il payload dell'\textit{Entity Configuration} conformemente alla specifica OpenID Federation.
+    \item Il JWT viene firmato crittograficamente con la chiave privata del Verifier.
+    \item Il JWT firmato viene inserito nell'array \texttt{trust\_chain} del payload del \textit{Request Object}.
+\end{enumerate}
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Qualora il JWKS non contenga alcuna chiave, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC2.6: Firma del Request Object}
+\label{uc:verifier:uc2.6}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Il Verifier appone la firma crittografica al payload assemblato (rif.\ \ref{uc:verifier:uc2.4}) sotto forma di JWT, utilizzando la chiave privata del client e l'algoritmo negoziato. Per i prefissi basati su certificati X.509, viene preliminarmente verificata la corrispondenza tra la chiave privata e il certificato \textit{leaf} nella catena \texttt{x5c}. Qualora la firma non sia richiesta dal prefisso, il JWT viene serializzato in modalità \textit{unsigned}.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item Il payload del \textit{Request Object} è stato completamente assemblato (rif.\ \ref{uc:verifier:uc2.4}), includendo eventualmente il campo \texttt{trust\_chain} (rif.\ \ref{uc:verifier:uc2.5}).
+    \item L'header JWT è stato costruito con i campi \texttt{typ}, \texttt{alg} e le eventuali \textit{header extensions} specifiche del prefisso.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Il \textit{Request Object} JWT è stato generato, firmato crittograficamente o in modalità \textit{unsigned}, ed è pronto per essere restituito al Wallet.
+\end{itemize}
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Qualora la firma crittografica sia richiesta (prefissi \texttt{x509\_san\_dns}, \texttt{x509\_hash}, \texttt{openid\_federation}, \texttt{verifier\_attestation}):
+    \begin{itemize}
+        \item il Verifier importa la chiave privata dal JWKS del client;
+        \item per i prefissi \texttt{x509\_san\_dns} e \texttt{x509\_hash}, il sistema verifica la corrispondenza tra la chiave privata e la chiave pubblica del certificato \textit{leaf} nella catena \texttt{x5c}.
+    \end{itemize}
+    \item Qualora la firma crittografica non sia richiesta (prefissi \texttt{redirect\_uri}, \texttt{pre\_registered}):
+    \begin{itemize}
+        \item il JWT viene serializzato in modalità \textit{unsigned} (\texttt{alg:none}), con header e payload codificati in \texttt{base64url} e campo firma vuoto.
+    \end{itemize}
+\end{enumerate}
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Qualora il JWKS non contenga alcuna chiave e la firma crittografica sia richiesta, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora i parametri della chiave privata non corrispondano a quelli del certificato \textit{leaf}, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora un prefisso non standard richieda la firma ma l'attributo \texttt{requiresSignature} risulti impostato a \texttt{false}, il sistema solleva un'eccezione di tipo \texttt{PreconditionFailedError}. Viene restituita una risposta HTTP \texttt{412 Precondition Failed}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC2.7: Aggiornamento della sessione}
+\label{uc:verifier:uc2.7}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} A seguito della generazione del \textit{Request Object}, il Verifier aggiorna la sessione su Redis impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}. Tale meccanismo garantisce che il \textit{Request URI} possa essere utilizzato una sola volta, prevenendo attacchi di tipo \textit{replay} e richieste duplicate da parte del Wallet.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item Il \textit{Request Object} JWT è stato generato con successo (rif.\ \ref{uc:verifier:uc2.6}).
+    \item La sessione risulta presente su Redis.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Il flag \texttt{isRequestUriConsumed} della sessione è stato impostato al valore \texttt{true} su Redis.
+    \item Qualsiasi richiesta successiva recante il medesimo \texttt{requestId} verrà rifiutata dal sistema.
+\end{itemize}
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier aggiorna la sessione su Redis impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}.
+    \item Il Verifier restituisce il \textit{Request Object} JWT al Wallet nella risposta HTTP con codice di stato \texttt{200 OK}.
+\end{enumerate}
+
 \section{Limiti}
