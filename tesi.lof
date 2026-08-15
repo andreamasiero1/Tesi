@@ -6,6 +6,8 @@
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Diagramma dei casi d'uso -- Scenario principale del Relying Party}}{9}{figure.caption.10}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces UC1 -- Inizializzazione della richiesta di presentazione}}{9}{figure.caption.12}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces UC2 -- Generazione del Request Object}}{14}{figure.caption.19}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces UC3 -- Ricezione ed analisi della risposta del Wallet}}{21}{figure.caption.28}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces UC4 -- Recupero della presentazione (fetch)}}{31}{figure.caption.40}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
