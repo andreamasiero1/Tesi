@@ -10,7 +10,8 @@ Gli attori rappresentano le entità (utenti fisici o sistemi esterni) che intera
 \begin{itemize}
     \item \textbf{Relying Party:} rappresenta la componente backend del sistema che funge da entità richiedente e verificatrice delle Credenziali Verificabili. Gestisce l'intero ciclo di vita di una richiesta di presentazione: dall'inizializzazione della sessione, alla generazione del Request Object firmato crittograficamente, fino alla validazione delle presentazioni ricevute dal Wallet.
     \item \textbf{Wallet:} rappresenta un sistema esterno,tipicamente un'app mobile o un'estensione del browser, che custodisce le Credenziali Verificabili (Verifiable Credentials) emesse da uno o più Issuer fidati e le presenta su richiesta del Verifier. Nel contesto del protocollo OID4VP, il Wallet agisce come un intermediario tecnico tra l'Utente e il Relying Party: riceve la richiesta di presentazione, la interpreta, presenta all'Utente le credenziali richieste per ottenerne il consenso, e infine assembla e trasmette la Verifiable Presentation al Backend.
-    \item \textbf{Utente finale:} è la persona fisica che interagisce con il sistema attraverso il Frontend del Relying Party e il proprio Wallet digitale. È il titolare delle Credenziali Verificabili, ovvero possiede documenti o attestazioni digitali (ad esempio un documento d'identità, una patente, un attestato professionale) emessi da Issuer fidati e memorizzati nel proprio Wallet. L'Utente rappresenta il soggetto che deve dimostrare il possesso di determinati attributi o qualifiche richieste dal servizio offerto dal Relying Party, ed è l'unico attore che può autorizzare la condivisione delle proprie credenziali.4
+    \item \textbf{Utente finale:} è la persona fisica che interagisce con il sistema attraverso il Frontend del Relying Party e il proprio Wallet digitale. È il titolare delle Credenziali Verificabili, ovvero possiede documenti o attestazioni digitali (ad esempio un documento d'identità, una patente, un attestato professionale) emessi da Issuer fidati e memorizzati nel proprio Wallet. L'Utente rappresenta il soggetto che deve dimostrare il possesso di determinati attributi o qualifiche richieste dal servizio offerto dal Relying Party, ed è l'unico attore che può autorizzare la condivisione delle proprie credenziali.
+    \item \textbf{Amministratore:} è l'operatore o il sistema autorizzato responsabile della gestione e della configurazione dei client (Verifier) all'interno della piattaforma attraverso le API SCIM. Governa l'intero ciclo di vita delle istanze dei client registrati nei singoli domini, definendone e aggiornandone i parametri operativi, i vincoli crittografici, gli URI di reindirizzamento autorizzati, i formati di \textit{Verifiable Presentation} supportati e i relativi set di chiavi crittografiche (JWKS).
 \end{itemize}
 
 \subsection{Requisiti Obbligatori}
@@ -230,7 +231,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
         \item \texttt{sessionId}: restituito all'interfaccia \textit{frontend} per il successivo recupero della presentazione.
     \end{itemize}
     \item Viene istanziato l'oggetto \texttt{Session} con validazione dei campi obbligatori e verifica della conformità dei valori \texttt{nonce} e \texttt{requestId}.
-    \item Il Client effettua la serializzazione dell'oggetto in formato JSON e ne esegue la persistenza su Redis con il TTL configurato.
+    \item Il Verifier effettua la serializzazione dell'oggetto in formato JSON e ne esegue la persistenza su Redis con il TTL configurato.
 \end{enumerate}
 \noindent\textbf{Scenario alternativo:}
 \begin{itemize}
@@ -412,7 +413,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \mbox{}\\
 \noindent\textbf{Attori:} Verifier.
 \\
-\noindent\textbf{Descrizione:} Il Verifier assembla il payload del \textit{Request Object} includendo tutti i parametri richiesti dalla specifica OID4VP. Il payload comprende i parametri della sessione, la \textit{DCQL Query} e, opzionalmente, i \texttt{client\_metadata},contenenti le chiavi effimere e i formati \textit{Verifiable Presentation} supportati e il campo \texttt{trust\_chain} nel caso di OpenID Federation.
+\noindent\textbf{Descrizione:} Il Verifier assembla il payload del \textit{Request Object} includendo tutti i parametri richiesti dalla specifica OID4VP. Il payload comprende i parametri della sessione, la \textit{DCQL Query} e, opzionalmente, i \texttt{client\_metadata}, contenenti le chiavi effimere e i formati \textit{Verifiable Presentation} supportati e il campo \texttt{trust\_chain} nel caso di OpenID Federation.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -953,7 +954,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
-    \item Il \textit{frontend} del Relying Party è in possesso del parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.1}) e del parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
+    \item Il \textit{frontend} del Relying Party è in possesso del parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.4}) e del parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
     \item La sessione associata al \texttt{sessionId} risulta presente nell'istanza Redis.
     \item Il \texttt{ResponseRecord} associato è presente su Redis e non risulta precedentemente consumato, trovandosi nello stato \texttt{pending\_fetch}.
     \item Il parametro \texttt{responseCode} corrisponde a quello generato e persistito dal sistema.
@@ -990,11 +991,11 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \mbox{}\\
 \noindent\textbf{Attori:} Utente (tramite RP Frontend), Verifier.
 \\
-\noindent\textbf{Descrizione:} L'Utente, per il tramite dell'interfaccia \textit{frontend} del Relying Party, inoltra una richiesta HTTP \texttt{POST} all'endpoint del Verifier al fine di acquisire le credenziali verificate. La richiesta comprende il parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.1}) e il parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
+\noindent\textbf{Descrizione:} L'Utente, per il tramite dell'interfaccia \textit{frontend} del Relying Party, inoltra una richiesta HTTP \texttt{POST} all'endpoint del Verifier al fine di acquisire le credenziali verificate. La richiesta comprende il parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.4}) e il parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
-    \item L'Utente è in possesso del parametro \texttt{sessionId} generato in fase di inizializzazione della richiesta di presentazione (rif.\ \ref{uc:verifier:uc1.1}).
+    \item L'Utente è in possesso del parametro \texttt{sessionId} generato in fase di inizializzazione della richiesta di presentazione (rif.\ \ref{uc:verifier:uc1.4}).
     \item Il Wallet ha completato la procedura di presentazione (rif.\ \ref{uc:verifier:uc3}) e il \textit{frontend} ha acquisito il parametro \texttt{responseCode} dall'URI di reindirizzamento.
     \item L'endpoint di \textit{fetch} del Verifier è raggiungibile e operativo.
 \end{itemize}
@@ -1072,5 +1073,356 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \item Il Verifier elimina la sessione e il \texttt{ResponseRecord} dall'istanza Redis.
     \item Il Verifier restituisce l'oggetto \texttt{vpToken} al \textit{frontend} del Relying Party.
 \end{enumerate}
+
+\paragraph{\large\bfseries UC5: Gestione del ciclo di vita del client}
+\label{uc:verifier:uc5}
+\mbox{}\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./immagini/usecase/UC5.png}    
+    \caption{UC5 -- Gestione del ciclo di vita del client}
+    \label{fig:UC5}
+\end{figure}
+\noindent\textbf{Attori:} Amministratore, Verifier.
+\\
+\noindent\textbf{Descrizione:} L'Amministratore gestisce la configurazione dei client (Verifier) nel sistema attraverso le API SCIM. Tale operazione comprende le funzionalità di creazione, lettura, aggiornamento e cancellazione (CRUD) delle configurazioni dei client, che definiscono parametri fondamentali quali i formati \textit{Verifiable Presentation} supportati, gli URI di reindirizzamento, il set di chiavi crittografiche JWKS e gli algoritmi crittografici abilitati per la firma e la cifratura.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item L'Amministratore dispone di credenziali di accesso autenticate e autorizzate per le API SCIM del sistema.
+    \item L'istanza del database MongoDB risulta raggiungibile e operativa.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Un nuovo client è stato registrato nel database con la configurazione specificata.
+    \item L'Amministratore ha acquisito la configurazione del client richiesto ovvero l'elenco dei client associati al dominio.
+    \item La configurazione del client preesistente è stata modificata conformemente ai parametri forniti.
+    \item Il record del client è stato rimosso in modo permanente dal sistema.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item \textbf{Creazione:} l'Amministratore trasmette una richiesta HTTP \texttt{POST} all'endpoint, includendo nel payload la configurazione del client con i campi obbligatori \texttt{redirectUris} e \texttt{vpFormatsSupported}. Il Verifier valida la conformità dei campi, persiste il record nell'istanza MongoDB e restituisce la risorsa creata.
+    \item \textbf{Lettura:} l'Amministratore inoltra una richiesta HTTP \texttt{GET} all'endpoint al fine di acquisire la configurazione di un client specifico, oppure di ottenere l'elenco completo dei client registrati nel dominio.
+    \item \textbf{Aggiornamento:} l'Amministratore trasmette una richiesta HTTP \texttt{PUT} o \texttt{PATCH} all'endpoint, includendo i parametri oggetto di modifica; il sistema valida le variazioni e aggiorna il record corrispondente su MongoDB.
+    \item \textbf{Cancellazione:} l'Amministratore inoltra una richiesta HTTP \texttt{DELETE} all'endpoint al fine di rimuovere definitivamente il client dal sistema.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui i campi obbligatori \texttt{redirectUris} o \texttt{vpFormatsSupported} risultino assenti o privi di valore in fase di creazione, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui un parametro che prescrive una struttura ad array non sia fornito nel formato atteso, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui il client individuato mediante l'identificativo non risulti presente all'interno del dominio indicato, il sistema solleva un'eccezione di tipo \texttt{NotFoundError}.
+\end{itemize}
+\paragraph{\large\bfseries UC5.1: Creazione di un nuovo client}
+\label{uc:verifier:uc5.1}
+\mbox{}\\
+\noindent\textbf{Attori:} Amministratore, Verifier.
+\\
+\noindent\textbf{Descrizione:} L'Amministratore registra una nuova configurazione di client (Verifier) all'interno del sistema, trasmettendo i parametri obbligatori e opzionali attraverso le API SCIM.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item L'Amministratore dispone di credenziali di accesso autenticate e autorizzate per le API SCIM del sistema.
+    \item L'istanza del database MongoDB risulta raggiungibile e operativa.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Un nuovo record relativo al client è stato validato e persistito nell'istanza MongoDB con la configurazione specificata.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item L'Amministratore trasmette una richiesta HTTP \texttt{POST} all'endpoint, il cui corpo include obbligatoriamente i campi \texttt{redirectUris} (array di stringhe) e \texttt{vpFormatsSupported} (con specifica del formato \texttt{dcSdJwt}), unitamente ad eventuali parametri di configurazione crittografica aggiuntivi.
+    \item Il Verifier esegue la validazione della richiesta: accerta la presenza dei campi obbligatori, verifica la conformità al formato array per tutti i campi prescritti e valida la corretta composizione del parametro \texttt{vpFormatsSupported}.
+    \item Il Verifier persiste il record del client nell'istanza MongoDB.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui il parametro obbligatorio \texttt{redirectUris} risulti assente, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui il parametro obbligatorio \texttt{vpFormatsSupported} risulti assente, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui un parametro che prescrive una struttura ad array non sia fornito nel formato corretto, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC5.2: Lettura della configurazione del client}
+\label{uc:verifier:uc5.2}
+\mbox{}\\
+\noindent\textbf{Attori:} Amministratore, Verifier.
+\\
+\noindent\textbf{Descrizione:} L'Amministratore interroga il sistema per recuperare la configurazione completa di uno specifico client ovvero l'elenco di tutti i client censiti per un determinato dominio.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item L'Amministratore dispone di credenziali di accesso autenticate e autorizzate per le API SCIM del sistema.
+    \item L'istanza del database MongoDB risulta raggiungibile e operativa.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item La configurazione del client richiesto ovvero l'elenco dei client del dominio è stato restituito all'Amministratore.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item L'Amministratore trasmette una richiesta HTTP \texttt{GET} all'endpoint specificando l'identificativo del client; il Verifier recupera il record dall'istanza MongoDB e restituisce l'oggetto di configurazione completo all'interno di una risposta HTTP \texttt{200 OK}.
+    \item L'Amministratore trasmette una richiesta HTTP \texttt{GET} all'endpoint al fine di ottenere la lista di tutti i client registrati nel dominio; il Verifier interroga MongoDB e restituisce la collezione dei client associati.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui il client specificato non risulti presente all'interno del dominio indicato, il sistema solleva un'eccezione di tipo \texttt{NotFoundError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC5.3: Aggiornamento della configurazione del client}
+\label{uc:verifier:uc5.3}
+\mbox{}\\
+\noindent\textbf{Attori:} Amministratore, Verifier.
+\\
+\noindent\textbf{Descrizione:} L'Amministratore apporta modifiche parziali o procede alla sostituzione integrale della configurazione di un client precedentemente registrato nel sistema.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item L'Amministratore dispone di credenziali di accesso autenticate e autorizzate per le API SCIM del sistema.
+    \item Il client oggetto di modifica risulta presente nell'istanza MongoDB per il dominio specificato.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item La configurazione del client è stata aggiornata su MongoDB con i nuovi parametri validati.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item L'Amministratore trasmette una richiesta HTTP \texttt{PUT}, per la sostituzione integrale della configurazione, ovvero HTTP \texttt{PATCH}, per l'aggiornamento parziale dei campi, all'endpoint designato.
+    \item Il Verifier valida la conformità sintattica e strutturale dei parametri forniti.
+    \item Il Verifier persiste le modifiche nell'istanza MongoDB e restituisce la risorsa aggiornata con codice di stato HTTP \texttt{200 OK}.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui il client specificato non risulti presente all'interno del dominio, il sistema solleva un'eccezione di tipo \texttt{NotFoundError}.
+    \item Nel caso in cui uno o più parametri oggetto di aggiornamento non rispettino i vincoli di validazione sintattica o strutturale, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC5.4: Cancellazione del client}
+\label{uc:verifier:uc5.4}
+\mbox{}\\
+\noindent\textbf{Attori:} Amministratore, Verifier.
+\\
+\noindent\textbf{Descrizione:} L'Amministratore dispone la rimozione permanente della configurazione di un client dal sistema.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item L'Amministratore dispone di credenziali di accesso autenticate e autorizzate per le API SCIM del sistema.
+    \item Il client da eliminare risulta presente nell'istanza MongoDB per il dominio specificato.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Il record relativo al client è stato eliminato in modo definitivo dall'istanza MongoDB.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item L'Amministratore trasmette una richiesta HTTP \texttt{DELETE} all'endpoint designato, specificando l'identificativo del client oggetto di cancellazione.
+    \item Il Verifier accerta la presenza del record nell'istanza MongoDB ed esegue l'eliminazione definitiva del client.
+    \item Il Verifier restituisce una risposta di conferma attestante l'avvenuta cancellazione.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui il client specificato non risulti presente all'interno del dominio indicato, il sistema solleva un'eccezione di tipo \texttt{NotFoundError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC6: Validazione della Trust Chain}
+\label{uc:verifier:uc6}
+\mbox{}\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./immagini/usecase/UC6.png}    
+    \caption{UC6 -- Validazione della Trust Chain}
+    \label{fig:UC6}
+\end{figure}
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Qualora il flusso di autenticazione o presentazione impieghi il prefisso \texttt{openid\_federation}, il Verifier deve costruire e validare una \textit{Trust Chain} gerarchica a partire dall'entità foglia (\textit{Leaf Entity}) fino a un'ancora di fiducia (\textit{Trust Anchor}) preconfigurata. Tale procedura certifica l'affiliazione dell'entità a una federazione di fiducia, accertando la catena ininterrotta delle firme crittografiche, la validità temporale dei singoli \textit{statement} e la coerenza delle relazioni tra soggetti (\texttt{sub}) ed emittenti (\texttt{iss}) lungo l'intera gerarchia.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item Le autorità fidate (\textit{Trusted Authorities}) con schema \texttt{openid\_federation} sono specificate nella query DCQL (\texttt{dcqlQuery}).
+    \item Il \textit{Trust Anchor} è raggiungibile via rete e il corrispondente set di chiavi crittografiche JWKS è stato preventivamente memorizzato nell'istanza Redis.
+    \item Gli endpoint delle entità costituenti la catena risultano raggiungibili e operativi.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item La \textit{Trust Chain} è stata costruita con esito positivo dalla \textit{Leaf Entity} al \textit{Trust Anchor}.
+    \item Tutte le firme crittografiche degli \textit{statement} appartenenti alla catena sono state verificate con successo.
+    \item Tutti gli \textit{statement} della catena risultano temporalmente validi, con il claim \texttt{iat} collocato nel passato e il claim \texttt{exp} nel futuro rispetto all'istante corrente.
+    \item La chiave pubblica dell'Issuer o dell'entità target è stata estratta dai metadati della \textit{Leaf Entity}.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier avvia la procedura di risoluzione della catena acquisendo l'\textit{Entity Configuration} della \textit{Leaf Entity} dal relativo endpoint.
+    \item Il Verifier accerta che i claim \texttt{iss} e \texttt{sub} della configurazione coincidano con il parametro \texttt{entityId} atteso.
+    \item Il Verifier risale ricorsivamente la gerarchia federativa seguendo i riferimenti dichiarati nel claim \texttt{authority\_hints}, recuperando per ciascuna entità intermedia:
+    \begin{itemize}
+        \item l'\textit{Entity Configuration} dell'intermediario dal rispettivo endpoint;
+        \item il \textit{Subordinate Statement} emesso dal superiore.
+    \end{itemize}
+    \item La ricorsione termina non appena viene raggiunta un'entità identificata come \textit{Trust Anchor} autorizzato.
+    \item Il Verifier esegue la validazione sintattica di ciascun documento della catena, verificando la presenza dei claim obbligatori (\texttt{iss}, \texttt{sub}, \texttt{iat}, \texttt{exp}) e la loro coerenza temporale.
+    \item Il Verifier esegue la validazione crittografica della catena.
+    \item Viene accertata la coerenza dell'intera catena, assicurando che il claim \texttt{sub} di ciascun \textit{Subordinate Statement} corrisponda al soggetto dell'entità sottostante.
+    \item La chiave pubblica dell'Issuer viene estratta dai metadati della \textit{Leaf Entity}.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui non sia configurata alcuna \textit{Trusted Authority} con prefisso \texttt{openid\_federation}, il sistema solleva un'eccezione di tipo \texttt{ForbiddenError}.
+    \item Nel caso in cui la risoluzione ricorsiva non consenta di raggiungere alcun \textit{Trust Anchor} valido, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui venga rilevata una dipendenza ciclica, il ramo di risoluzione corrente viene interrotto mediante \textit{backtracking}.
+    \item Nel caso in cui il JWKS del \textit{Trust Anchor} non risulti presente nell'istanza Redis, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui il claim di scadenza \texttt{exp} di un qualunque \textit{statement} risulti collocato nel passato, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui la verifica della firma crittografica non abbia esito positivo su uno degli elementi della catena, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui si riscontri una discrepanza tra i claim \texttt{iss} e \texttt{sub} lungo la catena, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC6.1: Costruzione della Trust Chain}
+\label{uc:verifier:uc6.1}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Il Verifier costruisce la \textit{Trust Chain} gerarchica a partire dalla configurazione dell'entità foglia (\textit{Leaf Entity}), risalendo ricorsivamente i riferimenti espressi nel claim \texttt{authority\_hints} sino al raggiungimento di un'ancora di fiducia (\textit{Trust Anchor}) preconfigurata. Durante la traversata della gerarchia vengono acquisite le \textit{Entity Configuration} e i corrispondenti \textit{Subordinate Statement} di ciascuna entità intermedia.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item L'identificativo \texttt{entityId} della \textit{Leaf Entity} è noto al sistema.
+    \item Almeno un \textit{Trust Anchor} risulta configurato nell'insieme delle autorità fidate (\texttt{trustedAuthorities}).
+    \item Gli endpoint standard \texttt{.well-known/openid-federation} delle entità federate risultano raggiungibili via HTTP.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item È stata costruita una sequenza ordinata di token JWT rappresentante la catena di fiducia.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier acquisisce l'\textit{Entity Configuration} della \textit{Leaf Entity} dal rispettivo endpoint.
+    \item Viene accertata la coincidenza dei claim \texttt{iss} e \texttt{sub} con il valore di \texttt{entityId} atteso.
+    \item Nel caso in cui la \textit{Leaf Entity} coincida con un \textit{Trust Anchor}, il Verifier restituisce la catena unitaria.
+    \item In caso contrario, il Verifier itera sui riferimenti contenuti nel claim \texttt{authority\_hints}:
+    \begin{itemize}
+        \item acquisisce l'\textit{Entity Configuration} di ciascuna entità intermedia (\textit{hint});
+        \item verifica la corrispondenza dei claim \texttt{iss} e \texttt{sub} dell'intermediario;
+        \item acquisisce il \textit{Subordinate Statement} interrogando l'endpoint dell'intermediario con i parametri \texttt{sub} (riferito all'entità sottostante) e \texttt{iss} (riferito all'intermediario);
+        \item prosegue ricorsivamente la risalita della catena a partire dall'intermediario.
+    \end{itemize}
+    \item Un meccanismo di prevenzione dei cicli tiene traccia delle entità precedentemente visitate (\texttt{visitedEntities}).
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui un'\textit{Entity Configuration} presenti una discrepanza tra i claim \texttt{iss}, \texttt{sub} e il corrispondente \texttt{entityId}, il relativo ramo di risoluzione viene scartato.
+    \item Nel caso in cui un'entità intermedia non esponga l'endpoint richiesto, il relativo ramo federativo viene scartato.
+    \item Nel caso in cui venga rilevata una visita ciclica a un'entità precedentemente elaborata, il ramo corrente viene interrotto.
+    \item Nel caso in cui nessun percorso consenta di raggiungere un \textit{Trust Anchor} valido, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC6.2: Validazione sintattica della Trust Chain}
+\label{uc:verifier:uc6.2}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Il Verifier accerta la conformità sintattica di ogni \textit{Entity Statement} e di ogni \textit{Entity Configuration} appartenente alla catena, verificando la presenza dei claim obbligatori e il rispetto dei vincoli temporali.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item La \textit{Trust Chain} è stata costruita con successo (rif.\ \ref{uc:verifier:uc6.1}).
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item L'insieme dei documenti della catena contiene i claim prescritti e risulta temporalmente valido.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Per ciascun token JWT costituente la catena, il Verifier decodifica l'\textit{header} e il \textit{payload}.
+    \item Viene accertata la presenza dei claim obbligatori: \texttt{iss}, \texttt{sub}, \texttt{iat} ed \texttt{exp}.
+    \item Viene verificato che il claim \texttt{iat} (\textit{issued at}) non risulti collocato nel futuro rispetto all'istante corrente.
+    \item Viene accertato che il claim \texttt{exp} (\textit{expiration time}) non risulti scaduto rispetto al tempo corrente.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui risulti assente uno dei claim obbligatori, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui il claim \texttt{iat} risulti posteriore all'istante corrente, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui il claim \texttt{exp} risulti anteriore all'istante corrente, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC6.3: Validazione crittografica della Trust Chain}
+\label{uc:verifier:uc6.3}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Il Verifier accerta crittograficamente l'integrità e l'autenticità di ogni firma presente nella catena: la firma del \textit{Trust Anchor} è verificata tramite il relativo JWKS \textit{out-of-band} (persistito su Redis), le firme dei \textit{Subordinate Statement} intermedi sono verificate mediante i JWKS degli enti sovraordinati, e l'\textit{Entity Configuration} della \textit{Leaf Entity} è validata tramite auto-firma.
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item La sequenza dei documenti della catena è stata decodificata e validata sintatticamente (rif.\ \ref{uc:verifier:uc6.2}).
+    \item Il set di chiavi JWKS del \textit{Trust Anchor} risulta preventivamente caricato nell'istanza Redis.
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item Tutte le firme crittografiche della catena sono state verificate con esito positivo.
+    \item La coerenza relazionale dei claim (\texttt{iss}/\texttt{sub}) tra elementi adiacenti è stata confermata.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier recupera il JWKS del \textit{Trust Anchor} dall'istanza Redis tramite il claim \texttt{iss}; accerta che \texttt{iss} coincida con \texttt{sub} e verifica la firma crittografica mediante la chiave pubblica \textit{out-of-band}.
+    \item Per ciascun documento intermedio, il Verifier accerta che il claim \texttt{iss} dell'elemento corrente coincida con il claim \texttt{sub} dell'elemento sovraordinato, procedendo alla verifica della firma crittografica tramite il JWKS esposto nel \textit{payload} dell'elemento sovraordinato.
+    \item Il Verifier accerta che \texttt{iss} coincida con \texttt{sub} nell'\textit{Entity Configuration} della \textit{Leaf Entity}, ne verifica l'auto-firma mediante le chiavi JWKS dell'entità medesima e accerta che il claim \texttt{sub} del primo \textit{Subordinate Statement} coincida con il soggetto della \textit{Leaf Entity}.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui il JWKS del \textit{Trust Anchor} non risulti presente nell'istanza Redis, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui il JWKS del \textit{Trust Anchor} non risulti sintatticamente decodificabile, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui si riscontri una discrepanza tra i claim \texttt{iss} e \texttt{sub} nel \textit{Trust Anchor}, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui la catena risulti interrotta a causa di una non corrispondenza tra claim \texttt{iss} e \texttt{sub} adiacenti, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui fallisca la verifica della firma crittografica su uno qualunque degli \textit{statement}, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui un \textit{Entity Statement} risulti privo del set di chiavi JWKS richiesto, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+\end{itemize}
+
+\paragraph{\large\bfseries UC6.4: Estrazione della chiave pubblica dell'Issuer}
+\label{uc:verifier:uc6.4}
+\mbox{}\\
+\noindent\textbf{Attori:} Verifier.
+\\
+\noindent\textbf{Descrizione:} Al completamento della validazione della \textit{Trust Chain}, il Verifier estrae la chiave pubblica dell'Issuer dai metadati contenuti nell'\textit{Entity Configuration} della \textit{Leaf Entity}, rendendola disponibile per la successiva verifica crittografica dell'Issuer JWT (rif.\ \ref{uc:verifier:uc3.4}).
+\\
+\noindent\textbf{Precondizioni:}
+\begin{itemize}
+    \item La \textit{Trust Chain} è stata validata crittograficamente con esito positivo (rif.\ \ref{uc:verifier:uc6.3}).
+\end{itemize}
+\noindent\textbf{Postcondizioni:}
+\begin{itemize}
+    \item La chiave pubblica dell'Issuer è stata estratta e importata come oggetto \texttt{CryptoKey}.
+\end{itemize}
+
+\noindent\textbf{Scenario principale:}
+\begin{enumerate}
+    \item Il Verifier accede alla sezione \texttt{metadata} dell'\textit{Entity Configuration} della \textit{Leaf Entity}.
+    \item Il sistema ricerca il set di chiavi JWKS all'interno dei ruoli metadati definiti, adottando una politica di risoluzione a cascata.
+    \item Qualora l'\textit{header} del token indichi un identificativo di chiave (\texttt{kid}), viene selezionata la chiave corrispondente dal set JWKS; in assenza di indicazione esplicita, viene impiegata la prima chiave disponibile.
+    \item Il Verifier provvede all'importazione della chiave pubblica mediante la libreria crittografica (invocando \texttt{jose.importJWK()}), assicurando la rimozione di eventuali parametri riservati.
+\end{enumerate}
+
+\noindent\textbf{Scenario alternativo:}
+\begin{itemize}
+    \item Nel caso in cui la sezione \texttt{metadata} risulti assente dall'\textit{Entity Configuration}, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui non sia reperibile alcun set JWKS valido tra i ruoli censiti nei metadati, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+    \item Nel caso in cui l'operazione di importazione crittografica della chiave pubblica non abbia esito positivo, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
+\end{itemize}
+
 
 \section{Limiti}
