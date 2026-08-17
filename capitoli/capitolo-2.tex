@@ -14,30 +14,6 @@ Gli attori rappresentano le entità (utenti fisici o sistemi esterni) che intera
     \item \textbf{Amministratore:} è l'operatore o il sistema autorizzato responsabile della gestione e della configurazione dei client (Verifier) all'interno della piattaforma attraverso le API SCIM. Governa l'intero ciclo di vita delle istanze dei client registrati nei singoli domini, definendone e aggiornandone i parametri operativi, i vincoli crittografici, gli URI di reindirizzamento autorizzati, i formati di \textit{Verifiable Presentation} supportati e i relativi set di chiavi crittografiche (JWKS).
 \end{itemize}
 
-\subsection{Requisiti Obbligatori}
-\begin{enumerate}
-    \item \textbf{O01}: Inizializzazione della sessione di presentazione
-    \item \textbf{O02}: Generazione dell'\textit{Authorization Request URL}
-    \item \textbf{O03}: Esposizione dell'endpoint \texttt{request\_uri}
-    \item \textbf{O04}: Pubblicazione dei metadati del Verifier (\texttt{client\_metadata})
-    \item \textbf{O05}: Prevenzione degli attacchi di tipo \textit{replay}
-    \item \textbf{O06}: Ricezione della risposta del Wallet
-    \item \textbf{O07}: Validazione della struttura e dei criteri della \textit{DCQL Query}
-    \item \textbf{O08}: Verifica della firma dell'Issuer (SD-JWT)
-    \item \textbf{O09}: Verifica del \textit{Holder Binding} (KB-JWT)
-    \item \textbf{O10}: Recupero della presentazione verificata
-    \item \textbf{O11}: Gestione degli errori restituiti dal Wallet
-    \item \textbf{O12}: Gestione della configurazione del client Relying Party tramite SCIM
-\end{enumerate}
-\subsection{Requisiti Desiderabili}
-\begin{enumerate}
-    \item \textbf{D01}: Supporto alla modalità di risposta \texttt{direct\_post.jwt} (JWE)
-    \item \textbf{D02}: Generazione di chiavi effimere per la cifratura JWE
-    \item \textbf{D03}: Risoluzione e verifica ricorsiva della \textit{Trust Chain}
-    \item \textbf{D04}: Supporto a molteplici \textit{Client ID Scheme} (\texttt{redirect\_uri}, \texttt{x509\_san\_dns}, \texttt{x509\_hash}, \texttt{openid\_federation}, \texttt{verifier\_attestation}, \texttt{pre\_registered})
-    \item \textbf{D05}: Esposizione dell'endpoint \texttt{/.well-known/openid-federation}
-\end{enumerate}
-
 \section{Casi d'uso}
 I diagrammi dei casi d'uso (\textit{Use Case Diagram}) costituiscono una tipologia di diagrammi UML (\textit{Unified Modelling Language}) finalizzata a descrivere le interazioni tra gli attori del sistema e le funzionalità che quest'ultimo è chiamato a fornire.
 
@@ -1424,5 +1400,170 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \item Nel caso in cui l'operazione di importazione crittografica della chiave pubblica non abbia esito positivo, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
 \end{itemize}
 
+\section{Tracciamento dei requisiti}
+A seguito dell'analisi di dettaglio e della formalizzazione dei casi d'uso, è stato possibile definire il quadro completo dei requisiti del sistema. Tale catalogazione risulta essenziale per garantire che ciascuna funzionalità implementata risponda puntualmente agli obiettivi prefissati dall'organizzazione proponente e per supportare in modo sistematico le successive fasi di progettazione, verifica e collaudo.
+\\
+Al fine di classificare i requisiti in modo univoco, rigoroso e strutturato, è stata adottata la seguente notazione alfanumerica:
+\begin{center}
+    \texttt{R[Tipologia][Importanza]-[Numero progressivo]}
+\end{center}
 
-\section{Limiti}
+\noindent\textbf{Tipologia del requisito:}
+\begin{itemize}
+    \item \textbf{F} (\textit{Funzionale}): individua le funzionalità, i comportamenti operativi e i servizi che il sistema deve erogare agli attori coinvolti;
+    \item \textbf{Q} (\textit{Qualitativo}): definisce gli standard di qualità del software, con particolare riferimento a manutenibilità, affidabilità, modularità e leggibilità del codice sorgente;
+    \item \textbf{V} (\textit{Di Vincolo}): prescrive le restrizioni tecnologiche, architetturali o normative derivanti dal contesto operativo e dall'infrastruttura preesistente.
+\end{itemize}
+
+\noindent\textbf{Importanza del requisito:}
+\begin{itemize}
+    \item \textbf{O} (\textit{Obbligatorio}): requisito essenziale e vincolante, la cui mancata soddisfazione pregiudica l'accettazione e il corretto funzionamento dell'intero sistema;
+    \item \textbf{D} (\textit{Desiderabile}): requisito non strettamente vincolante ma caratterizzato da un elevato valore aggiunto in termini di completezza ed estendibilità della piattaforma;
+    \item \textbf{F} (\textit{Facoltativo}): requisito secondario, la cui implementazione è subordinata al completamento dei requisiti prioritari e alla disponibilità di tempo residuo.
+\end{itemize}
+
+\noindent Nelle sezioni seguenti vengono presentati i requisiti individuati, evidenziandone la classificazione e la correlazione con i casi d'uso definiti in fase di analisi.
+
+
+\subsection{Requisiti funzionali}
+\begin{longtable}{p{1.8cm} p{8.4cm} p{2.2cm}}
+\caption{Requisiti funzionali} \label{tab:requisiti_funzionali} \\
+\toprule
+\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case} \\
+\midrule
+\endfirsthead
+
+\multicolumn{3}{c}{\textit{\tablename\ \thetable{} -- Continua dalla pagina precedente}} \\
+\midrule
+\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{3}{r}{\textit{Continua nella pagina successiva\dots}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+\textbf{RFO-1} & Il sistema deve permettere l'inizializzazione di una richiesta di presentazione di credenziali verificabili. & UC1 \\
+\textbf{RFO-2} & Il sistema deve recuperare la configurazione del client dal database. & UC1.1 \\
+\textbf{RFO-3} & Il sistema deve validare il prefisso del Client ID e determinarne le proprietà di firma. & UC1.2 \\
+\textbf{RFO-4} & Il sistema deve creare una sessione con identificativi univoci e URL-safe. & UC1.4 \\
+\textbf{RFO-5} & Il sistema deve costruire l'URL di autorizzazione in base al tipo di prefisso del client. & UC1.5 \\
+\textbf{RFO-6} & Il sistema deve generare il Request Object JWT su richiesta del Wallet. & UC2 \\
+\textbf{RFO-7} & Il sistema deve verificare che il Request URI non sia già stato consumato. & UC2.1 \\
+\textbf{RFO-8} & Il sistema deve analizzare i \texttt{wallet\_metadata} per negoziare gli algoritmi crittografici comuni. & UC2.2 \\
+\textbf{RFO-9} & Il sistema deve assemblare il payload del Request Object con i parametri del protocollo OID4VP. & UC2.4 \\
+\textbf{RFO-10} & Il sistema deve firmare il Request Object con la chiave privata del client. & UC2.6 \\
+\textbf{RFO-11} & Il sistema deve impedire il riutilizzo del Request URI aggiornando la sessione dopo la generazione. & UC2.7 \\
+\textbf{RFO-12} & Il Wallet deve poter trasmettere le \textit{Verifiable Presentation} al Verifier. & UC3.1 \\
+\textbf{RFO-13} & Il sistema deve estrarre i parametri dalla risposta del Wallet, supportando i formati \texttt{direct\_post} e \texttt{direct\_post.jwt}. & UC3.2 \\
+\textbf{RFO-14} & Il sistema deve recuperare la sessione e aggiornarla atomicamente allo stato \texttt{response\_received}. & UC3.4 \\
+\textbf{RFO-15} & Il sistema deve parsare e validare la struttura del \textit{VP Token}. & UC3.5 \\
+\textbf{RFO-16} & Il sistema deve validare la completezza del \textit{VP Token} rispetto alla query DCQL. & UC3.7 \\
+\textbf{RFO-17} & Il sistema deve verificare crittograficamente ogni presentazione SD-JWT nel \textit{VP Token}. & UC3.8 \\
+\textbf{RFO-18} & Il sistema deve validare il tipo di credenziale e i claim richiesti dalla query DCQL. & UC3.9 \\
+\textbf{RFO-19} & Il sistema deve generare un \textit{Response Record} con \texttt{responseCode} monouso e restituire un \textit{redirect URI} al Wallet. & UC3.10 \\
+\textbf{RFO-20} & L'Utente deve poter recuperare le credenziali verificate tramite \texttt{sessionId} e \texttt{responseCode}. & UC4.1 \\
+\textbf{RFO-21} & Il sistema deve validare il \texttt{responseCode} e verificare che non sia già stato consumato. & UC4.2 \\
+\textbf{RFO-22} & Il sistema deve consumare la sessione, eliminare i dati da Redis e restituire il \textit{VP Token} all'Utente. & UC4.3 \\
+\textbf{RFO-23} & Il sistema deve permettere la creazione di un nuovo client. & UC5.1 \\
+\textbf{RFO-24} & Il sistema deve permettere la lettura della configurazione di un client. & UC5.2 \\
+\textbf{RFO-25} & Il sistema deve permettere l'aggiornamento della configurazione di un client. & UC5.3 \\
+\textbf{RFO-26} & Il sistema deve permettere la cancellazione di un client. & UC5.4 \\
+\textbf{RFO-27} & Il sistema deve supportare sei prefissi di Client ID conformi al protocollo OID4VP. & UC1.2 \\
+\textbf{RFO-28} & Il sistema deve gestire gli errori del Wallet aggiornando la sessione a \texttt{failed} e restituendo un \textit{redirect URI} di errore. & UC3 \\
+\textbf{RFD-1} & Il sistema deve generare chiavi effimere JWE e salvarle su Redis per la cifratura della risposta. & UC2.3 \\
+\textbf{RFD-2} & Il sistema deve decifrare la risposta JWE del Wallet e distruggere la chiave effimera dopo l'uso. & UC3.3 \\
+\textbf{RFD-3} & Il sistema deve generare un \textit{Entity Configuration} JWT per il protocollo OpenID Federation. & UC2.5 \\
+\textbf{RFD-4} & Il sistema deve validare la \textit{Trust Chain} dell'OpenID Provider durante l'inizializzazione. & UC1.3 \\
+\textbf{RFD-5} & Il sistema deve costruire la \textit{Trust Chain} tramite risoluzione ricorsiva degli \textit{Entity Statement}. & UC6.1 \\
+\textbf{RFD-6} & Il sistema deve validare sintatticamente ogni \textit{Entity Statement} nella \textit{Trust Chain}. & UC6.2 \\
+\textbf{RFD-7} & Il sistema deve validare crittograficamente ogni firma nella \textit{Trust Chain}. & UC6.3 \\
+\textbf{RFD-8} & Il sistema deve estrarre la chiave pubblica dell'Issuer dalla \textit{Leaf Entity Configuration}. & UC6.4 \\
+\textbf{RFD-9} & Il sistema deve validare l'\textit{Holder Binding} verificando il Key Binding JWT. & UC3.6 \\
+\textbf{RFD-10} & Il sistema deve verificare la corrispondenza tra chiave privata e certificato \textit{leaf} per i prefissi X.509. & UC2.6 \\
+\textbf{RFF-1} & Il sistema deve supportare il fallback dell'algoritmo \texttt{enc} ad \texttt{A128GCM} in fase di negoziazione. & UC2.2 \\
+\end{longtable}
+
+\subsection{Requisiti qualitativi}
+\begin{longtable}{p{1.8cm} p{8.4cm} p{2.2cm}}
+\caption{Requisiti qualitativi} \label{tab:requisiti_qualitativi} \\
+\toprule
+\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case} \\
+\midrule
+\endfirsthead
+
+\multicolumn{3}{c}{\textit{\tablename\ \thetable{} -- Continua dalla pagina precedente}} \\
+\midrule
+\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{3}{r}{\textit{Continua nella pagina successiva\dots}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+\textbf{RQO-1} & Il sistema deve restituire messaggi di errore specifici per ogni condizione di errore. & -- \\
+\textbf{RQO-2} & Il sistema deve adottare una gestione centralizzata degli errori tramite middleware con mappatura verso i codici HTTP appropriati. & -- \\
+\textbf{RQO-3} & Il sistema deve registrare nei log ogni fase significativa del flusso di presentazione. & -- \\
+\textbf{RQO-4} & Il sistema deve convertire automaticamente tra le convenzioni \textit{camelCase} e \textit{snake\_case} per i payload del protocollo. & -- \\
+\textbf{RQD-1} & Il codice deve essere organizzato secondo un'architettura a strati per garantire separazione delle responsabilità. & -- \\
+\textbf{RQD-2} & Il sistema deve utilizzare valori di default sicuri per i parametri configurabili. & -- \\
+\end{longtable}
+
+\subsection{Requisiti di vincolo}
+\begin{longtable}{p{1.8cm} p{8.4cm} p{2.2cm}}
+\caption{Requisiti di vincolo} \label{tab:requisiti_vincolo} \\
+\toprule
+\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case} \\
+\midrule
+\endfirsthead
+
+\multicolumn{3}{c}{\textit{\tablename\ \thetable{} -- Continua dalla pagina precedente}} \\
+\midrule
+\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{3}{r}{\textit{Continua nella pagina successiva\dots}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+\textbf{RVO-1} & Il sistema deve essere implementato in TypeScript con runtime Node.js. & -- \\
+\textbf{RVO-2} & Il sistema deve utilizzare Redis per la gestione delle sessioni, delle chiavi effimere e dei \textit{Response Record}. & -- \\
+\textbf{RVO-3} & Il sistema deve utilizzare MongoDB per la persistenza delle configurazioni dei client. & -- \\
+\textbf{RVO-4} & Il sistema deve utilizzare la libreria \texttt{jose} per le operazioni crittografiche JWT/JWE/JWS. & -- \\
+\textbf{RVO-5} & Il sistema deve esporre le API REST tramite il framework Express.js. & -- \\
+\textbf{RVO-6} & Il sistema deve implementare il protocollo OID4VP per la verifica di credenziali verificabili. & -- \\
+\textbf{RVO-7} & Il sistema deve supportare il formato SD-JWT come formato di credenziale verificabile. & -- \\
+\textbf{RVO-8} & Il sistema deve implementare il protocollo DCQL per la definizione dei requisiti di presentazione. & -- \\
+\textbf{RVO-9} & Il sistema deve utilizzare l'operazione atomica \texttt{GETDEL} di Redis per la distruzione delle chiavi effimere. & -- \\
+\textbf{RVD-1} & Il sistema deve supportare il protocollo OpenID Federation per la gestione della fiducia. & -- \\
+\textbf{RVD-2} & Il sistema deve supportare la containerizzazione tramite Docker. & -- \\
+\end{longtable}
+
+\subsection{Riepilogo quantitativo}
+\begin{center}
+\vspace{-5pt}
+\captionof{table}{Riepilogo quantitativo dei requisiti}\label{tab:riepilogo_requisiti}
+\begin{tabular}{l c c c c}
+\toprule
+\textbf{Tipologia} & \textbf{Obbligatorio (O)} & \textbf{Desiderabile (D)} & \textbf{Facoltativo (F)} & \textbf{Totale} \\
+\midrule
+Funzionali (RF) & 28 & 10 & 1 & 39 \\
+Qualitativi (RQ) & 4 & 2 & 0 & 6 \\
+Di Vincolo (RV) & 9 & 2 & 0 & 11 \\
+\midrule
+\textbf{Totale} & \textbf{41} & \textbf{14} & \textbf{1} & \textbf{56} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
