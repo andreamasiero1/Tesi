@@ -13,6 +13,22 @@
 \setlength{\parindent}{14pt}
 \setlength{\parskip}{0pt}
 
+\makeatletter
+\def\@listi{\leftmargin\leftmargini
+            \parsep 0\p@
+            \topsep 4\p@ \@plus 1\p@ \@minus 1\p@
+            \itemsep 2\p@ \@plus 1\p@}
+\let\@listI\@listi
+\@listi
+
+\def\@listii{\leftmargin\leftmarginii
+             \labelwidth\leftmarginii
+             \advance\labelwidth-\labelsep
+             \topsep 2\p@ \@plus 1\p@ \@minus 1\p@
+             \parsep 0\p@
+             \itemsep 1\p@ \@plus 1\p@}
+\makeatother
+
 \defbibheading{bibliography} {
     \cleardoublepage
     \phantomsection 
@@ -119,7 +135,7 @@
 \addto\captionsitalian{\renewcommand{\figurename}{Figura}
                        \renewcommand{\tablename}{Tabella}}
 
-\newcommand{\glsfirstoccur}{\ap{{[g]}}}
+\newcommand{\glsfirstoccur}{\ped{G}}
 
 \newcommand{\intro}[1]{\emph{\textsf{#1}}}
 \newcommand{\fonte}[1]{\small{\textbf{Fonte:} \url{#1}}}
