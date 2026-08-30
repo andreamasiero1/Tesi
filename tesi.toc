@@ -17,63 +17,86 @@
 \contentsline {subsection}{\numberline {1.3.11}Nodemon}{4}{subsection.1.3.11}%
 \contentsline {subsection}{\numberline {1.3.12}dotenv}{4}{subsection.1.3.12}%
 \contentsline {subsection}{\numberline {1.3.13}Librerie Interne Monokee}{4}{subsection.1.3.13}%
-\contentsline {subsection}{\numberline {1.3.14}Azure Container Registry (ACR)}{5}{subsection.1.3.14}%
+\contentsline {subsection}{\numberline {1.3.14}Azure Container Registry (ACR)}{4}{subsection.1.3.14}%
 \contentsline {chapter}{\numberline {2}Analisi dei Requisiti}{7}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Panoramica e Attori}{7}{section.2.1}%
 \contentsline {subsection}{\numberline {2.1.1}Attori del sistema}{7}{subsection.2.1.1}%
 \contentsline {section}{\numberline {2.2}Casi d'uso}{8}{section.2.2}%
 \contentsline {paragraph}{\large \bfseries UC1: Inizializzazione della richiesta di presentazione}{8}{section*.11}%
 \contentsline {paragraph}{\large \bfseries UC1.1: Verifica dell'identità del client configurato}{10}{section*.13}%
-\contentsline {paragraph}{\large \bfseries UC1.2: Validazione del prefisso di identificazione del client}{11}{section*.14}%
-\contentsline {paragraph}{\large \bfseries UC1.3: Validazione della Trust Chain}{12}{section*.15}%
+\contentsline {paragraph}{\large \bfseries UC1.2: Validazione del prefisso di identificazione del client}{10}{section*.14}%
+\contentsline {paragraph}{\large \bfseries UC1.3: Validazione della Trust Chain}{11}{section*.15}%
 \contentsline {paragraph}{\large \bfseries UC1.4: Creazione della sessione temporanea su Redis}{12}{section*.16}%
-\contentsline {paragraph}{\large \bfseries UC1.5: Costruzione dell'Authorization URL}{13}{section*.17}%
-\contentsline {paragraph}{\large \bfseries UC2: Generazione del Request Object}{14}{section*.18}%
-\contentsline {paragraph}{\large \bfseries UC2.1: Recupero e validazione della sessione}{16}{section*.20}%
-\contentsline {paragraph}{\large \bfseries UC2.2: Analisi dei metadati del Wallet}{17}{section*.21}%
-\contentsline {paragraph}{\large \bfseries UC2.3: Generazione della coppia di chiavi effimere}{18}{section*.22}%
-\contentsline {paragraph}{\large \bfseries UC2.4: Assemblaggio del payload del Request Object}{18}{section*.23}%
-\contentsline {paragraph}{\large \bfseries UC2.5: Generazione e firma del JWT dell'Entity Configuration}{19}{section*.24}%
-\contentsline {paragraph}{\large \bfseries UC2.6: Firma del Request Object}{20}{section*.25}%
-\contentsline {paragraph}{\large \bfseries UC2.7: Aggiornamento della sessione}{21}{section*.26}%
-\contentsline {paragraph}{\large \bfseries UC3: Ricezione ed analisi della risposta del Wallet}{21}{section*.27}%
-\contentsline {paragraph}{\large \bfseries UC3.1: Trasmissione della Verifiable Presentation}{23}{section*.29}%
-\contentsline {paragraph}{\large \bfseries UC3.2: Estrazione del payload dalla risposta}{24}{section*.30}%
-\contentsline {paragraph}{\large \bfseries UC3.3: Decifratura del JWE}{25}{section*.31}%
-\contentsline {paragraph}{\large \bfseries UC3.4: Recupero e aggiornamento della sessione su Redis}{26}{section*.32}%
-\contentsline {paragraph}{\large \bfseries UC3.5: Parsing e validazione strutturale del VP Token}{26}{section*.33}%
-\contentsline {paragraph}{\large \bfseries UC3.6: Validazione dell'Holder Binding}{27}{section*.34}%
-\contentsline {paragraph}{\large \bfseries UC3.7: Validazione della completezza rispetto alla DCQL Query}{28}{section*.35}%
-\contentsline {paragraph}{\large \bfseries UC3.8: Verifica crittografica della presentazione SD-JWT}{28}{section*.36}%
-\contentsline {paragraph}{\large \bfseries UC3.9: Validazione dei criteri delle credenziali (VCT e claim)}{29}{section*.37}%
-\contentsline {paragraph}{\large \bfseries UC3.10: Creazione e persistenza del Response Record}{30}{section*.38}%
-\contentsline {paragraph}{\large \bfseries UC4: Recupero della presentazione (fetch)}{31}{section*.39}%
-\contentsline {paragraph}{\large \bfseries UC4.1: Trasmissione della richiesta di recupero}{32}{section*.41}%
-\contentsline {paragraph}{\large \bfseries UC4.2: Validazione del Response Code}{33}{section*.42}%
-\contentsline {paragraph}{\large \bfseries UC4.3: Consumazione della sessione e consegna del VP Token}{34}{section*.43}%
-\contentsline {paragraph}{\large \bfseries UC5: Gestione del ciclo di vita del client}{34}{section*.44}%
-\contentsline {paragraph}{\large \bfseries UC5.1: Creazione di un nuovo client}{35}{section*.46}%
-\contentsline {paragraph}{\large \bfseries UC5.2: Lettura della configurazione del client}{36}{section*.47}%
-\contentsline {paragraph}{\large \bfseries UC5.3: Aggiornamento della configurazione del client}{37}{section*.48}%
-\contentsline {paragraph}{\large \bfseries UC5.4: Cancellazione del client}{37}{section*.49}%
-\contentsline {paragraph}{\large \bfseries UC6: Validazione della Trust Chain}{38}{section*.50}%
-\contentsline {paragraph}{\large \bfseries UC6.1: Costruzione della Trust Chain}{39}{section*.52}%
-\contentsline {paragraph}{\large \bfseries UC6.2: Validazione sintattica della Trust Chain}{40}{section*.53}%
-\contentsline {paragraph}{\large \bfseries UC6.3: Validazione crittografica della Trust Chain}{41}{section*.54}%
-\contentsline {paragraph}{\large \bfseries UC6.4: Estrazione della chiave pubblica dell'Issuer}{42}{section*.55}%
-\contentsline {section}{\numberline {2.3}Tracciamento dei requisiti}{43}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Requisiti funzionali}{43}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Requisiti qualitativi}{45}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Requisiti di vincolo}{45}{subsection.2.3.3}%
-\contentsline {subsection}{\numberline {2.3.4}Riepilogo quantitativo}{46}{subsection.2.3.4}%
-\contentsline {chapter}{\numberline {3}Progettazione}{47}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Architettura}{47}{section.3.1}%
-\contentsline {chapter}{\numberline {4}Codifica}{49}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Organizzazione del codice}{49}{section.4.1}%
-\contentsline {chapter}{\numberline {5}Verifica e validazione}{51}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Valutazione finale}{53}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Risultati ottenuti}{53}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Analisi critica del prodotto}{53}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Analisi critica del lavoro}{53}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Valutazione degli strumenti utilizzati}{55}{section.6.4}%
-\contentsline {chapter}{Bibliografia}{57}{appendix*.56}%
+\contentsline {paragraph}{\large \bfseries UC1.5: Costruzione dell'Authorization URL}{12}{section*.17}%
+\contentsline {paragraph}{\large \bfseries UC2: Generazione del Request Object}{13}{section*.18}%
+\contentsline {paragraph}{\large \bfseries UC2.1: Recupero e validazione della sessione}{15}{section*.20}%
+\contentsline {paragraph}{\large \bfseries UC2.2: Analisi dei metadati del Wallet}{15}{section*.21}%
+\contentsline {paragraph}{\large \bfseries UC2.3: Generazione della coppia di chiavi effimere}{16}{section*.22}%
+\contentsline {paragraph}{\large \bfseries UC2.4: Assemblaggio del payload del Request Object}{17}{section*.23}%
+\contentsline {paragraph}{\large \bfseries UC2.5: Generazione e firma del JWT dell'Entity Configuration}{17}{section*.24}%
+\contentsline {paragraph}{\large \bfseries UC2.6: Firma del Request Object}{18}{section*.25}%
+\contentsline {paragraph}{\large \bfseries UC2.7: Aggiornamento della sessione}{19}{section*.26}%
+\contentsline {paragraph}{\large \bfseries UC3: Ricezione ed analisi della risposta del Wallet}{19}{section*.27}%
+\contentsline {paragraph}{\large \bfseries UC3.1: Trasmissione della Verifiable Presentation}{21}{section*.29}%
+\contentsline {paragraph}{\large \bfseries UC3.2: Estrazione del payload dalla risposta}{22}{section*.30}%
+\contentsline {paragraph}{\large \bfseries UC3.3: Decifratura del JWE}{22}{section*.31}%
+\contentsline {paragraph}{\large \bfseries UC3.4: Recupero e aggiornamento della sessione su Redis}{23}{section*.32}%
+\contentsline {paragraph}{\large \bfseries UC3.5: Parsing e validazione strutturale del VP Token}{24}{section*.33}%
+\contentsline {paragraph}{\large \bfseries UC3.6: Validazione dell'Holder Binding}{24}{section*.34}%
+\contentsline {paragraph}{\large \bfseries UC3.7: Validazione della completezza rispetto alla DCQL Query}{25}{section*.35}%
+\contentsline {paragraph}{\large \bfseries UC3.8: Verifica crittografica della presentazione SD-JWT}{25}{section*.36}%
+\contentsline {paragraph}{\large \bfseries UC3.9: Validazione dei criteri delle credenziali (VCT e claim)}{26}{section*.37}%
+\contentsline {paragraph}{\large \bfseries UC3.10: Creazione e persistenza del Response Record}{27}{section*.38}%
+\contentsline {paragraph}{\large \bfseries UC4: Recupero della presentazione (fetch)}{28}{section*.39}%
+\contentsline {paragraph}{\large \bfseries UC4.1: Trasmissione della richiesta di recupero}{29}{section*.41}%
+\contentsline {paragraph}{\large \bfseries UC4.2: Validazione del Response Code}{29}{section*.42}%
+\contentsline {paragraph}{\large \bfseries UC4.3: Consumazione della sessione e consegna del VP Token}{30}{section*.43}%
+\contentsline {paragraph}{\large \bfseries UC5: Gestione del ciclo di vita del client}{30}{section*.44}%
+\contentsline {paragraph}{\large \bfseries UC5.1: Creazione di un nuovo client}{32}{section*.46}%
+\contentsline {paragraph}{\large \bfseries UC5.2: Lettura della configurazione del client}{32}{section*.47}%
+\contentsline {paragraph}{\large \bfseries UC5.3: Aggiornamento della configurazione del client}{33}{section*.48}%
+\contentsline {paragraph}{\large \bfseries UC5.4: Cancellazione del client}{33}{section*.49}%
+\contentsline {paragraph}{\large \bfseries UC6: Validazione della Trust Chain}{34}{section*.50}%
+\contentsline {paragraph}{\large \bfseries UC6.1: Costruzione della Trust Chain}{35}{section*.52}%
+\contentsline {paragraph}{\large \bfseries UC6.2: Validazione sintattica della Trust Chain}{36}{section*.53}%
+\contentsline {paragraph}{\large \bfseries UC6.3: Validazione crittografica della Trust Chain}{37}{section*.54}%
+\contentsline {paragraph}{\large \bfseries UC6.4: Estrazione della chiave pubblica dell'Issuer}{37}{section*.55}%
+\contentsline {section}{\numberline {2.3}Tracciamento dei requisiti}{38}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Requisiti funzionali}{39}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Requisiti qualitativi}{40}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Requisiti di vincolo}{41}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Riepilogo quantitativo}{41}{subsection.2.3.4}%
+\contentsline {chapter}{\numberline {3}Progettazione e codifica}{43}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Architettura generale}{43}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Stratificazione architetturale}{44}{subsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.1}Presentation Layer (Presentazione e instradamento)}{44}{subsubsection.3.1.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.2}Business Logic Layer (Logica applicativa e servizi)}{45}{subsubsection.3.1.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.1.3}Data Model Layer (Modelli di dominio e contratti dati)}{45}{subsubsection.3.1.1.3}%
+\contentsline {subsubsection}{\numberline {3.1.1.4}Data Access Layer (Accesso ai dati e persistenza)}{45}{subsubsection.3.1.1.4}%
+\contentsline {section}{\numberline {3.2}Organizzazione della codebase}{46}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Criteri di modularità e convenzioni}{46}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Decomposizione logica dei moduli per layer}{47}{subsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.1}Layer dei modelli di dominio (\texttt {src/models/})}{47}{subsubsection.3.2.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2.2}Layer di presentazione e instradamento (\texttt {src/routes/})}{47}{subsubsection.3.2.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.3}Layer di logica applicativa (\texttt {src/services/})}{47}{subsubsection.3.2.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.2.4}Layer di accesso ai dati (\texttt {src/repositories/})}{48}{subsubsection.3.2.2.4}%
+\contentsline {section}{\numberline {3.3}Modellazione dei dati di dominio}{48}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Entità persistenti: il modello ClientModel e le politiche di sicurezza}{48}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Strutture transazionali ed effimere: query DCQL e VP Token}{48}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Contesti di validazione e Data Transfer Object (DTO)}{49}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}Strategia di persistenza e Data Access Layer}{49}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Storage volatile ad alte prestazioni: Redis}{49}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Storage persistente e multi-tenant: MongoDB}{50}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Sicurezza crittografica e gestione della fiducia}{50}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Forward secrecy applicativa mediante JWE e chiavi effimere}{50}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Risoluzione gerarchica della fiducia: OpenID Federation 1.0 e Trust Chains}{50}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Validazione crittografica di SD-JWT e prevenzione dei Replay Attack}{51}{subsection.3.5.3}%
+\contentsline {chapter}{\numberline {4}Codifica}{53}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Organizzazione del codice}{53}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Verifica e validazione}{55}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Valutazione finale}{57}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Risultati ottenuti}{57}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Analisi critica del prodotto}{57}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Analisi critica del lavoro}{57}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Valutazione degli strumenti utilizzati}{59}{section.6.4}%
+\contentsline {chapter}{Bibliografia}{61}{appendix*.58}%

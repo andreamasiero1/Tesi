@@ -45,7 +45,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Attori:} Verifier, Utente finale.
 \\
-\textbf{Descrizione:} L'Utente finale, mediante l'interfaccia \textit{frontend} del Relying Party, avvia una nuova sessione di richiesta di presentazione di Credenziali Verificabili. Il Verifier procede alla validazione dell'identità del client precedentemente configurato, effettua — ove previsto dal \textit{Client ID Scheme} adottato — la verifica della \textit{Trust Chain} (nel caso di OpenID Federation), istanzia una sessione temporanea su Redis contenente la \textit{DCQL Query}, un \textit{nonce} crittografico e un identificativo univoco, e restituisce all'interfaccia \textit{frontend} un URL di autorizzazione (\texttt{authUrl}) e un identificativo di sessione (\texttt{sessionId}).
+\textbf{Descrizione:} L'Utente finale, mediante l'interfaccia \textit{frontend} del Relying Party, avvia una nuova sessione di richiesta di presentazione di Credenziali Verificabili. Il Verifier procede alla validazione dell'identità del client precedentemente configurato, effettua — ove previsto dal \textit{Client ID Scheme} adottato — la verifica della \textit{Trust Chain} (nel caso di OpenID Federation), istanzia una sessione temporanea su Redis contenente la \textit{DCQL Query}\glsfirstoccur{}, un \textit{nonce} crittografico e un identificativo univoco, e restituisce all'interfaccia \textit{frontend} un URL di autorizzazione (\texttt{authUrl}) e un identificativo di sessione (\texttt{sessionId}).
 \\
 \textbf{Precondizioni:}
 \begin{itemize}

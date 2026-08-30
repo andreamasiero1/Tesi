@@ -24,7 +24,7 @@ Nello specifico, il componente si articola nelle seguenti funzionalità principa
 \begin{enumerate}
     \item \textbf{Gestione delle \emph{Presentation Requests}:} generazione e invio di richieste di presentazione standardizzate volte ad attestare specifici attributi dell'utente (ad esempio la maggiore età o la cittadinanza);
     \item \textbf{Implementazione del protocollo OpenID4VP:} gestione completa del protocollo \emph{OpenID for Verifiable Presentations} per la ricezione e l'elaborazione sicura dei \emph{Verifiable Presentation Tokens} (\emph{VP Tokens}) tramite \emph{endpoint} dedicati;
-    \item \textbf{Validazione delle prove crittografiche:} verifica dell'integrità e dell'autenticità delle attestazioni ricevute — comprese quelle strutturate secondo lo standard \emph{Selective Disclosure JWT} (SD-JWT) — e convalida della catena di fiducia (\emph{Trust Chain}) legata agli emettitori (\emph{Issuers}).
+    \item \textbf{Validazione delle prove crittografiche:} verifica dell'integrità e dell'autenticità delle attestazioni ricevute — comprese quelle strutturate secondo lo standard \emph{Selective Disclosure JWT} (SD-JWT)\glsfirstoccur{} — e convalida della catena di fiducia (\emph{Trust Chain}) legata agli emettitori (\emph{Issuers}).
 \end{enumerate}
 
 \section{Tecnologie utilizzate}
@@ -73,7 +73,7 @@ Il progetto si appoggia su un ecosistema di librerie proprietarie sviluppate int
     \item @monokee-dev/monokee-base-repository: mette a disposizione MongoDBBaseRepository, una classe base generica per l'interazione con MongoDB che implementa il pattern Repository.
     \item @monokee-dev/monokee-base-service: fornisce classi base per la logica di business dei servizi.
     \item @monokee-dev/monokee-base-filter: implementa i meccanismi di filtraggio per le query sui repository.
-    \item @monokee-dev/monokee-scim-utils: offre utilità per il protocollo SCIM (System for Cross-domain Identity Management), inclusa la classe ScimServer e ScimBaseRoute utilizzate come base per il server e le rotte del progetto.
+    \item @monokee-dev/monokee-scim-utils: offre utilità per il protocollo SCIM\glsfirstoccur{} (System for Cross-domain Identity Management), inclusa la classe ScimServer e ScimBaseRoute utilizzate come base per il server e le rotte del progetto.
     \item @monokee-dev/monokee-logger: fornisce MonokeeLogger, un wrapper di logging strutturato con supporto a livelli configurabili e contesto di autenticazione.
     \item @monokee-dev/monokee-utils: raccoglie utilità trasversali, tra cui la gestione degli errori tipizzati (ForbiddenError, InvalidValueError, NotFoundError, PreconditionFailedError) e l'Async Local Storage (MonokeeAlsStore).
     \item @monokee-dev/monokee-health-probe: implementa gli endpoint di health check per il monitoraggio dello stato del microservizio negli ambienti containerizzati (readiness/liveness probe).
