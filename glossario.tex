@@ -1,9 +1,25 @@
 \renewcommand{\acronymname}{Acronimi e abbreviazioni}
 
+% --- Acronimi e abbreviazioni ---
 \newacronym{api}{API}{Application Program Interface}
-
 \newacronym{uml}{UML}{Unified Modeling Language}
+\newacronym{oid4vp}{OID4VP}{OpenID for Verifiable Presentations}
+\newacronym{jwt}{JWT}{JSON Web Token}
+\newacronym{jwe}{JWE}{JSON Web Encryption}
+\newacronym{jws}{JWS}{JSON Web Signature}
+\newacronym{jwk}{JWK}{JSON Web Key}
+\newacronym{jwks}{JWKS}{JSON Web Key Set}
+\newacronym{ttl}{TTL}{Time-To-Live}
+\newacronym{dfs}{DFS}{Depth-First Search}
+\newacronym{dto}{DTO}{Data Transfer Object}
+\newacronym{jar}{JAR}{JWT-Secured Authorization Request}
+\newacronym{iam}{IAM}{Identity and Access Management}
+\newacronym{bson}{BSON}{Binary JSON}
+\newacronym{tls}{TLS}{Transport Layer Security}
+\newacronym{http}{HTTP}{HyperText Transfer Protocol}
+\newacronym{rest}{REST}{Representational State Transfer}
 
+% --- Voci di glossario ---
 \newglossaryentry{apig}
 {
     name=API,
@@ -52,11 +68,106 @@
     description={acronimo di \emph{System for Cross-domain Identity Management}, è un protocollo standardizzato (RFC 7643 e RFC 7644) per l'automazione dello scambio di informazioni di identità tra domini, che definisce schemi e API REST per la gestione del ciclo di vita delle risorse di identità in ambienti multi-tenant}
 }
 
-
 \newglossaryentry{multitenancyg}
 {
     name=Multi-tenancy,
     text=multi-tenancy,
     sort=multi-tenancy,
     description={architettura software in cui una singola istanza di un'applicazione serve molteplici organizzazioni o clienti (\emph{tenant}), garantendo l'isolamento logico dei dati e delle configurazioni tra ciascun tenant pur condividendo la medesima infrastruttura}
+}
+
+\newglossaryentry{oid4vpg}
+{
+    name=OID4VP,
+    text=OID4VP,
+    sort=oid4vp,
+    description={acronimo di \emph{OpenID for Verifiable Presentations}, è una specifica del framework OpenID che definisce il protocollo di interazione tra un Verifier (Relying Party) e un Digital Wallet per la richiesta, la trasmissione e la verifica di presentazioni di credenziali verificabili}
+}
+
+\newglossaryentry{jweg}
+{
+    name=JWE,
+    text=JWE,
+    sort=jwe,
+    description={acronimo di \emph{JSON Web Encryption} (RFC 7516), è uno standard per la cifratura di contenuti in formato compatto e sicuro basato su JSON, utilizzato per proteggere la riservatezza dei dati trasmessi tra le parti di un protocollo crittografico}
+}
+
+\newglossaryentry{jwsg}
+{
+    name=JWS,
+    text=JWS,
+    sort=jws,
+    description={acronimo di \emph{JSON Web Signature} (RFC 7515), è uno standard per la firma digitale di contenuti in formato JSON, utilizzato per garantire l'integrità e l'autenticità dei dati trasmessi}
+}
+
+\newglossaryentry{jwtg}
+{
+    name=JWT,
+    text=JWT,
+    sort=jwt,
+    description={acronimo di \emph{JSON Web Token} (RFC 7519), è un formato compatto e autonomo per la rappresentazione sicura di attestazioni (\emph{claims}) tra due parti, tipicamente utilizzato per l'autenticazione e lo scambio di informazioni}
+}
+
+\newglossaryentry{jwkg}
+{
+    name=JWK,
+    text=JWK,
+    sort=jwk,
+    description={acronimo di \emph{JSON Web Key} (RFC 7517), è un formato standard per la rappresentazione di chiavi crittografiche in formato JSON. Un \emph{JWK Set} (JWKS) è un insieme di chiavi JWK, tipicamente esposto tramite un endpoint pubblico per la distribuzione delle chiavi}
+}
+
+\newglossaryentry{trustchaing}
+{
+    name=Trust Chain,
+    text=Trust Chain,
+    sort=trust chain,
+    description={nel contesto di OpenID Federation 1.0, è una catena gerarchica di attestazioni digitali firmate che collega un'entità foglia (ad esempio un Issuer o un Verifier) a un'ancora di fiducia (\emph{Trust Anchor}) riconosciuta, permettendo di dedurre e verificare la legittimità dell'entità senza conoscenza diretta preventiva}
+}
+
+\newglossaryentry{vptokeng}
+{
+    name=VP Token,
+    text=VP Token,
+    sort=vp token,
+    description={nel protocollo OID4VP, è il token che incapsula una o più presentazioni verificabili (\emph{Verifiable Presentations}) trasmesse dal Wallet al Verifier in risposta a una richiesta di presentazione. Può contenere credenziali in formato SD-JWT, mdoc o altri formati supportati}
+}
+
+\newglossaryentry{ttlg}
+{
+    name=TTL,
+    text=TTL,
+    sort=ttl,
+    description={acronimo di \emph{Time-To-Live}, indica il tempo massimo di validità o permanenza di un dato in un sistema di memorizzazione. In Redis, il TTL definisce il tempo trascorso il quale una chiave viene automaticamente rimossa dal datastore}
+}
+
+\newglossaryentry{jarg}
+{
+    name=JAR,
+    text=JAR,
+    sort=jar,
+    description={acronimo di \emph{JWT-Secured Authorization Request} (RFC 9101), è una specifica che richiede che la richiesta di autorizzazione OAuth 2.0 sia incapsulata in un JWT firmato digitalmente, garantendo l'integrità e l'autenticità dei parametri della richiesta}
+}
+
+\newglossaryentry{dtog}
+{
+    name=DTO,
+    text=DTO,
+    sort=dto,
+    description={acronimo di \emph{Data Transfer Object}, è un pattern architetturale che definisce un oggetto il cui unico scopo è il trasporto di dati tra i livelli di un'applicazione, privo di logica di business}
+}
+
+\newglossaryentry{kbjwtg}
+{
+    name=KB-JWT,
+    text=KB-JWT,
+    sort=kb-jwt,
+    description={acronimo di \emph{Key Binding JWT}, è un token JWT firmato dal dispositivo del titolare della credenziale (\emph{Holder}) con la chiave privata associata alla credenziale SD-JWT. La sua verifica attesta il possesso effettivo della credenziale da parte del presentatore (\emph{Proof of Possession})}
+}
+
+\newglossaryentry{iamg}
+{
+    name=IAM,
+    text=IAM,
+    sort=iam,
+    description={acronimo di \emph{Identity and Access Management}, indica l'insieme di processi, tecnologie e politiche volti a gestire le identità digitali e a regolamentare l'accesso alle risorse di un sistema informatico}
 }

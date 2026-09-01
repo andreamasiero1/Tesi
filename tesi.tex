@@ -16,6 +16,7 @@
 \usepackage[english, italian]{babel}
 \usepackage{csquotes}
 \usepackage{microtype}
+\usepackage[htt]{hyphenat}
 
 % --- Layout e Formattazione ---
 \usepackage[binding=5mm]{layaureo}
@@ -42,10 +43,16 @@
 % --- Simboli e Utilità ---
 \usepackage{eurosym}
 \usepackage{listings}
+\usepackage{minted}
+\setminted{
+    breaklines=true,     % Abilita l'a capo automatico
+    breakanywhere=true   % Permette di spezzare la riga in qualsiasi punto (utile per le stringhe lunghe)
+}
 \usepackage[italian]{varioref}
 
 % --- Indici, Glossario e Bibliografia ---
 \usepackage[toc, acronym]{glossaries}
+\makeglossaries
 \usepackage[backend=biber,style=verbose-ibid,hyperref,backref]{biblatex}
 \addbibresource{bibliografia.bib}
 
@@ -61,6 +68,10 @@
 \input{inizio-fine/frontespizio}
 \input{inizio-fine/sommario}
 \input{inizio-fine/indici}
+\begingroup
+\let\cleardoublepage\clearpage
+\printglossaries
+\endgroup
 \cleardoublepage
 
 \mainmatter

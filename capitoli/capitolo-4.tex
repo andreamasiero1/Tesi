@@ -1,6 +1,204 @@
-\chapter{Codifica}
+\chapter{Codifica e implementazione}
 \label{cap:codifica}
-Dopo aver completato la fase di progettazione è stata eseguita la fase di codifica e validazione. Questo capitolo sarà il conseguimento della seconda parte del periodo di stage dove verranno spiegate le funzionalità implementate nella Skill mostrando porzioni di codice. Verrà inoltro spiegata la struttura del progetto: le varie cartelle contenti i file delle \textit{classi} realizzate e i \textit{packages} installati. 
+In questo capitolo viene descritta la fase di codifica e implementazione del sistema, condotta sulla base della progettazione illustrata nel Capitolo~\ref{cap:progettazione}. Vengono presentati la metodologia di sviluppo adottata, i flussi operativi concreti del protocollo OID4VP\glsadd{oid4vp}\glsfirstoccur{} con i relativi frammenti di codice e le sfide tecniche affrontate durante l'implementazione.
 
-\section{Organizzazione del codice}
-Successivamente alla parte di comprensione e configurazione dei servizi utilizzati in questo progetto, e alla creazione della Skill, è stato eseguito un micro-processo di organizzazione del codice prima della sua stesura. Questa pratica adottata è stata necessaria per avere uno schema e una gerarchia delle parti di codice che sono state sviluppate durante il periodo di tirocinio. Tale organizzazione ha permesso di sviluppare in maniera più ordinata e consapevole riducendo la probabilità di introdurre errori e rendendo il codice più manutenibile. Pertanto la cartella del progetto è stata così disposta:
+\section{Metodologia e organizzazione del lavoro}
+
+\subsection{Studio del contesto e degli standard}
+La fase di codifica è stata preceduta da un'attività di studio approfondito del contesto normativo e tecnico in cui il sistema opera. Trattandosi di un componente crittografico inserito in un ecosistema di identità decentralizzata, ogni scelta implementativa è vincolata a specifiche sezioni delle relative RFC e specifiche tecniche. I documenti di riferimento che hanno guidato l'intera fase sono stati:
+
+\begin{itemize}
+    \item la specifica \textbf{OpenID for Verifiable Presentations} (OID4VP\glsadd{oid4vp}), che definisce il protocollo di interazione tra Verifier e Wallet;
+    \item lo standard \textbf{SD-JWT\glsadd{sdjwtg}} (\textit{Selective Disclosure JWT\glsadd{jwt}}), che introduce un meccanismo basato su \textit{hash} crittografici per la rivelazione selettiva degli attributi;
+    \item il linguaggio \textbf{DCQL\glsadd{dcqlg}} (\textit{Digital Credentials Query Language}), che formalizza la modalità con cui un Verifier esprime richieste complesse di credenziali;
+    \item il framework \textbf{OpenID Federation 1.0}, che definisce la costruzione e la validazione delle catene di fiducia tra entità mediante la navigazione ricorsiva di \textit{Entity Configuration} e \textit{Subordinate Statement};
+    \item le specifiche \textbf{JAR\glsadd{jar}}\glsfirstoccur{} (\textit{JWT-Secured Authorization Request}), che prescrivono l'incapsulamento della richiesta di autorizzazione in un JWT\glsadd{jwt}\glsfirstoccur{} firmato digitalmente.
+\end{itemize}
+
+Parallelamente, è stata condotta un'analisi del framework interno Monokee (le librerie \texttt{@monokee-dev} descritte nella Sezione~\ref{sec:dominio_applicativo}) per comprendere le astrazioni preesistenti su cui costruire il sistema. Il framework fornisce classi base per la creazione di server Express con supporto nativo al protocollo SCIM\glsadd{scimg} 2.0 e un pattern di repository generico per MongoDB.
+
+\subsection{Approccio incrementale \textit{bottom-up}}
+L'approccio di sviluppo adottato è stato di tipo incrementale e \textit{bottom-up}, partendo dalle fondamenta del sistema e risalendo progressivamente verso le interfacce esposte. Le fasi di sviluppo hanno seguito la stratificazione architetturale descritta nella Sezione~\ref{sec:organizzazione_codebase}:
+
+\begin{enumerate}
+    \item \textbf{Modellazione dei dati:} definizione delle entità di dominio (\texttt{ClientModel}, \texttt{SessionModel}, \texttt{DCQLQuery}, \texttt{ResponseRecord}) e degli enumeratori crittografici che vincolano a livello di tipo i valori ammissibili per gli algoritmi. Questa scelta ha permesso di stabilire un contratto formale condiviso prima di implementare la logica applicativa.
+    \item \textbf{Layer di accesso ai dati:} implementazione del \texttt{RedisSessionRepository} e del \texttt{MongoDBClientRepository}, consentendo la verifica immediata della connettività e della serializzazione delle entità sui datastore reali.
+    \item \textbf{Layer di logica applicativa:} implementazione dei servizi di fase (inizializzazione, \textit{Request Object}, elaborazione della risposta, \textit{fetch}), dei servizi di validazione crittografica e dei servizi di cifratura. Ogni servizio è stato sviluppato e verificato in isolamento prima dell'integrazione nel flusso complessivo.
+    \item \textbf{Layer di presentazione:} implementazione delle route Express, del middleware di gestione errori e dell'integrazione finale nell'\textit{entry point} \texttt{app.ts}.
+\end{enumerate}
+
+\section{Flussi operativi del protocollo OID4VP\glsadd{oid4vp}}
+Le sezioni seguenti descrivono l'implementazione concreta dei flussi operativi del protocollo, facendo riferimento alla progettazione architetturale e ai pattern descritti nel Capitolo~\ref{cap:progettazione}.
+
+\subsection{Inizializzazione della sessione}
+Il flusso operativo inizia quando un \textit{frontend} invoca l'endpoint \texttt{POST /presentation/init}. L'\texttt{InitializationService}, operando all'interno della pipeline a fasi descritta nella Sezione~\ref{sec:organizzazione_codebase}, gestisce questa fase con la seguente sequenza di operazioni:
+
+\begin{enumerate}
+    \item recupero da MongoDB della configurazione del client (\texttt{ClientModel}) associato al \texttt{domainId} e al \texttt{clientId} forniti; in caso di assenza, l'operazione viene bloccata con un \texttt{ForbiddenError};
+    \item analisi del prefisso del \texttt{clientId} per determinare lo schema di identificazione da adottare; qualora il prefisso indichi \texttt{openid\_federation}, viene attivato un sotto-flusso critico di risoluzione e validazione della Trust Chain\glsadd{trustchaing}\glsfirstoccur{}, invocando il \texttt{TrustAnchorService} per percorrere ricorsivamente la catena di fiducia fino a un \textit{Trust Anchor} noto;
+    \item creazione di una nuova sessione tramite il \texttt{SessionService}, con generazione di quattro identificativi crittograficamente casuali (\texttt{sessionId}, \texttt{requestId}, \texttt{transactionId}, \texttt{nonce}) e salvataggio in Redis con un TTL\glsadd{ttl}\glsfirstoccur{} configurabile;
+    \item costruzione di un URL di autorizzazione (\texttt{authUrl}): se il prefisso non richiede firma (ad esempio \texttt{pre\_registered}), l'URL contiene tutti i parametri come \textit{query string}; se la richiede (ad esempio \texttt{x509\_san\_dns}), l'URL contiene un riferimento a un \texttt{request\_uri} da cui il Wallet scaricherà il JWT\glsadd{jwt} firmato.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{./immagini/presentation-init.png}    
+    \caption{Flusso di inizializzazione della sessione di presentazione}
+    \label{fig:presentation-init}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{./immagini/session-on-Redis.png}    
+    \caption{Sessione salvata su Redis}
+    \label{fig:session-on-redis}
+\end{figure}
+
+\subsection{Generazione del Request Object}
+Quando il Wallet scansiona il QR Code o segue il \textit{deep link}, contatta il backend all'endpoint \texttt{GET/POST /request/:requestId}. Il \texttt{RequestObjectService} orchestra una pipeline articolata in cinque step:
+
+\begin{enumerate}
+    \item \textbf{Controllo anti-replay:} verifica che il flag \texttt{isRequestUriConsumed} sulla sessione sia ancora \texttt{false}. Se il \textit{Request Object} è già stato scaricato in precedenza, la richiesta viene rifiutata con un \texttt{ForbiddenError}.
+
+    \item \textbf{Negoziazione algoritmica:} il \texttt{VerifierService} confronta le capacità crittografiche dichiarate dal Wallet nel proprio \texttt{wallet\_metadata} con quelle configurate nel \texttt{ClientModel}. Viene ricercata un'intersezione tra gli algoritmi JWE\glsadd{jwe}\glsfirstoccur{} supportati, gli algoritmi di firma JWS\glsadd{jws}\glsfirstoccur{} e i formati VP. In assenza di compatibilità, il servizio segnala l'errore con codici semantici (\texttt{alg\_not\_supported}, \texttt{enc\_not\_supported}, \texttt{vp\_formats\_not\_supported}).
+
+    \item \textbf{Generazione delle chiavi effimere:} attivato solo se la negoziazione JWE\glsadd{jwe} ha avuto esito positivo. L'\texttt{EphemeralKeyService} genera una coppia di chiavi asimmetriche (EC P-256 o RSA 2048-bit, a seconda dell'algoritmo negoziato), ne salva la parte privata in Redis con un TTL\glsadd{ttl} e inserisce la chiave pubblica JWK\glsadd{jwk}\glsfirstoccur{} nel \texttt{client\_metadata} del \textit{Request Object}. Il Wallet utilizzerà questa chiave pubblica per cifrare la propria risposta, secondo il meccanismo di \textit{Forward Secrecy\glsadd{forwardsecrecyg}} descritto nella Sezione~\ref{sec:sicurezza_crittografica}.
+
+    \item \textbf{Costruzione dell'Entity Configuration} (specifico per il prefisso \texttt{openid\_federation}): il servizio assembla un JWT\glsadd{jwt} auto-firmato che descrive il Verifier nell'ecosistema federato, includendo le proprie chiavi pubbliche, gli \texttt{authority\_hints} e i metadati del Relying Party.
+
+    \item \textbf{Firma digitale del JWT\glsadd{jwt}:} il servizio importa la chiave privata dal JWKS\glsadd{jwks} del client, verifica la corrispondenza tra chiave privata e certificato X.509 (se presente nell'header \texttt{x5c}), e firma il JWT\glsadd{jwt} \textit{Request Object} con l'algoritmo negoziato. Per i client \texttt{pre\_registered}, viene generato un \textit{Unsecured JWT\glsadd{jwt}} (con \texttt{alg:"none"} e firma vuota), costruito manualmente in \textit{base64url}.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{./immagini/request.png}    
+    \caption{Generazione del Request Object}
+    \label{fig:request}
+\end{figure}
+
+\subsection{Elaborazione della risposta del Wallet}
+Quando il Wallet invia la \textit{Verifiable Presentation} all'endpoint \texttt{POST /presentation/response}, il \texttt{ResponseProcessorService} deve gestire due formati di input: la risposta può arrivare in chiaro (campi \texttt{vp\_token} e \texttt{state} separati) oppure in formato cifrato (un campo \texttt{response} contenente un JWE\glsadd{jwe} \textit{compact serialization} a cinque segmenti).
+
+Nel caso cifrato, il servizio attiva il \texttt{DecipherJWEService}, che estrae il \texttt{kid} dall'header protetto del JWE\glsadd{jwe}, invoca \texttt{EphemeralKeyService.retrieveAndDestroyPrivateKey()} per ottenere atomicamente la chiave privata da Redis (tramite il comando \texttt{GETDEL}, descritto nella Sezione~\ref{sec:strategia_persistenza}), e decifra il payload con \texttt{jose.compactDecrypt()}.
+
+Una volta ottenuto il payload in chiaro, il servizio consuma atomicamente la sessione portandola dallo stato \texttt{pending} a \texttt{response\_received} e avvia la fase di validazione crittografica, delegandola al \texttt{PresentationValidatorService} secondo la pipeline descritta nella Sezione~\ref{sec:sicurezza_crittografica}.
+
+Se la validazione ha esito positivo, viene creato un \texttt{ResponseRecord} contenente il VP Token\glsadd{vptokeng}\glsfirstoccur{} validato e un \texttt{responseCode} monouso generato con 32 byte casuali. Il Wallet riceve un URI di \textit{redirect} con questo codice nell'\textit{hash fragment} (\texttt{\#response\_code=...}).
+
+\subsection{Ritiro dei dati verificati}
+Il \texttt{FetchService} implementa un protocollo di consumo monouso. Quando il \textit{frontend} invoca \texttt{POST /presentation/fetch}, il servizio recupera la sessione e il \texttt{ResponseRecord} associato, verifica che il \texttt{responseCode} fornito corrisponda a quello salvato, controlla che il record non sia già stato consumato (\texttt{state !== 'consumed'}), e consegna il VP Token\glsadd{vptokeng} al chiamante. Infine, elimina la sessione da Redis, garantendo che ogni presentazione possa essere ritirata una e una sola volta.
+
+\subsection{Validazione crittografica SD-JWT\glsadd{sdjwtg} e DCQL\glsadd{dcqlg}}
+Il \texttt{SdJwtCredentialVerifierService} implementa una pipeline di verifica per il formato SD-JWT\glsadd{sdjwtg}. Il processo inizia con il \textit{parsing} della presentazione: la stringa SD-JWT\glsadd{sdjwtg} viene suddivisa lungo il separatore \texttt{\textasciitilde}, producendo un \texttt{issuerJwt}, un array di \texttt{disclosures} e un opzionale \texttt{keyBindingJwt} (KB-JWT\glsadd{kbjwtg}\glsfirstoccur{}).
+
+La verifica della \textbf{firma dell'emittente} risolve la chiave pubblica dell'Issuer tramite il \texttt{TrustAnchorService} (se le autorità fidate sono di tipo \texttt{openid\_federation}) o tramite l'header \texttt{jwk}/\texttt{x5c} del JWT\glsadd{jwt}, e valida crittograficamente la firma.
+
+La verifica dei \textbf{hash delle \textit{disclosure}} è l'operazione più caratteristica del formato SD-JWT\glsadd{sdjwtg}: il servizio raccoglie ricorsivamente tutti i digest presenti negli array \texttt{\_sd} del payload JWT\glsadd{jwt} dell'Issuer, calcola l'hash \textit{base64url} di ciascuna \textit{disclosure} presentata dall'utente e verifica che il risultato sia contenuto nell'insieme dei digest autorizzati. Se una \textit{disclosure} non corrisponde ad alcun digest, l'intera presentazione viene rifiutata.
+
+La verifica del \textbf{KB-JWT\glsadd{kbjwtg}} attesta la titolarità della credenziale: il servizio importa la chiave pubblica dell'\textit{Holder} dal claim \texttt{cnf.jwk} del payload dell'Issuer e verifica la firma del KB-JWT\glsadd{kbjwtg}, controllando che l'\textit{audience} corrisponda all'identificativo del Verifier e che il \textit{nonce} corrisponda a quello generato nella fase di inizializzazione.
+
+Il \texttt{PresentationValidatorService} opera a livello superiore e implementa la specifica DCQL\glsadd{dcqlg}. La validazione include:
+\begin{itemize}
+    \item il controllo del \texttt{vct} (\textit{Verifiable Credential Type}) contro i valori attesi;
+    \item la valutazione di insiemi alternativi di credenziali (\texttt{credentialSets}), dove ogni set interno rappresenta un AND logico e i set esterni sono in OR tra loro;
+    \item la gestione di \texttt{claimSets} alternativi, dove se una combinazione di claim non è presente viene tentata la successiva.
+\end{itemize}
+
+\subsection{Risoluzione delle Trust Chain\glsadd{trustchaing}}
+Il \texttt{TrustAnchorService} implementa un algoritmo di \textit{Depth-First Search} (DFS\glsadd{dfs}\glsfirstoccur{}) con rilevamento di cicli per costruire le catene di fiducia nell'ecosistema OpenID Federation.
+
+L'algoritmo parte dall'\textit{Entity ID} dell'Issuer e recupera la sua \textit{Entity Configuration} dall'endpoint standard \texttt{/.well-known/openid-federation}. Da questa configurazione estrae gli \texttt{authority\_hints} (i garanti dichiarati). Per ciascun garante, il servizio contatta il relativo \texttt{federation\_fetch\_endpoint} richiedendo il \textit{Subordinate Statement} che lega il garante all'entità corrente. Se il garante non è un \textit{Trust Anchor} noto, il processo si ripete ricorsivamente, risalendo la gerarchia fino a raggiungere un'entità le cui chiavi pubbliche (JWKS\glsadd{jwks}) siano già pre-caricate in Redis come fiducia \textit{out-of-band}.
+
+Per prevenire cicli infiniti in grafi potenzialmente malformati, l'algoritmo mantiene un \texttt{Set<string>} di entità già visitate.
+
+Una volta costruita la catena, il servizio esegue una validazione crittografica bidirezionale: dalla cima (il \textit{Trust Anchor}, la cui firma viene verificata confrontando i JWKS\glsadd{jwks} salvati in Redis) verso il basso (ogni \textit{Subordinate Statement} viene verificato con le chiavi dell'entità superiore). Infine, viene verificata l'auto-firma dell'\textit{Entity Configuration} del nodo foglia e la corrispondenza del \texttt{sub} tra la foglia e il primo \textit{Subordinate Statement}.
+
+\section{Sfide tecniche e soluzioni adottate}
+
+\subsection{Atomicità del consumo di sessione in un sistema distribuito}
+\textbf{Problema.} In un sistema con molteplici istanze backend, la medesima sessione potrebbe essere consumata contemporaneamente da richieste concorrenti (\textit{race condition}), causando la duplicazione del VP Token\glsadd{vptokeng} consegnato al \textit{frontend}.
+
+\textbf{Soluzione.} Il metodo \texttt{consumeSessionForResponse()} del \texttt{RedisSessionRepository} implementa un controllo atomico: legge la sessione, verifica che lo stato sia ancora \texttt{pending} e lo aggiorna in un'unica operazione. Qualsiasi tentativo concorrente troverà lo stato già mutato e verrà respinto con un \texttt{NotFoundError}.
+
+\subsection{Forward Secrecy\glsadd{forwardsecrecyg} e distruzione sicura delle chiavi private}
+\textbf{Problema.} La chiave privata effimera generata per la cifratura JWE\glsadd{jwe} deve essere utilizzata una sola volta e successivamente distrutta, per garantire la proprietà di \textit{Forward Secrecy\glsadd{forwardsecrecyg}} (Sezione~\ref{sec:sicurezza_crittografica}). È necessario impedire un secondo utilizzo in scenari concorrenti.
+
+\textbf{Soluzione.} L'\texttt{EphemeralKeyService} sfrutta il comando Redis \texttt{GETDEL}, che legge e cancella il valore in un'unica operazione atomica:
+
+\begin{listing}[H]
+\begin{minted}{typescript}
+const keyData = await redisClient.getdel(`ephemeral_key:${kid}`)
+if (!keyData) {
+  throw new NotFoundError('Ephemeral key not found or already consumed')
+}
+\end{minted}
+\caption{Utilizzo del comando Redis GETDEL per la rimozione atomica delle chiavi effimere}
+\label{listing:getdel}
+\end{listing}
+
+Se un secondo tentativo di decifratura interviene durante l'elaborazione del primo, il \texttt{GETDEL} troverà il dato già cancellato e solleverà un'eccezione. Ogni chiave è inoltre protetta da un TTL\glsadd{ttl} Redis che ne garantisce l'auto-distruzione anche in assenza di un \textit{consumer}.
+
+\subsection{Verifica della corrispondenza chiave privata/certificato X.509}
+\textbf{Problema.} Per gli schemi di identificazione \texttt{x509\_san\_dns} e \texttt{x509\_hash}, il Verifier deve firmare il \textit{Request Object} con la chiave privata associata al certificato X.509 contenuto nel JWKS\glsadd{jwks}. Non esisteva alcuna garanzia automatica di corrispondenza tra la chiave privata e il certificato foglia nella catena \texttt{x5c}.
+
+\textbf{Soluzione.} Nel \texttt{RequestObjectService}, prima della firma, il servizio esegue una verifica esplicita della corrispondenza tra le coordinate della chiave privata e quelle del certificato. Per le chiavi EC, vengono confrontate le coordinate \texttt{x} e \texttt{y}; per le chiavi RSA, il modulo \texttt{n} e l'esponente \texttt{e}:
+
+\begin{listing}[H]
+\begin{minted}{typescript}
+if (privateKeyJwk.kty === 'EC' &&
+    (privateKeyJwk.x !== certPublicKeyJwk.x || privateKeyJwk.y !== certPublicKeyJwk.y)) {
+  throw new InvalidValueError(
+    'Key mismatch: The private key does not correspond to the leaf certificate ' 
+    + 'in the x5c chain.'
+  )
+}
+\end{minted}
+\caption{Verifica della corrispondenza tra chiave privata e certificato X.509}
+\label{listing:key_mismatch}
+\end{listing}
+
+Questa verifica preventiva impedisce che un Wallet riceva un JWT\glsadd{jwt} firmato con una chiave incoerente, evitando errori difficilmente diagnosticabili in ambiente di produzione.
+
+\subsection{Workaround per hostname Docker in ambiente di sviluppo}
+\textbf{Problema.} Durante lo sviluppo locale con Docker, il Wallet e il backend comunicano tramite l'hostname \texttt{host.docker.internal}, che non compare nel \textit{Subject Alternative Name} (SAN) dei certificati X.509 di test (tipicamente limitati a \texttt{localhost}). Questo causava il fallimento sistematico della validazione \texttt{x509\_san\_dns} in ambiente di sviluppo.
+
+\textbf{Soluzione.} Nel \texttt{ClientIdPrefixValidator} è stato inserito un \textit{workaround} condizionale, attivo esclusivamente in ambiente di sviluppo:
+
+\begin{listing}[H]
+\begin{minted}{typescript}
+if (process.env.NODE_ENV === 'development' &&
+    !matchingDnsName && responseUriFqdn === 'host.docker.internal') {
+  matchingDnsName = dnsNames.find((dns) => dns === 'localhost')
+}
+\end{minted}
+\caption{Workaround per hostname Docker in ambiente di sviluppo}
+\label{listing:workaround_docker}
+\end{listing}
+
+La guardia \texttt{process.env.NODE\_ENV === 'development'} assicura che questo rilassamento della validazione non si attivi in ambienti di produzione o \textit{staging}.
+
+\subsection{Conversione bidirezionale \textit{camelCase}--\textit{snake\_case} con eccezioni}
+\textbf{Problema.} Il codice TypeScript interno adotta la convenzione \textit{camelCase} (ad esempio \texttt{vpFormatsSupported}), mentre il protocollo OID4VP\glsadd{oid4vp}/OAuth richiede \textit{snake\_case} (ad esempio \texttt{vp\_formats\_supported}). Tuttavia, la conversione non poteva essere una semplice trasformazione meccanica: alcune chiavi come \texttt{jwks} non devono essere convertite, e la struttura \texttt{vpFormatsSupported} contiene chiavi con trattini (\texttt{dc+sd-jwt}) che non seguono alcuna delle due convenzioni.
+
+\textbf{Soluzione.} Il modulo \texttt{case-converter.util.ts} implementa un convertitore ricorsivo con una lista di eccezioni esplicite: le chiavi \texttt{jwks} vengono preservate intatte, e il mapping di \texttt{vpFormatsSupported} verso \texttt{dc+sd-jwt} viene gestito con logica dedicata anziché affidato alla conversione automatica.
+
+\subsection{Discriminazione tra payload in chiaro e payload cifrato}
+\textbf{Problema.} L'endpoint \texttt{POST /presentation/response} deve gestire trasparentemente sia risposte in chiaro (con campi \texttt{vp\_token} e \texttt{state} separati) sia risposte cifrate (un unico campo \texttt{response} contenente un JWE\glsadd{jwe} \textit{compact serialization}). Il JWE\glsadd{jwe} \textit{compact}, una volta decifrato, può contenere a sua volta un JWT\glsadd{jwt} firmato o un semplice JSON.
+
+\textbf{Soluzione.} Il \texttt{ResponseProcessorService} implementa una discriminazione euristica: se il campo \texttt{response} è una stringa con esattamente cinque segmenti separati da \texttt{.}, viene trattata come JWE\glsadd{jwe} \textit{compact} e decifrata. Il payload risultante viene poi interpretato prima come \texttt{JSON.parse()} e, in caso di fallimento, come \texttt{jose.decodeJwt()}:
+
+\begin{listing}[H]
+\begin{minted}{typescript}
+if (typeof jwtStr === 'string' && jwtStr.split('.').length === 5) {
+  jwtStr = await this.decipherJWEService.decipherJWE(jwtStr)
+}
+let payload: any
+try {
+  payload = JSON.parse(jwtStr)
+} catch (e) {
+  payload = jose.decodeJwt(jwtStr)
+}
+\end{minted}
+\caption{Discriminazione tra payload in chiaro e payload cifrato nella risposta del Wallet}
+\label{listing:discriminazione_payload}
+\end{listing}
