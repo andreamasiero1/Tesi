@@ -1,4 +1,150 @@
 \chapter{Verifica e validazione}
 \label{cap:verifica_validazione}
-L'ultima fase del periodo di tirocinio ha riguardato il processo di verifica e validazione. La prima è un processo che si occupa di fornire evidenza oggettiva, ovvero che i risultati ottenuti come output dello sviluppo del software soddisfino i requisiti, la seconda invece è un processo per confermare in modo definitivo che le caratteristiche del software siano conformi ai bisogni dell'utente e all'uso previsto.
-Per eseguire la verifica e la validazione è necessario l'esecuzione di test\footnote{In ambito informatico i test eseguiti nel processo di verifica sono eseguiti in maniera automatica durante lo sviluppo del software} che individuino carenze, correttezza e affidabilità. Nel progetto della Skill Concierge Croccante non è stato realizzato alcun test per il processo di verifica: viste le tempistiche non è stato potuto fare ciò e si è pertanto scelto di eseguire test già esistenti nel servizio Amazon Lambda, sufficienti ad esaminare il codice e rilevare eventuali errori. Per quanto riguarda il processo di validazione\footnote{Attività di supporto la quale accerta che il prodotto dei processi rispetti le specifiche} è stato svolto, alla fine del periodo di tirocinio, un incontro  con il tutor aziendale e CFO Damiano Buscemi come conferma fiale la quale ha accertato le bontà richieste dal prodotto finale. Tale validazione non è stata altro che una dimostrazione funzionante della Skill, eseguita prima da me per spiegare le varie funzionalità, ed infine da Crispy Bacon come conferma.
+L'ultima fase del periodo di sviluppo ha riguardato il processo di verifica e validazione del software prodotto.
+
+La verifica è un processo orientato verso l'interno del prodotto, ovvero si occupa di fornire evidenza oggettiva che i risultati ottenuti come output di ciascuna fase dello sviluppo soddisfino i requisiti specificati per quella fase. Essa comprende attività come la revisione del codice, l'analisi statica, il \textit{type checking}, i test unitari e i test d'integrazione.
+
+La validazione, invece, è un processo orientato verso l'esterno, verso l'utente finale e il contesto d'uso: ha lo scopo di confermare in modo definitivo che le caratteristiche del software siano conformi ai bisogni dell'utente e all'uso previsto. La validazione richiede tipicamente l'esecuzione del sistema in condizioni che simulino l'uso reale. Nel caso di un software che implementa uno standard pubblico, la forma più autorevole di validazione è il superamento dei test di conformità (\textit{conformance test}) rilasciati dall'ente che governa lo standard.
+
+Nel caso del progetto \texttt{monokee-relyingparty-core}, la strategia di verifica e validazione ha combinato meccanismi di verifica statica, testing manuale dei flussi operativi e, come strumento di validazione formale, l'esecuzione dei Conformance Test della OpenID Foundation per il profilo OID4VP\glsadd{oid4vpg}\glsfirstoccur{} Verifier.
+
+\section{Verifica statica}
+\label{sec:verifica_statica}
+
+\subsection{Type checking e compilazione TypeScript}
+Il primo livello di verifica è fornito dal compilatore TypeScript stesso. L'intero progetto è scritto in TypeScript con configurazione \texttt{alwaysStrict:true}, il che impone al compilatore di verificare staticamente la coerenza dei tipi in ogni assegnazione, invocazione di metodo e accesso a proprietà. Qualsiasi errore di tipo viene intercettato a tempo di compilazione, prima ancora che il codice venga eseguito.
+
+L'ampio impiego di enumeratori tipizzati (come \texttt{JWSAlgorithm}, \texttt{JWEAlgorithm}, \texttt{JWEEncAlgorithm}, \texttt{CdSdJwtAlg} definiti in \texttt{client.model.ts}) vincola i valori ammissibili per gli algoritmi crittografici a un insieme finito e chiuso. Ciò significa che un errore di battitura in un nome di algoritmo (ad esempio \texttt{"EC256"} invece di \texttt{"ES256"}) non può sfuggire alla fase di compilazione, eliminando un'intera classe di errori crittografici potenzialmente critici che coinvolgerebbero le suite JWS\glsadd{jwsg}\glsfirstoccur{} e JWE\glsadd{jweg}\glsfirstoccur{}.
+
+Il comando \texttt{yarn typecheck} (definito in \texttt{package.json}) consente di eseguire la verifica dei tipi in modo isolato, senza produrre artefatti di build, facilitandone l'integrazione in pipeline di verifica continua.
+
+\subsection{Analisi statica con ESLint}
+Un secondo livello di verifica statica è garantito dalla configurazione di ESLint con il plugin \texttt{@typescript-eslint}, che analizza il codice alla ricerca di pattern problematici, variabili non utilizzate, importazioni circolari e violazioni delle best practice JavaScript/TypeScript. La configurazione Prettier (\texttt{.prettierrc}) garantisce inoltre la coerenza stilistica del codice, riducendo il rumore durante le revisioni e facilitando la leggibilità.
+
+Il processo di sviluppo, come configurato nel file \texttt{nodemon.json}, esegue automaticamente \texttt{yarn lint} ad ogni riavvio del server di sviluppo, integrando così la verifica statica nel ciclo di feedback dello sviluppatore.
+
+\subsection{Audit automatico delle dipendenze}
+Il file \texttt{nodemon.json} integra un'ulteriore misura di verifica nel ciclo di sviluppo: il comando \texttt{yarn audit --groups dependencies --level high} viene eseguito automaticamente ad ogni riavvio del server. Questo comando interroga i database pubblici di vulnerabilità note per verificare che nessuna delle dipendenze del progetto contenga falle di sicurezza ad alta criticità. In un sistema che manipola dati di identità digitale e credenziali crittografiche, questa verifica è particolarmente rilevante.
+
+\subsection{Misure di protezione integrate nel codice}
+\label{subsec:misure_protezione}
+Accanto agli strumenti di verifica statica in senso stretto, il codice incorpora una serie di meccanismi difensivi che contribuiscono alla correttezza complessiva del sistema.
+
+I costruttori dei modelli di dominio (\texttt{Session} e \texttt{Client}), come approfondito nella Sezione~\ref{sec:organizzazione_codebase} del Capitolo~\ref{cap:progettazione}, eseguono una validazione immediata dei dati in ingresso, verificando la presenza dei campi obbligatori e la conformità degli identificativi crittografici ai requisiti di sicurezza. In particolare, il metodo statico \texttt{isUrlSafe()}:
+\begin{listing}[H]
+\begin{minted}{typescript}
+static isUrlSafe(text: string): boolean {
+  return /^[a-zA-Z0-9._~-]+$/.test(text)
+}
+\end{minted}
+\caption{Metodo \texttt{isUrlSafe} per la validazione di stringhe URL-safe}
+\label{listing:is_url_safe}
+\end{listing}
+impedisce l'inserimento di caratteri speciali nei parametri destinati a comparire in URL OAuth\glsadd{oauthg}\glsfirstoccur{} e nei parametri di redirect, neutralizzando potenziali vulnerabilità di manipolazione degli indirizzi.
+
+Per le operazioni CRUD\glsadd{crudg}\glsfirstoccur{} sui client, il framework SCIM\glsadd{scimg}\glsfirstoccur{} 2.0 applica automaticamente la validazione dei payload in ingresso confrontando gli schemi definiti in \texttt{client.schema.json}, garantendo che nessuna configurazione sintatticalmente invalida possa essere persistita in MongoDB.
+
+Infine, la gerarchia di errori tipizzata (\texttt{InvalidValueError}, \texttt{ForbiddenError}, \texttt{NotFoundError}, \texttt{PreconditionFailedError}, \texttt{NotImplementedError}) e la relativa mappatura deterministica in codici HTTP\glsadd{http}\glsfirstoccur{}, già descritta nel Capitolo~\ref{cap:codifica}, garantisce che ogni condizione anomala sia codificata esplicitamente e che gli errori interni restituiscano un messaggio generico, prevenendo la fuga accidentale di informazioni sull'architettura interna del sistema.
+
+\section{Verifica dinamica}
+\label{sec:verifica_dinamica}
+
+\subsection{Testing manuale dei flussi OID4VP}
+In assenza di una suite di test automatizzati, la verifica dinamica del comportamento del sistema è stata condotta tramite testing manuale end-to-end dei flussi OID4VP\glsadd{oid4vpg}, utilizzando client HTTP (Postman e cURL) e l'integrazione con l'ambiente di sviluppo locale (Docker, Redis, MongoDB e un tunnel ngrok per l'esposizione pubblica del servizio).
+
+Per ciascuna delle quattro fasi del protocollo descritte nel Capitolo~\ref{cap:codifica} sono stati verificati i flussi nominali e i principali scenari di errore:
+
+\begin{itemize}
+    \item \textbf{Fase 1 (Init)}: corretta creazione della sessione, generazione degli identificativi crittografici, costruzione dell'\texttt{authUrl}, e rifiuto in caso di client inesistente o dominio non configurato;
+    \item \textbf{Fase 2 (Request Object)}: corretta firma del JWT\glsadd{jwtg}\glsfirstoccur{}, inclusione delle chiavi effimere nel \texttt{client\_metadata}, funzionamento del flag anti-replay, e gestione dei diversi schemi di prefisso;
+    \item \textbf{Fase 3 (Response)}: corretta decifratura dei payload JWE\glsadd{jweg}, transizione atomica dello stato della sessione, validazione delle \textit{disclosure} SD-JWT\glsadd{sdjwtg}, verifica del Key Binding JWT (KB-JWT\glsadd{kbjwtg}\glsfirstoccur{}), e generazione del \texttt{responseCode} monouso;
+    \item \textbf{Fase 4 (Fetch)}: corretta restituzione del VP Token\glsadd{vptokeng}\glsfirstoccur{} al frontend, rifiuto di \texttt{responseCode} errati o già consumati, e cancellazione della sessione da Redis.
+\end{itemize}
+
+\subsection{Testing manuale dei flussi di errore}
+Accanto ai flussi nominali, sono stati verificati manualmente i principali scenari di errore:
+
+\begin{itemize}
+    \item invio di parametri mancanti o malformati (verifica della corretta restituzione di \texttt{400 Bad Request});
+    \item richiesta di sessioni scadute o inesistenti (verifica del \texttt{404 Not Found});
+    \item tentativo di consumare una sessione già in stato \texttt{response\_received};
+    \item invocazione doppia del Request Object sulla stessa sessione (verifica del \texttt{403 Forbidden} per replay\glsadd{replayattackg}\glsfirstoccur{});
+    \item invio di un VP Token\glsadd{vptokeng} con nonce errato (verifica del \texttt{403 Forbidden} nella validazione del Key Binding).
+\end{itemize}
+
+\section{Validazione tramite Conformance Test}
+\label{sec:validazione_conformance}
+
+\subsection{La Conformance Test Suite della OpenID Foundation}
+La forma più autorevole di validazione per un'implementazione del protocollo OID4VP\glsadd{oid4vpg} è il superamento dei Conformance Test ufficiali rilasciati dalla OpenID Foundation (OIDF). La suite di conformità, accessibile pubblicamente all'indirizzo \url{https://www.certification.openid.net/}, rappresenta lo strumento di riferimento adottato a livello internazionale per certificare la conformità delle implementazioni agli standard OpenID.
+
+La suite opera come un simulatore di Digital Wallet: si sostituisce al wallet dell'utente e interagisce con il Verifier sotto test, verificando che le risposte, i formati, i parametri di sicurezza e i comportamenti di errore siano aderenti alle specifiche. L'obiettivo non è testare la logica interna del software, ma validare che il comportamento osservabile dall'esterno sia conforme allo standard.
+
+\subsection{Configurazione dell'ambiente di test}
+L'esecuzione dei Conformance Test ha richiesto una configurazione specifica dell'ambiente di lavoro. Poiché la suite OIDF opera da server remoti che devono poter raggiungere il Verifier sotto test, il backend locale è stato esposto su Internet tramite un tunnel ngrok:
+
+\begin{lstlisting}[language=bash, numbers=none]
+MONOKEE_BASE_URL=https://dronish-unlabiate-jaylah.ngrok-free.dev
+\end{lstlisting}
+Questo URL pubblico è stato configurato come \texttt{VERIFIER\_ENTITY\_IDENTIFIER}, ovvero l'identità del Verifier nell'ecosistema OID4VP\glsadd{oid4vpg}, e registrato nel test plan della suite OIDF con l'alias \texttt{monokee-oauth2-openid4vci}:
+
+\begin{lstlisting}[language=bash, numbers=none]
+OPENID4VCI_AUTHORIZE_URL=https://www.certification.openid.net/test/a/monokee-oauth2-openid4vci/authorize
+\end{lstlisting}
+
+\subsection{Categorie di test eseguiti}
+\label{subsec:categorie_test}
+Il test plan OID4VP\glsadd{oid4vpg} Verifier della OpenID Foundation comprende diverse categorie di verifiche, ciascuna progettata per validare un aspetto specifico della conformità del Verifier.
+
+\subsubsection{Test di flusso nominale}
+Questi test verificano che il Verifier sia in grado di completare con successo un'interazione completa con un wallet conforme:
+
+\begin{itemize}
+    \item il Verifier genera correttamente un Request Object JWT\glsadd{jwtg} con tutti i parametri obbligatori (\texttt{response\_type}, \texttt{response\_mode}, \texttt{nonce}, \texttt{state}, \texttt{dcql\_query}, \texttt{client\_id});
+    \item il Request Object è firmato con un algoritmo conforme e contiene header validi (\texttt{typ: oauth-authz-req+jwt});
+    \item il Verifier accetta un VP Token\glsadd{vptokeng} valido e restituisce il redirect URI con il \texttt{response\_code};
+    \item il formato \texttt{dc+sd-jwt} è gestito correttamente (parsing, \textit{disclosure}, firma dell'emittente).
+\end{itemize}
+
+\subsubsection{Test negativi}
+Questi test verificano che il Verifier rifiuti correttamente input invalidi o malevoli:
+
+\begin{itemize}
+    \item \textbf{Firma invalida sulla credenziale}: la suite invia un VP Token\glsadd{vptokeng} con una firma dell'emittente volutamente corrotta; il Verifier deve rifiutarla, dimostrando che la verifica crittografica è effettivamente operativa;
+    \item \textbf{KB-JWT\glsadd{kbjwtg} con nonce errato}: la suite invia un Key Binding JWT\glsadd{jwtg} il cui nonce non corrisponde a quello generato nella fase di inizializzazione; il rifiuto dimostra la protezione contro gli attacchi di tipo \textit{replay}\glsadd{replayattackg};
+    \item \textbf{KB-JWT\glsadd{kbjwtg} con audience errata}: la suite invia un Key Binding JWT\glsadd{jwtg} il cui \texttt{aud} non corrisponde all'identificativo del Verifier; il rifiuto impedisce che una presentazione generata per un altro Verifier venga accettata;
+    \item \textbf{Integrità della sessione e anti-replay}: la suite tenta di riutilizzare un \texttt{request\_uri} già consumato o di inviare una risposta su una sessione non più in stato \texttt{pending}; il Verifier deve rifiutare questi tentativi.
+\end{itemize}
+
+\subsubsection{Verifica dei parametri di protocollo}
+La suite controlla la conformità formale dei parametri scambiati:
+
+\begin{itemize}
+    \item la presenza e la correttezza del \texttt{Content-Type} nelle risposte;
+    \item la coerenza tra \texttt{client\_id} e lo schema di prefisso dichiarato;
+    \item la struttura e i claim del Request Object JWT\glsadd{jwtg} secondo la specifica JAR\glsadd{jarg}\glsfirstoccur{};
+    \item l'inclusione del \texttt{client\_metadata} quando lo schema di prefisso lo richiede (\texttt{MUST\_INCLUDE}).
+\end{itemize}
+
+\subsection{Risultati e iterazioni correttive}
+L'esecuzione dei Conformance Test non è stata un'operazione puntuale con esito immediato, ma un processo iterativo. Le prime esecuzioni hanno evidenziato discrepanze tra l'implementazione iniziale e le aspettative della specifica, che hanno guidato cicli di correzione e ri-esecuzione.
+
+Le principali aree su cui si è intervenuti includono:
+
+\begin{itemize}
+    \item la corretta formattazione del \texttt{Content-Type} nelle risposte HTTP\glsadd{http} del Request Object;
+    \item la gestione precisa del \texttt{response\_mode} e delle sue varianti (\texttt{direct\_post} e \texttt{direct\_post.jwt});
+    \item la corretta inclusione dei parametri di cifratura nel \texttt{client\_metadata} quando la negoziazione JWE\glsadd{jweg} è attiva;
+    \item l'aderenza alla struttura DCQL\glsadd{dcqlg}\glsfirstoccur{} nella serializzazione \textit{snake\_case} della query all'interno del Request Object;
+    \item la gestione corretta degli errori provenienti dal wallet (campo \texttt{error} e \texttt{error\_description}), con il redirect appropriato al frontend.
+\end{itemize}
+Questo ciclo di test, correzione e ri-esecuzione è stato fondamentale per affinare l'implementazione e portarla a un livello di conformità verificabile dall'esterno, costituendo il processo di validazione più significativo dell'intero progetto.
+
+\subsection{Valore della validazione tramite Conformance Test}
+Il superamento dei Conformance Test della OpenID Foundation fornisce un valore di validazione che va oltre il semplice testing funzionale:
+
+\begin{itemize}
+    \item \textbf{Validazione dell'interoperabilità}: i test garantiscono che il Verifier sia in grado di interagire con qualsiasi Digital Wallet conforme allo standard OID4VP\glsadd{oid4vpg}, indipendentemente dalla sua implementazione interna;
+    \item \textbf{Validazione della sicurezza di protocollo}: i test negativi verificano che le contromisure di sicurezza funzionino correttamente, fornendo evidenza oggettiva della robustezza del sistema;
+    \item \textbf{Validazione rispetto ai bisogni dell'utente}: il bisogno fondamentale per questo sistema è l'aderenza allo standard. Un Verifier OID4VP\glsadd{oid4vpg} che non supera i Conformance Test è, per definizione, non conforme e quindi non utilizzabile in ecosistemi regolamentati, come quelli governativi europei per l'identità digitale dove la conformità agli standard EUDI è un requisito normativo.
+\end{itemize}

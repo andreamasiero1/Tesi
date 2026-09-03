@@ -1,6 +1,0 @@
-\begin{MintedVerbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{keyData}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{redisClient}\PYG{p}{.}\PYG{n+nx}{getdel}\PYG{p}{(}\PYG{l+s+sb}{`ephemeral\PYGZus{}key:}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{kid}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{)}
-\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{keyData}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
-\PYG{+w}{  }\PYG{k}{throw}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{NotFoundError}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Ephemeral key not found or already consumed\PYGZsq{}}\PYG{p}{)}
-\PYG{p}{\PYGZcb{}}
-\end{MintedVerbatim}

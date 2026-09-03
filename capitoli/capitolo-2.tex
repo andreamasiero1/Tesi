@@ -3,7 +3,7 @@
 
 \section{Panoramica e Attori}
 
-L'obiettivo dello stage è lo sviluppo di un modulo di relying party (come definito nella sezione \ref{sec:dominio_applicativo}) che si occuperà di creare e inviare richieste standardizzate per ottenere attributi specifici degli utenti, gestire la ricezione dei VP Tokens tramite endpoint dedicati e verificare l'integrità delle presentazioni e la validità degli emettitori.
+L'obiettivo dello stage è lo sviluppo di un modulo di relying party (come definito nella sezione \ref{sec:dominio_applicativo}) che si occuperà di creare e inviare richieste standardizzate per ottenere attributi specifici degli utenti, gestire la ricezione dei VP Tokens\glsadd{vptokeng}\glsfirstoccur{} tramite endpoint dedicati e verificare l'integrità delle presentazioni e la validità degli emettitori.
 
 \subsection{Attori del sistema}
 Gli attori rappresentano le entità (utenti fisici o sistemi esterni) che interagiscono con l'applicazione. Per il progetto sviluppato, sono stati individuati i seguenti attori principali:
@@ -15,7 +15,7 @@ Gli attori rappresentano le entità (utenti fisici o sistemi esterni) che intera
 \end{itemize}
 
 \section{Casi d'uso}
-I diagrammi dei casi d'uso (\textit{Use Case Diagram}) costituiscono una tipologia di diagrammi UML\glsadd{uml}\glsfirstoccur{} (\textit{Unified Modelling Language}) finalizzata a descrivere le interazioni tra gli attori del sistema e le funzionalità che quest'ultimo è chiamato a fornire.
+I diagrammi dei casi d'uso (\textit{Use Case Diagram}) costituiscono una tipologia di diagrammi UML\glsadd{uml}\glsadd{umlg}\glsfirstoccur{} (\textit{Unified Modelling Language}) finalizzata a descrivere le interazioni tra gli attori del sistema e le funzionalità che quest'ultimo è chiamato a fornire.
 
 Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativi all'integrazione del modulo Relying Party nel sistema. Ciascun caso d'uso è presentato secondo la seguente struttura standardizzata:
 \begin{itemize}
@@ -45,7 +45,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Attori:} Verifier, Utente finale.
 \\
-\textbf{Descrizione:} L'Utente finale, mediante l'interfaccia \textit{frontend} del Relying Party, avvia una nuova sessione di richiesta di presentazione di Credenziali Verificabili. Il Verifier procede alla validazione dell'identità del client precedentemente configurato, effettua — ove previsto dal \textit{Client ID Scheme} adottato — la verifica della \textit{Trust Chain\glsadd{trustchaing}} (nel caso di OpenID Federation), istanzia una sessione temporanea su Redis contenente la \textit{DCQL\glsadd{dcqlg} Query}\glsfirstoccur{}, un \textit{nonce} crittografico e un identificativo univoco, e restituisce all'interfaccia \textit{frontend} un URL di autorizzazione (\texttt{authUrl}) e un identificativo di sessione (\texttt{sessionId}).
+\textbf{Descrizione:} L'Utente finale, mediante l'interfaccia \textit{frontend} del Relying Party, avvia una nuova sessione di richiesta di presentazione di Credenziali Verificabili. Il Verifier procede alla validazione dell'identità del client precedentemente configurato, effettua — ove previsto dal \textit{Client ID Scheme} adottato — la verifica della \textit{Trust Chain\glsadd{trustchaing}}\glsfirstoccur{} (nel caso di OpenID Federation), istanzia una sessione temporanea su Redis contenente la \textit{DCQL\glsadd{dcqlg} Query}\glsfirstoccur{}, un \textit{nonce} crittografico e un identificativo univoco, e restituisce all'interfaccia \textit{frontend} un URL di autorizzazione (\texttt{authUrl}) e un identificativo di sessione (\texttt{sessionId}).
 \\
 \textbf{Precondizioni:}
 \begin{itemize}
@@ -64,7 +64,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item L'Utente, mediante l'interfaccia \textit{frontend}, invia una richiesta HTTP \texttt{POST} all'endpoint \texttt{/init} con un payload contenente i parametri e \texttt{dcqlQuery}.
+    \item L'Utente, mediante l'interfaccia \textit{frontend}, invia una richiesta HTTP\glsadd{http}\glsfirstoccur{} \texttt{POST} all'endpoint \texttt{/init} con un payload contenente i parametri e \texttt{dcqlQuery}.
     \item Il Verifier recupera la configurazione del client dall'istanza MongoDB tramite i parametri \texttt{domainId} e \texttt{clientId}.
     \item Il Verifier valida il prefisso del \texttt{clientId}.
     \item Qualora il prefisso sia \texttt{openid\_federation}, il Client costruisce e valida la \textit{Trust Chain\glsadd{trustchaing}} verso il \textit{Trust Anchor} configurato.
