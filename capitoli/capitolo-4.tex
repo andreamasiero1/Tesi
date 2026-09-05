@@ -8,9 +8,9 @@ In questo capitolo viene descritta la fase di codifica e implementazione del sis
 La fase di codifica è stata preceduta da un'attività di studio approfondito del contesto normativo e tecnico in cui il sistema opera. Trattandosi di un componente crittografico inserito in un ecosistema di identità decentralizzata, ogni scelta implementativa è vincolata a specifiche sezioni delle relative RFC e specifiche tecniche. I documenti di riferimento che hanno guidato l'intera fase sono stati:
 
 \begin{itemize}
-    \item la specifica \textbf{OpenID for Verifiable Presentations} (OID4VP\glsadd{oid4vp}), che definisce il protocollo di interazione tra Verifier e Wallet;
+    \item la specifica \textbf{OpenID for Verifiable Presentations} (OID4VP\glsadd{oid4vp}), che definisce il protocollo di interazione tra Verifier\glsadd{verifierg} e Wallet;
     \item lo standard \textbf{SD-JWT\glsadd{sdjwtg}\glsfirstoccur{}} (\textit{Selective Disclosure JWT\glsadd{jwt}}), che introduce un meccanismo basato su \textit{hash} crittografici per la rivelazione selettiva degli attributi;
-    \item il linguaggio \textbf{DCQL\glsadd{dcqlg}\glsfirstoccur{}} (\textit{Digital Credentials Query Language}), che formalizza la modalità con cui un Verifier esprime richieste complesse di credenziali;
+    \item il linguaggio \textbf{DCQL\glsadd{dcqlg}\glsfirstoccur{}} (\textit{Digital Credentials Query Language}), che formalizza la modalità con cui un Verifier\glsadd{verifierg} esprime richieste complesse di credenziali;
     \item il framework \textbf{OpenID Federation 1.0}, che definisce la costruzione e la validazione delle catene di fiducia tra entità mediante la navigazione ricorsiva di \textit{Entity Configuration} e \textit{Subordinate Statement};
     \item le specifiche \textbf{JAR\glsadd{jar}\glsadd{jarg}}\glsfirstoccur{} (\textit{JWT-Secured Authorization Request}), che prescrivono l'incapsulamento della richiesta di autorizzazione in un JWT\glsadd{jwt}\glsfirstoccur{} firmato digitalmente.
 \end{itemize}
@@ -64,7 +64,7 @@ Quando il Wallet scansiona il QR Code o segue il \textit{deep link}, contatta il
 
     \item \textbf{Generazione delle chiavi effimere:} attivato solo se la negoziazione JWE\glsadd{jwe} ha avuto esito positivo. L'\texttt{EphemeralKeyService} genera una coppia di chiavi asimmetriche (EC P-256 o RSA 2048-bit, a seconda dell'algoritmo negoziato), ne salva la parte privata in Redis con un TTL\glsadd{ttl} e inserisce la chiave pubblica JWK\glsadd{jwk}\glsfirstoccur{} nel \texttt{client\_metadata} del \textit{Request Object}. Il Wallet utilizzerà questa chiave pubblica per cifrare la propria risposta, secondo il meccanismo di \textit{Forward Secrecy\glsadd{forwardsecrecyg}}\glsfirstoccur{} descritto nella Sezione~\ref{sec:sicurezza_crittografica}.
 
-    \item \textbf{Costruzione dell'Entity Configuration} (specifico per il prefisso \texttt{openid\_federation}): il servizio assembla un JWT\glsadd{jwt} auto-firmato che descrive il Verifier nell'ecosistema federato, includendo le proprie chiavi pubbliche, gli \texttt{authority\_hints} e i metadati del Relying Party.
+    \item \textbf{Costruzione dell'Entity Configuration} (specifico per il prefisso \texttt{openid\_federation}): il servizio assembla un JWT\glsadd{jwt} auto-firmato che descrive il Verifier\glsadd{verifierg} nell'ecosistema federato, includendo le proprie chiavi pubbliche, gli \texttt{authority\_hints} e i metadati del Relying Party\glsadd{relyingpartyg}.
 
     \item \textbf{Firma digitale del JWT\glsadd{jwt}:} il servizio importa la chiave privata dal JWKS\glsadd{jwks} del client, verifica la corrispondenza tra chiave privata e certificato X.509 (se presente nell'header \texttt{x5c}), e firma il JWT\glsadd{jwt} \textit{Request Object} con l'algoritmo negoziato. Per i client \texttt{pre\_registered}, viene generato un \textit{Unsecured JWT\glsadd{jwt}} (con \texttt{alg:"none"} e firma vuota), costruito manualmente in \textit{base64url}.
 \end{enumerate}
@@ -95,7 +95,7 @@ La verifica della \textbf{firma dell'emittente} risolve la chiave pubblica dell'
 
 La verifica dei \textbf{hash delle \textit{disclosure}} è l'operazione più caratteristica del formato SD-JWT\glsadd{sdjwtg}: il servizio raccoglie ricorsivamente tutti i digest presenti negli array \texttt{\_sd} del payload JWT\glsadd{jwt} dell'Issuer, calcola l'hash \textit{base64url} di ciascuna \textit{disclosure} presentata dall'utente e verifica che il risultato sia contenuto nell'insieme dei digest autorizzati. Se una \textit{disclosure} non corrisponde ad alcun digest, l'intera presentazione viene rifiutata.
 
-La verifica del \textbf{KB-JWT\glsadd{kbjwtg}} attesta la titolarità della credenziale: il servizio importa la chiave pubblica dell'\textit{Holder} dal claim \texttt{cnf.jwk} del payload dell'Issuer e verifica la firma del KB-JWT\glsadd{kbjwtg}, controllando che l'\textit{audience} corrisponda all'identificativo del Verifier e che il \textit{nonce} corrisponda a quello generato nella fase di inizializzazione.
+La verifica del \textbf{KB-JWT\glsadd{kbjwtg}} attesta la titolarità della credenziale: il servizio importa la chiave pubblica dell'\textit{Holder} dal claim \texttt{cnf.jwk} del payload dell'Issuer e verifica la firma del KB-JWT\glsadd{kbjwtg}, controllando che l'\textit{audience} corrisponda all'identificativo del Verifier\glsadd{verifierg} e che il \textit{nonce} corrisponda a quello generato nella fase di inizializzazione.
 
 Il \texttt{PresentationValidatorService} opera a livello superiore e implementa la specifica DCQL\glsadd{dcqlg}. La validazione include:
 \begin{itemize}
@@ -139,7 +139,7 @@ if (!keyData) {
 Se un secondo tentativo di decifratura interviene durante l'elaborazione del primo, il \texttt{GETDEL} troverà il dato già cancellato e solleverà un'eccezione. Ogni chiave è inoltre protetta da un TTL\glsadd{ttl} Redis che ne garantisce l'auto-distruzione anche in assenza di un \textit{consumer}.
 
 \subsection{Verifica della corrispondenza chiave privata/certificato X.509}
-\textbf{Problema.} Per gli schemi di identificazione \texttt{x509\_san\_dns} e \texttt{x509\_hash}, il Verifier deve firmare il \textit{Request Object} con la chiave privata associata al certificato X.509 contenuto nel JWKS\glsadd{jwks}. Non esisteva alcuna garanzia automatica di corrispondenza tra la chiave privata e il certificato foglia nella catena \texttt{x5c}.
+\textbf{Problema.} Per gli schemi di identificazione \texttt{x509\_san\_dns} e \texttt{x509\_hash}, il Verifier\glsadd{verifierg} deve firmare il \textit{Request Object} con la chiave privata associata al certificato X.509 contenuto nel JWKS\glsadd{jwks}. Non esisteva alcuna garanzia automatica di corrispondenza tra la chiave privata e il certificato foglia nella catena \texttt{x5c}.
 
 \textbf{Soluzione.} Nel \texttt{RequestObjectService}, prima della firma, il servizio esegue una verifica esplicita della corrispondenza tra le coordinate della chiave privata e quelle del certificato. Per le chiavi EC, vengono confrontate le coordinate \texttt{x} e \texttt{y}; per le chiavi RSA, il modulo \texttt{n} e l'esponente \texttt{e}:
 

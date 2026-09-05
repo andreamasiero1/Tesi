@@ -22,6 +22,11 @@
 \newacronym{cicd}{CI/CD}{Continuous Integration / Continuous Delivery}
 \newacronym{haip}{HAIP}{High Assurance Interoperability Profile}
 \newacronym{crud}{CRUD}{Create, Read, Update, Delete}
+\newacronym{saas}{SaaS}{Software as a Service}
+\newacronym{dnf}{DNF}{Disjunctive Normal Form}
+\newacronym{eidas}{eIDAS}{electronic IDentification, Authentication and trust Services}
+\newacronym{oidf}{OIDF}{OpenID Foundation}
+\newacronym{mdoc}{mDoc}{Mobile Document}
 
 % --- Voci di glossario ---
 \newglossaryentry{apig}
@@ -214,4 +219,36 @@
     text=OAuth 2.0,
     sort=oauth,
     description={framework di autorizzazione standardizzato (RFC 6749) che consente a un'applicazione di terze parti di ottenere un accesso limitato a un servizio HTTP, sia per conto di un proprietario della risorsa, sia per conto proprio. OID4VP si basa sulle estensioni di questo framework}
+}
+
+\newglossaryentry{relyingpartyg}
+{
+    name=Relying Party,
+    text=Relying Party,
+    sort=relying party,
+    description={nell'ambito dell'identità digitale, è l'entità o il servizio che si affida alle credenziali presentate da un utente e verificate tramite un'infrastruttura fidata per concedere l'accesso a una risorsa o fornire un servizio}
+}
+
+\newglossaryentry{verifierg}
+{
+    name=Verifier,
+    text=Verifier,
+    sort=verifier,
+    description={sinonimo di Relying Party nell'ecosistema OID4VP. Identifica il ruolo dell'entità che richiede una presentazione verificabile (\emph{Verifiable Presentation}), ne valida l'autenticità e l'integrità crittografica prima di accettare le credenziali}
+}
+
+\newglossaryentry{digitalwalletg}
+{
+    name=Digital Wallet,
+    text=Digital Wallet,
+    sort=digital wallet,
+    description={applicazione software o servizio che consente a un utente di conservare, gestire e presentare in modo sicuro le proprie credenziali digitali (es. EUDI Wallet), agendo come tramite tra l'utente, le autorità emittenti (Issuer) e i fornitori di servizi (Verifier)}
+}
+
+\newglossaryentry{statelessg}
+{
+    name=Stateless,
+    text=stateless,
+    sort=stateless,
+    description={proprietà di un'architettura o di un protocollo di rete in cui nessuna informazione sullo stato della sessione viene conservata sul server tra una richiesta e l'altra. Eventuali dati di stato devono essere forniti dal client ad ogni richiesta o esternalizzati in un datastore condiviso}
 }

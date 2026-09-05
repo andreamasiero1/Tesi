@@ -8,16 +8,16 @@ L'obiettivo dello stage è lo sviluppo di un modulo di relying party (come defin
 \subsection{Attori del sistema}
 Gli attori rappresentano le entità (utenti fisici o sistemi esterni) che interagiscono con l'applicazione. Per il progetto sviluppato, sono stati individuati i seguenti attori principali:
 \begin{itemize}
-    \item \textbf{Relying Party:} rappresenta la componente backend del sistema che funge da entità richiedente e verificatrice delle Credenziali Verificabili. Gestisce l'intero ciclo di vita di una richiesta di presentazione: dall'inizializzazione della sessione, alla generazione del Request Object firmato crittograficamente, fino alla validazione delle presentazioni ricevute dal Wallet.
-    \item \textbf{Wallet:} rappresenta un sistema esterno,tipicamente un'app mobile o un'estensione del browser, che custodisce le Credenziali Verificabili (Verifiable Credentials) emesse da uno o più Issuer fidati e le presenta su richiesta del Verifier. Nel contesto del protocollo OID4VP\glsadd{oid4vp}, il Wallet agisce come un intermediario tecnico tra l'Utente e il Relying Party: riceve la richiesta di presentazione, la interpreta, presenta all'Utente le credenziali richieste per ottenerne il consenso, e infine assembla e trasmette la Verifiable Presentation al Backend.
-    \item \textbf{Utente finale:} è la persona fisica che interagisce con il sistema attraverso il Frontend del Relying Party e il proprio Wallet digitale. È il titolare delle Credenziali Verificabili, ovvero possiede documenti o attestazioni digitali (ad esempio un documento d'identità, una patente, un attestato professionale) emessi da Issuer fidati e memorizzati nel proprio Wallet. L'Utente rappresenta il soggetto che deve dimostrare il possesso di determinati attributi o qualifiche richieste dal servizio offerto dal Relying Party, ed è l'unico attore che può autorizzare la condivisione delle proprie credenziali.
-    \item \textbf{Amministratore:} è l'operatore o il sistema autorizzato responsabile della gestione e della configurazione dei client (Verifier) all'interno della piattaforma attraverso le API\glsadd{api} SCIM\glsadd{scimg}. Governa l'intero ciclo di vita delle istanze dei client registrati nei singoli domini, definendone e aggiornandone i parametri operativi, i vincoli crittografici, gli URI di reindirizzamento autorizzati, i formati di \textit{Verifiable Presentation} supportati e i relativi set di chiavi crittografiche (JWKS\glsadd{jwks}).
+    \item \textbf{Relying Party\glsadd{relyingpartyg}:} rappresenta la componente backend del sistema che funge da entità richiedente e verificatrice delle Credenziali Verificabili. Gestisce l'intero ciclo di vita di una richiesta di presentazione: dall'inizializzazione della sessione, alla generazione del Request Object firmato crittograficamente, fino alla validazione delle presentazioni ricevute dal Wallet.
+    \item \textbf{Wallet:} rappresenta un sistema esterno,tipicamente un'app mobile o un'estensione del browser, che custodisce le Credenziali Verificabili (Verifiable Credentials) emesse da uno o più Issuer fidati e le presenta su richiesta del Verifier\glsadd{verifierg}. Nel contesto del protocollo OID4VP\glsadd{oid4vp}, il Wallet agisce come un intermediario tecnico tra l'Utente e il Relying Party\glsadd{relyingpartyg}: riceve la richiesta di presentazione, la interpreta, presenta all'Utente le credenziali richieste per ottenerne il consenso, e infine assembla e trasmette la Verifiable Presentation al Backend.
+    \item \textbf{Utente finale:} è la persona fisica che interagisce con il sistema attraverso il Frontend del Relying Party\glsadd{relyingpartyg} e il proprio Wallet digitale. È il titolare delle Credenziali Verificabili, ovvero possiede documenti o attestazioni digitali (ad esempio un documento d'identità, una patente, un attestato professionale) emessi da Issuer fidati e memorizzati nel proprio Wallet. L'Utente rappresenta il soggetto che deve dimostrare il possesso di determinati attributi o qualifiche richieste dal servizio offerto dal Relying Party\glsadd{relyingpartyg}, ed è l'unico attore che può autorizzare la condivisione delle proprie credenziali.
+    \item \textbf{Amministratore:} è l'operatore o il sistema autorizzato responsabile della gestione e della configurazione dei client (Verifier\glsadd{verifierg}) all'interno della piattaforma attraverso le API\glsadd{api} SCIM\glsadd{scimg}. Governa l'intero ciclo di vita delle istanze dei client registrati nei singoli domini, definendone e aggiornandone i parametri operativi, i vincoli crittografici, gli URI di reindirizzamento autorizzati, i formati di \textit{Verifiable Presentation} supportati e i relativi set di chiavi crittografiche (JWKS\glsadd{jwks}).
 \end{itemize}
 
 \section{Casi d'uso}
 I diagrammi dei casi d'uso (\textit{Use Case Diagram}) costituiscono una tipologia di diagrammi UML\glsadd{uml}\glsadd{umlg}\glsfirstoccur{} (\textit{Unified Modelling Language}) finalizzata a descrivere le interazioni tra gli attori del sistema e le funzionalità che quest'ultimo è chiamato a fornire.
 
-Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativi all'integrazione del modulo Relying Party nel sistema. Ciascun caso d'uso è presentato secondo la seguente struttura standardizzata:
+Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativi all'integrazione del modulo Relying Party\glsadd{relyingpartyg} nel sistema. Ciascun caso d'uso è presentato secondo la seguente struttura standardizzata:
 \begin{itemize}
     \item \textbf{Caso d'uso:} codice identificativo e denominazione del caso d'uso;
     \item \textbf{Attori:} attori coinvolti nello scenario;
@@ -31,7 +31,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{./immagini/usecase/UC-Scenario Principale.png}    
-    \caption{Diagramma dei casi d'uso -- Scenario principale del Relying Party}
+    \caption{Diagramma dei casi d'uso -- Scenario principale del Relying Party\glsadd{relyingpartyg}}
     \label{fig:UC-Scenario Principale}
 \end{figure}
 
@@ -43,13 +43,13 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \label{fig:UC1}
 \end{figure}
 
-\noindent\textbf{Attori:} Verifier, Utente finale.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}, Utente finale.
 \\
-\textbf{Descrizione:} L'Utente finale, mediante l'interfaccia \textit{frontend} del Relying Party, avvia una nuova sessione di richiesta di presentazione di Credenziali Verificabili. Il Verifier procede alla validazione dell'identità del client precedentemente configurato, effettua — ove previsto dal \textit{Client ID Scheme} adottato — la verifica della \textit{Trust Chain\glsadd{trustchaing}}\glsfirstoccur{} (nel caso di OpenID Federation), istanzia una sessione temporanea su Redis contenente la \textit{DCQL\glsadd{dcqlg} Query}\glsfirstoccur{}, un \textit{nonce} crittografico e un identificativo univoco, e restituisce all'interfaccia \textit{frontend} un URL di autorizzazione (\texttt{authUrl}) e un identificativo di sessione (\texttt{sessionId}).
+\textbf{Descrizione:} L'Utente finale, mediante l'interfaccia \textit{frontend} del Relying Party\glsadd{relyingpartyg}, avvia una nuova sessione di richiesta di presentazione di Credenziali Verificabili. Il Verifier\glsadd{verifierg} procede alla validazione dell'identità del client precedentemente configurato, effettua — ove previsto dal \textit{Client ID Scheme} adottato — la verifica della \textit{Trust Chain\glsadd{trustchaing}}\glsfirstoccur{} (nel caso di OpenID Federation), istanzia una sessione temporanea su Redis contenente la \textit{DCQL\glsadd{dcqlg} Query}\glsfirstoccur{}, un \textit{nonce} crittografico e un identificativo univoco, e restituisce all'interfaccia \textit{frontend} un URL di autorizzazione (\texttt{authUrl}) e un identificativo di sessione (\texttt{sessionId}).
 \\
 \textbf{Precondizioni:}
 \begin{itemize}
-    \item Il client (Verifier) è stato precedentemente configurato nell'istanza MongoDB con parametri \texttt{redirectUris} e \texttt{vpFormatsSupported} validi.
+    \item Il client (Verifier\glsadd{verifierg}) è stato precedentemente configurato nell'istanza MongoDB con parametri \texttt{redirectUris} e \texttt{vpFormatsSupported} validi.
     \item Il server Redis è raggiungibile e operativo.
     \item Le variabili d'ambiente del sistema sono configurate correttamente.
     \item Qualora il prefisso del \texttt{clientId} sia \texttt{openid\_federation}, la variabile d'ambiente \texttt{VERIFIER\_ENTITY\_IDENTIFIER} deve risultare impostata e le \textit{Trusted Authorities} devono essere raggiungibili.
@@ -65,18 +65,18 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
     \item L'Utente, mediante l'interfaccia \textit{frontend}, invia una richiesta HTTP\glsadd{http}\glsfirstoccur{} \texttt{POST} all'endpoint \texttt{/init} con un payload contenente i parametri e \texttt{dcqlQuery}.
-    \item Il Verifier recupera la configurazione del client dall'istanza MongoDB tramite i parametri \texttt{domainId} e \texttt{clientId}.
-    \item Il Verifier valida il prefisso del \texttt{clientId}.
+    \item Il Verifier\glsadd{verifierg} recupera la configurazione del client dall'istanza MongoDB tramite i parametri \texttt{domainId} e \texttt{clientId}.
+    \item Il Verifier\glsadd{verifierg} valida il prefisso del \texttt{clientId}.
     \item Qualora il prefisso sia \texttt{openid\_federation}, il Client costruisce e valida la \textit{Trust Chain\glsadd{trustchaing}} verso il \textit{Trust Anchor} configurato.
-    \item Il Verifier genera un \texttt{nonce}, un \texttt{requestId}, un \texttt{transactionId} e un \texttt{sessionId}.
+    \item Il Verifier\glsadd{verifierg} genera un \texttt{nonce}, un \texttt{requestId}, un \texttt{transactionId} e un \texttt{sessionId}.
     \item La sessione viene persistita su Redis.
-    \item Il Verifier costruisce l'\texttt{authUrl}.
-    \item Il Verifier restituisce una risposta HTTP \texttt{201 Created} con payload \texttt{\{success: true, sessionId, authUrl\}}.
+    \item Il Verifier\glsadd{verifierg} costruisce l'\texttt{authUrl}.
+    \item Il Verifier\glsadd{verifierg} restituisce una risposta HTTP \texttt{201 Created} con payload \texttt{\{success: true, sessionId, authUrl\}}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
 \begin{itemize}
-    \item Qualora non risulti configurato alcun Verifier per il \texttt{domainId} fornito, il sistema solleva un'eccezione. Viene restituita una risposta HTTP \texttt{403 Forbidden}.
+    \item Qualora non risulti configurato alcun Verifier\glsadd{verifierg} per il \texttt{domainId} fornito, il sistema solleva un'eccezione. Viene restituita una risposta HTTP \texttt{403 Forbidden}.
     \item Qualora il \texttt{TrustAnchorService} non riesca a costruire la \textit{Trust Chain\glsadd{trustchaing}}, il sistema solleva un'eccezione. Viene restituita una risposta HTTP \texttt{403 Forbidden}.
     \item Qualora non sia configurato l'url per il flusso \texttt{openid\_federation}, il sistema solleva un'eccezione. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
     \item Qualora il prefisso fornito non sia valido, il sistema solleva un'eccezione. Viene restituita una risposta HTTP \texttt{501 Not Implemented}.
@@ -85,9 +85,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC1.1: Verifica dell'identità del client configurato}
 \label{uc:verifier:uc1.1}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier recupera dall'istanza MongoDB la configurazione del client associato ai parametri \texttt{domainId} e \texttt{clientId} ricevuti nella richiesta HTTP. Tale configurazione comprende i parametri necessari per l'intero flusso di presentazione: \texttt{redirectUris}, \texttt{vpFormatsSupported}, \texttt{jwks} e gli algoritmi crittografici supportati.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} recupera dall'istanza MongoDB la configurazione del client associato ai parametri \texttt{domainId} e \texttt{clientId} ricevuti nella richiesta HTTP. Tale configurazione comprende i parametri necessari per l'intero flusso di presentazione: \texttt{redirectUris}, \texttt{vpFormatsSupported}, \texttt{jwks} e gli algoritmi crittografici supportati.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -101,7 +101,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier recupera la configurazione del client dal repository MongoDB.
+    \item Il Verifier\glsadd{verifierg} recupera la configurazione del client dal repository MongoDB.
     \item L'oggetto estratto dal repository viene validato e vengono verificati i campi obbligatori.
 \end{enumerate}
 
@@ -113,9 +113,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC1.2: Validazione del prefisso di identificazione del client}
 \label{uc:verifier:uc1.2}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier effettua il \textit{parsing} e la validazione del prefisso di identificazione del client (\texttt{prefixClientId}) al fine di determinare la modalità di autenticazione del Verifier nei confronti del Wallet.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} effettua il \textit{parsing} e la validazione del prefisso di identificazione del client (\texttt{prefixClientId}) al fine di determinare la modalità di autenticazione del Verifier\glsadd{verifierg} nei confronti del Wallet.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -129,14 +129,14 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \end{itemize}
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier effettua il \textit{parsing} del valore del prefisso.
+    \item Il Verifier\glsadd{verifierg} effettua il \textit{parsing} del valore del prefisso.
     \item In base al prefisso riconosciuto, il sistema applica la corrispondente logica di validazione:
     \begin{itemize}
         \item \texttt{redirect\_uri}: il valore \texttt{clientIdValue} viene costruito concatenando il prefisso al \texttt{responseUri} nella forma \texttt{redirect\_uri:<responseUri>}. Non è richiesta la firma crittografica del \textit{Request Object}. La politica sui metadati del client è impostata a \texttt{MUST\_INCLUDE}.
         \item \texttt{x509\_san\_dns}: dal JWKS\glsadd{jwks} del client viene estratta la catena certificativa \texttt{x5c} e viene validato il certificato \textit{leaf}. È richiesta la firma crittografica. La politica sui metadati è impostata a \texttt{MUST\_INCLUDE}.
         \item \texttt{x509\_hash}: dal JWKS\glsadd{jwks} viene estratta la catena \texttt{x5c} e viene calcolato il digest SHA-256 del certificato \textit{leaf}, utilizzato come identificativo del client. È richiesta la firma crittografica. La politica sui metadati è impostata a \texttt{MUST\_INCLUDE}.
         \item \texttt{openid\_federation}: come identificativo viene adottato il valore dell'\texttt{entityIdentifier}. È richiesta la firma crittografica. I metadati del client non devono essere inclusi nella richiesta (\texttt{MUST\_EXCLUDE}).
-        \item \texttt{verifier\_attestation}: viene effettuato il \textit{parsing} del JWT\glsadd{jwt} di attestazione del Verifier, dal quale vengono estratti i claim \texttt{sub} e \texttt{cnf}. Il sistema verifica inoltre che il \texttt{responseUri} sia presente nella lista \texttt{redirect\_uris} contenuta nel JWT\glsadd{jwt}. È richiesta la firma crittografica. La politica sui metadati è impostata a \texttt{MUST\_INCLUDE}.
+        \item \texttt{verifier\_attestation}: viene effettuato il \textit{parsing} del JWT\glsadd{jwt} di attestazione del Verifier\glsadd{verifierg}, dal quale vengono estratti i claim \texttt{sub} e \texttt{cnf}. Il sistema verifica inoltre che il \texttt{responseUri} sia presente nella lista \texttt{redirect\_uris} contenuta nel JWT\glsadd{jwt}. È richiesta la firma crittografica. La politica sui metadati è impostata a \texttt{MUST\_INCLUDE}.
         \item \texttt{pre\_registered}: viene utilizzato direttamente il \texttt{clientId} già registrato nel sistema. Non è richiesta la firma crittografica. L'inclusione dei metadati è facoltativa (\texttt{NOT\_REQUIRED}).
     \end{itemize}
 \end{enumerate}
@@ -152,7 +152,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC1.3: Validazione della Trust Chain\glsadd{trustchaing}}
 \label{uc:verifier:uc1.3}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
 \noindent\textbf{Descrizione:} Qualora il prefisso di identificazione del client sia \texttt{openid\_federation}, il sistema procede alla verifica della \textit{Trust Chain\glsadd{trustchaing}} dell'OpenID Provider, preliminarmente alla generazione della sessione.
 \\
@@ -170,7 +170,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \begin{enumerate}
     \item Il sistema verifica la presenza della variabile d'ambiente \texttt{OPENID4VCI\_AUTHORIZE\_URL} e ne estrae l'\texttt{entityId} dell'OpenID Provider.
     \item Vengono estratte le \texttt{trustedAuthorities} dalla \textit{DCQL\glsadd{dcqlg} Query} fornita dall'interfaccia \textit{frontend}.
-    \item Il Verifier avvia la costruzione e la validazione della \textit{Trust Chain\glsadd{trustchaing}} per l'\texttt{entityId} dell'OpenID Provider.
+    \item Il Verifier\glsadd{verifierg} avvia la costruzione e la validazione della \textit{Trust Chain\glsadd{trustchaing}} per l'\texttt{entityId} dell'OpenID Provider.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -182,9 +182,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC1.4: Creazione della sessione temporanea su Redis}
 \label{uc:verifier:uc1.4}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier genera l'insieme degli identificativi crittografici necessari per la sessione e ne effettua la persistenza su Redis con un TTL\glsadd{ttl} (\textit{Time To Live}) configurabile.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} genera l'insieme degli identificativi crittografici necessari per la sessione e ne effettua la persistenza su Redis con un TTL\glsadd{ttl} (\textit{Time To Live}) configurabile.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -199,7 +199,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \end{itemize}
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier genera i seguenti identificativi crittografici:
+    \item Il Verifier\glsadd{verifierg} genera i seguenti identificativi crittografici:
     \begin{itemize}
         \item \texttt{requestId}: utilizzato come parametro \texttt{state} nel protocollo OID4VP\glsadd{oid4vp}.
         \item \texttt{nonce}: impiegato per la prevenzione degli attacchi di tipo \textit{replay}.
@@ -207,7 +207,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
         \item \texttt{sessionId}: restituito all'interfaccia \textit{frontend} per il successivo recupero della presentazione.
     \end{itemize}
     \item Viene istanziato l'oggetto \texttt{Session} con validazione dei campi obbligatori e verifica della conformità dei valori \texttt{nonce} e \texttt{requestId}.
-    \item Il Verifier effettua la serializzazione dell'oggetto in formato JSON e ne esegue la persistenza su Redis con il TTL\glsadd{ttl} configurato.
+    \item Il Verifier\glsadd{verifierg} effettua la serializzazione dell'oggetto in formato JSON e ne esegue la persistenza su Redis con il TTL\glsadd{ttl} configurato.
 \end{enumerate}
 \noindent\textbf{Scenario alternativo:}
 \begin{itemize}
@@ -215,9 +215,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \end{itemize}
 
 \paragraph{\large\bfseries UC1.5: Costruzione dell'Authorization URL}\mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier costruisce l'URL di autorizzazione (\texttt{authUrl}) destinato a essere restituito all'interfaccia \textit{frontend} e successivamente presentato al Wallet mediante codice QR o \textit{deep link}.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} costruisce l'URL di autorizzazione (\texttt{authUrl}) destinato a essere restituito all'interfaccia \textit{frontend} e successivamente presentato al Wallet mediante codice QR o \textit{deep link}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -243,15 +243,15 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \end{figure}
 \label{uc:verifier:uc2}
 
-\noindent\textbf{Attori:} Verifier, Wallet.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}, Wallet.
 \\
-\noindent\textbf{Descrizione:} Il Wallet dell'Utente, dopo aver acquisito l'\texttt{authUrl} mediante scansione del codice QR o attivazione del \textit{deep link}, contatta il Verifier al fine di ottenere il \textit{Request Object} completo. Il Verifier recupera la sessione associata, negozia i parametri di sicurezza con il Wallet, quali gli algoritmi di cifratura JWE\glsadd{jwe} e gli algoritmi di firma, genera eventuali chiavi crittografiche effimere, assembla il \textit{Request Object} sotto forma di JWT\glsadd{jwt} e lo restituisce al Wallet.
+\noindent\textbf{Descrizione:} Il Wallet dell'Utente, dopo aver acquisito l'\texttt{authUrl} mediante scansione del codice QR o attivazione del \textit{deep link}, contatta il Verifier\glsadd{verifierg} al fine di ottenere il \textit{Request Object} completo. Il Verifier\glsadd{verifierg} recupera la sessione associata, negozia i parametri di sicurezza con il Wallet, quali gli algoritmi di cifratura JWE\glsadd{jwe} e gli algoritmi di firma, genera eventuali chiavi crittografiche effimere, assembla il \textit{Request Object} sotto forma di JWT\glsadd{jwt} e lo restituisce al Wallet.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
     \item La sessione corrispondente al \texttt{requestId} deve risultare presente su Redis e trovarsi in stato \texttt{pending}.
     \item Il \textit{Request URI} non deve essere stato precedentemente consumato per la sessione in esame.
-    \item Il client (Verifier) deve essere configurato nell'istanza MongoDB con un JWKS\glsadd{jwks} contenente la chiave privata di firma, qualora la firma sia richiesta dal prefisso adottato.
+    \item Il client (Verifier\glsadd{verifierg}) deve essere configurato nell'istanza MongoDB con un JWKS\glsadd{jwks} contenente la chiave privata di firma, qualora la firma sia richiesta dal prefisso adottato.
 \end{itemize}
 \noindent\textbf{Postcondizioni:}
 \begin{itemize}
@@ -263,24 +263,24 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
     \item Il Wallet invia una richiesta HTTP \texttt{POST} (o \texttt{GET}) contenente, opzionalmente, i parametri \texttt{wallet\_nonce} e \texttt{wallet\_metadata} nel corpo della richiesta.
-    \item Il Verifier recupera la sessione da Redis mediante il \texttt{requestId}.
-    \item Il Verifier verifica che il \textit{Request URI} non sia stato precedentemente consumato.
-    \item Il Verifier analizza i metadati del Wallet (\texttt{wallet\_metadata}), procedendo alla negoziazione di alcuni parametri.
-    \item Qualora sia necessaria la cifratura JWE\glsadd{jwe}, il Verifier genera una coppia di chiavi effimere, persiste la chiave privata su Redis con TTL\glsadd{ttl} configurato e include la chiave pubblica nel campo \texttt{client\_metadata.jwks}.
-    \item Il Verifier assembla il payload del \textit{Request Object} conformemente alla specifica OID4VP\glsadd{oid4vp}.
-    \item Qualora il prefisso sia \texttt{openid\_federation}, il Verifier genera e firma un \textit{Entity Configuration} JWT\glsadd{jwt} con le proprie chiavi crittografiche, includendolo nel campo \texttt{trust\_chain}.
-    \item Il Verifier appone la firma crittografica al \textit{Request Object} mediante la propria chiave privata.
+    \item Il Verifier\glsadd{verifierg} recupera la sessione da Redis mediante il \texttt{requestId}.
+    \item Il Verifier\glsadd{verifierg} verifica che il \textit{Request URI} non sia stato precedentemente consumato.
+    \item Il Verifier\glsadd{verifierg} analizza i metadati del Wallet (\texttt{wallet\_metadata}), procedendo alla negoziazione di alcuni parametri.
+    \item Qualora sia necessaria la cifratura JWE\glsadd{jwe}, il Verifier\glsadd{verifierg} genera una coppia di chiavi effimere, persiste la chiave privata su Redis con TTL\glsadd{ttl} configurato e include la chiave pubblica nel campo \texttt{client\_metadata.jwks}.
+    \item Il Verifier\glsadd{verifierg} assembla il payload del \textit{Request Object} conformemente alla specifica OID4VP\glsadd{oid4vp}.
+    \item Qualora il prefisso sia \texttt{openid\_federation}, il Verifier\glsadd{verifierg} genera e firma un \textit{Entity Configuration} JWT\glsadd{jwt} con le proprie chiavi crittografiche, includendolo nel campo \texttt{trust\_chain}.
+    \item Il Verifier\glsadd{verifierg} appone la firma crittografica al \textit{Request Object} mediante la propria chiave privata.
     \item La sessione viene aggiornata impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}.
-    \item Il Verifier restituisce il JWT\glsadd{jwt} con \textit{content-type} \texttt{application/oauth-authz-req+jwt} e codice di stato HTTP \texttt{200 OK}.
+    \item Il Verifier\glsadd{verifierg} restituisce il JWT\glsadd{jwt} con \textit{content-type} \texttt{application/oauth-authz-req+jwt} e codice di stato HTTP \texttt{200 OK}.
 \end{enumerate}
 \newpage
 \noindent\textbf{Scenario alternativo:}
 \begin{itemize}
     \item Qualora la sessione associata al \texttt{requestId} non risulti presente su Redis (ad esempio per scadenza del TTL\glsadd{ttl}), il sistema restituisce una risposta HTTP \texttt{404 Not Found}.
     \item Qualora il Wallet tenti di recuperare il \textit{Request Object} per una sessione il cui \textit{Request URI} sia stato già consumato, il sistema restituisce una risposta HTTP \texttt{403 Forbidden}. Tale meccanismo previene gli attacchi di tipo \textit{replay}.
-    \item Qualora il Wallet e il Verifier non dispongano di algoritmi JWE\glsadd{jwe} comuni, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
-    \item Qualora i formati \textit{Verifiable Presentation} supportati dal Wallet non presentino alcuna intersezione con quelli del Verifier, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
-    \item Qualora l'algoritmo di firma indicato dal Wallet non sia compreso tra quelli supportati dal Verifier, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora il Wallet e il Verifier\glsadd{verifierg} non dispongano di algoritmi JWE\glsadd{jwe} comuni, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora i formati \textit{Verifiable Presentation} supportati dal Wallet non presentino alcuna intersezione con quelli del Verifier\glsadd{verifierg}, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora l'algoritmo di firma indicato dal Wallet non sia compreso tra quelli supportati dal Verifier\glsadd{verifierg}, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
     \item Qualora il prefisso richieda la firma crittografica ma il JWKS\glsadd{jwks} del client non contenga chiavi private, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
     \item Qualora la chiave privata non corrisponda al certificato \textit{leaf} nella catena \texttt{x5c}, il sistema restituisce una risposta HTTP \texttt{400 Bad Request}.
 \end{itemize}
@@ -288,9 +288,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC2.1: Recupero e validazione della sessione}
 \label{uc:verifier:uc2.1}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier, Wallet.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}, Wallet.
 \\
-\noindent\textbf{Descrizione:} Il Verifier recupera la sessione da Redis mediante il \texttt{requestId} fornito dal Wallet e ne verifica lo stato, accertando che il \textit{Request URI} non sia stato precedentemente consumato. Tale verifica è finalizzata alla prevenzione di richieste duplicate e di attacchi di tipo \textit{replay}.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} recupera la sessione da Redis mediante il \texttt{requestId} fornito dal Wallet e ne verifica lo stato, accertando che il \textit{Request URI} non sia stato precedentemente consumato. Tale verifica è finalizzata alla prevenzione di richieste duplicate e di attacchi di tipo \textit{replay}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -316,9 +316,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC2.2: Analisi dei metadati del Wallet}
 \label{uc:verifier:uc2.2}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier analizza i metadati del Wallet (\texttt{wallet\_metadata}) ricevuti nella richiesta HTTP \texttt{POST} e li confronta con la propria configurazione al fine di selezionare gli algoritmi crittografici comuni per la cifratura JWE\glsadd{jwe} della risposta, la firma del \textit{Request Object} e i formati \textit{Verifiable Presentation} supportati.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} analizza i metadati del Wallet (\texttt{wallet\_metadata}) ricevuti nella richiesta HTTP \texttt{POST} e li confronta con la propria configurazione al fine di selezionare gli algoritmi crittografici comuni per la cifratura JWE\glsadd{jwe} della risposta, la firma del \textit{Request Object} e i formati \textit{Verifiable Presentation} supportati.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -332,8 +332,8 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier effettua il \textit{parsing} dei \texttt{wallet\_metadata} (da stringa JSON o oggetto strutturato).
-    \item Qualora i metadati risultino assenti o vuoti, vengono adottati i valori predefiniti dalla configurazione del Verifier.
+    \item Il Verifier\glsadd{verifierg} effettua il \textit{parsing} dei \texttt{wallet\_metadata} (da stringa JSON o oggetto strutturato).
+    \item Qualora i metadati risultino assenti o vuoti, vengono adottati i valori predefiniti dalla configurazione del Verifier\glsadd{verifierg}.
     \item Qualora i metadati siano presenti, il sistema procede alla ricerca dell'intersezione tra gli algoritmi supportati:
     \begin{itemize}
         \item selezione dell'algoritmo \texttt{jweAlg}; qualora sia stato individuato un \texttt{jweAlg} ma non un corrispondente \texttt{enc}, viene tentato il \textit{fallback} all'algoritmo \texttt{A128GCM};
@@ -345,7 +345,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario alternativo:}
 \begin{itemize}
-    \item Qualora non esista alcun algoritmo \texttt{alg} comune tra Wallet e Verifier, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
+    \item Qualora non esista alcun algoritmo \texttt{alg} comune tra Wallet e Verifier\glsadd{verifierg}, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
     \item Qualora non esista alcun algoritmo \texttt{enc} comune, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
     \item Qualora non esista alcun algoritmo di firma comune, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
     \item Qualora non esista alcun formato \textit{Verifiable Presentation} comune, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}. Viene restituita una risposta HTTP \texttt{400 Bad Request}.
@@ -355,9 +355,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC2.3: Generazione della coppia di chiavi effimere}
 \label{uc:verifier:uc2.3}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier genera una coppia di chiavi crittografiche effimere destinate alla cifratura JWE\glsadd{jwe} della risposta del Wallet. La chiave pubblica viene inclusa nel \textit{Request Object} affinché il Wallet possa cifrare la propria risposta; la chiave privata viene persistita su Redis per consentire la successiva decifratura da parte del Verifier.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} genera una coppia di chiavi crittografiche effimere destinate alla cifratura JWE\glsadd{jwe} della risposta del Wallet. La chiave pubblica viene inclusa nel \textit{Request Object} affinché il Wallet possa cifrare la propria risposta; la chiave privata viene persistita su Redis per consentire la successiva decifratura da parte del Verifier\glsadd{verifierg}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -373,7 +373,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier determina la tipologia di chiave crittografica in funzione dell'algoritmo JWE\glsadd{jwe} negoziato.
+    \item Il Verifier\glsadd{verifierg} determina la tipologia di chiave crittografica in funzione dell'algoritmo JWE\glsadd{jwe} negoziato.
     \item La coppia di chiavi viene generata.
     \item Le chiavi vengono esportate in formato JWK\glsadd{jwk} (\textit{JSON Web Key}).
     \item La chiave privata in formato JWK\glsadd{jwk} viene serializzata in JSON e persistita su Redis con il TTL\glsadd{ttl} configurato.
@@ -387,9 +387,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC2.4: Assemblaggio del payload del Request Object}
 \label{uc:verifier:uc2.4}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier assembla il payload del \textit{Request Object} includendo tutti i parametri richiesti dalla specifica OID4VP\glsadd{oid4vp}. Il payload comprende i parametri della sessione, la \textit{DCQL\glsadd{dcqlg} Query} e, opzionalmente, i \texttt{client\_metadata}, contenenti le chiavi effimere e i formati \textit{Verifiable Presentation} supportati e il campo \texttt{trust\_chain} nel caso di OpenID Federation.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} assembla il payload del \textit{Request Object} includendo tutti i parametri richiesti dalla specifica OID4VP\glsadd{oid4vp}. Il payload comprende i parametri della sessione, la \textit{DCQL\glsadd{dcqlg} Query} e, opzionalmente, i \texttt{client\_metadata}, contenenti le chiavi effimere e i formati \textit{Verifiable Presentation} supportati e il campo \texttt{trust\_chain} nel caso di OpenID Federation.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -404,9 +404,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier compone il payload includendo i seguenti claim obbligatori:
+    \item Il Verifier\glsadd{verifierg} compone il payload includendo i seguenti claim obbligatori:
     \begin{itemize}
-        \item \texttt{iss}: identificativo del Verifier (\texttt{clientIdValue} derivato dal risultato della validazione del prefisso);
+        \item \texttt{iss}: identificativo del Verifier\glsadd{verifierg} (\texttt{clientIdValue} derivato dal risultato della validazione del prefisso);
         \item \texttt{aud}: destinatario (\textit{audience}) del token;
         \item \texttt{iat}: \textit{timestamp} di emissione;
         \item \texttt{exp}: \textit{timestamp} di scadenza;
@@ -418,20 +418,20 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
         \item \texttt{state}: corrispondente al \texttt{requestId} della sessione;
         \item \texttt{dcql\_query}: \textit{DCQL\glsadd{dcqlg} Query} serializzata.
     \end{itemize}
-    \item Il Verifier aggiunge i claim opzionali in funzione del contesto operativo:
+    \item Il Verifier\glsadd{verifierg} aggiunge i claim opzionali in funzione del contesto operativo:
     \begin{itemize}
         \item \texttt{wallet\_nonce}: incluso qualora il Wallet abbia fornito un \textit{nonce} nella richiesta HTTP \texttt{POST};
         \item \texttt{client\_metadata}: incluso qualora la \texttt{clientMetadataPolicy} sia impostata a \texttt{MUST\_INCLUDE}.
     \end{itemize}
-    \item Il Verifier costruisce l'header JWT\glsadd{jwt} con i seguenti campi: \texttt{typ} impostato a \texttt{oauth-authz-req+jwt}, \texttt{alg} corrispondente all'algoritmo di firma negoziato, e le eventuali \textit{header extensions} specifiche del prefisso.
+    \item Il Verifier\glsadd{verifierg} costruisce l'header JWT\glsadd{jwt} con i seguenti campi: \texttt{typ} impostato a \texttt{oauth-authz-req+jwt}, \texttt{alg} corrispondente all'algoritmo di firma negoziato, e le eventuali \textit{header extensions} specifiche del prefisso.
 \end{enumerate}
 
 \paragraph{\large\bfseries UC2.5: Generazione e firma del JWT\glsadd{jwt} dell'Entity Configuration}
 \label{uc:verifier:uc2.5}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Qualora il prefisso di identificazione del client sia \texttt{openid\_federation}, il Verifier genera un \textit{Entity Configuration} JWT\glsadd{jwt} firmato con le proprie chiavi crittografiche. Tale JWT\glsadd{jwt} viene incluso nel campo \texttt{trust\_chain} del payload del \textit{Request Object}, consentendo al Wallet di verificare l'identità del Verifier nell'ambito della federazione di fiducia.
+\noindent\textbf{Descrizione:} Qualora il prefisso di identificazione del client sia \texttt{openid\_federation}, il Verifier\glsadd{verifierg} genera un \textit{Entity Configuration} JWT\glsadd{jwt} firmato con le proprie chiavi crittografiche. Tale JWT\glsadd{jwt} viene incluso nel campo \texttt{trust\_chain} del payload del \textit{Request Object}, consentendo al Wallet di verificare l'identità del Verifier\glsadd{verifierg} nell'ambito della federazione di fiducia.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -446,9 +446,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \end{itemize}
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier estrae la chiave privata dal JWKS\glsadd{jwks} del client e ne deriva la corrispondente chiave pubblica.
-    \item Il Verifier assembla il payload dell'\textit{Entity Configuration} conformemente alla specifica OpenID Federation.
-    \item Il JWT\glsadd{jwt} viene firmato crittograficamente con la chiave privata del Verifier.
+    \item Il Verifier\glsadd{verifierg} estrae la chiave privata dal JWKS\glsadd{jwks} del client e ne deriva la corrispondente chiave pubblica.
+    \item Il Verifier\glsadd{verifierg} assembla il payload dell'\textit{Entity Configuration} conformemente alla specifica OpenID Federation.
+    \item Il JWT\glsadd{jwt} viene firmato crittograficamente con la chiave privata del Verifier\glsadd{verifierg}.
     \item Il JWT\glsadd{jwt} firmato viene inserito nell'array \texttt{trust\_chain} del payload del \textit{Request Object}.
 \end{enumerate}
 \noindent\textbf{Scenario alternativo:}
@@ -459,9 +459,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC2.6: Firma del Request Object}
 \label{uc:verifier:uc2.6}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier appone la firma crittografica al payload assemblato (rif.\ \ref{uc:verifier:uc2.4}) sotto forma di JWT\glsadd{jwt}, utilizzando la chiave privata del client e l'algoritmo negoziato. Per i prefissi basati su certificati X.509, viene preliminarmente verificata la corrispondenza tra la chiave privata e il certificato \textit{leaf} nella catena \texttt{x5c}. Qualora la firma non sia richiesta dal prefisso, il JWT\glsadd{jwt} viene serializzato in modalità \textit{unsigned}.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} appone la firma crittografica al payload assemblato (rif.\ \ref{uc:verifier:uc2.4}) sotto forma di JWT\glsadd{jwt}, utilizzando la chiave privata del client e l'algoritmo negoziato. Per i prefissi basati su certificati X.509, viene preliminarmente verificata la corrispondenza tra la chiave privata e il certificato \textit{leaf} nella catena \texttt{x5c}. Qualora la firma non sia richiesta dal prefisso, il JWT\glsadd{jwt} viene serializzato in modalità \textit{unsigned}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -476,7 +476,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \begin{enumerate}
     \item Qualora la firma crittografica sia richiesta (prefissi \texttt{x509\_san\_dns}, \texttt{x509\_hash}, \texttt{openid\_federation}, \texttt{verifier\_attestation}):
     \begin{itemize}
-        \item il Verifier importa la chiave privata dal JWKS\glsadd{jwks} del client;
+        \item il Verifier\glsadd{verifierg} importa la chiave privata dal JWKS\glsadd{jwks} del client;
         \item per i prefissi \texttt{x509\_san\_dns} e \texttt{x509\_hash}, il sistema verifica la corrispondenza tra la chiave privata e la chiave pubblica del certificato \textit{leaf} nella catena \texttt{x5c}.
     \end{itemize}
     \item Qualora la firma crittografica non sia richiesta (prefissi \texttt{redirect\_uri}, \texttt{pre\_registered}):
@@ -494,9 +494,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC2.7: Aggiornamento della sessione}
 \label{uc:verifier:uc2.7}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} A seguito della generazione del \textit{Request Object}, il Verifier aggiorna la sessione su Redis impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}. Tale meccanismo garantisce che il \textit{Request URI} possa essere utilizzato una sola volta, prevenendo attacchi di tipo \textit{replay} e richieste duplicate da parte del Wallet.
+\noindent\textbf{Descrizione:} A seguito della generazione del \textit{Request Object}, il Verifier\glsadd{verifierg} aggiorna la sessione su Redis impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}. Tale meccanismo garantisce che il \textit{Request URI} possa essere utilizzato una sola volta, prevenendo attacchi di tipo \textit{replay} e richieste duplicate da parte del Wallet.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -510,8 +510,8 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \end{itemize}
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier aggiorna la sessione su Redis impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}.
-    \item Il Verifier restituisce il \textit{Request Object} JWT\glsadd{jwt} al Wallet nella risposta HTTP con codice di stato \texttt{200 OK}.
+    \item Il Verifier\glsadd{verifierg} aggiorna la sessione su Redis impostando il flag \texttt{isRequestUriConsumed} al valore \texttt{true}.
+    \item Il Verifier\glsadd{verifierg} restituisce il \textit{Request Object} JWT\glsadd{jwt} al Wallet nella risposta HTTP con codice di stato \texttt{200 OK}.
 \end{enumerate}
 
 \paragraph{\large\bfseries UC3: Ricezione ed analisi della risposta del Wallet}\mbox{}
@@ -522,9 +522,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \label{fig:UC3}
 \end{figure}
 \label{uc:verifier:uc3}
-\noindent\textbf{Attori:} Verifier, Wallet.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}, Wallet.
 \\
-\noindent\textbf{Descrizione:} A seguito dell'ottenimento del consenso esplicito da parte dell'Utente, il Wallet inoltra la \textit{Verifiable Presentation} al Verifier. Quest'ultimo esegue, ove necessario, la decifratura del payload JWE\glsadd{jwe}, la validazione della firma crittografica apposta sull'\textit{Issuer} JWT\glsadd{jwt} e delle corrispondenti \textit{disclosure} SD-JWT\glsadd{sdjwtg}, la verifica del \textit{nonce} e del \textit{Key Binding} JWT\glsadd{jwt} ai fini della prevenzione di attacchi di tipo \textit{replay}, nonché il controllo di conformità rispetto ai criteri stabiliti nella \textit{DCQL\glsadd{dcqlg} Query}. Al termine del processo di validazione, il Verifier persiste il \textit{VP Token\glsadd{vptokeng}} validato su Redis all'interno di un \textit{Response Record} associato a un codice monouso (\texttt{responseCode}), restituendo al Wallet un URI di reindirizzamento che incorpora il parametro \texttt{response\_code}.
+\noindent\textbf{Descrizione:} A seguito dell'ottenimento del consenso esplicito da parte dell'Utente, il Wallet inoltra la \textit{Verifiable Presentation} al Verifier\glsadd{verifierg}. Quest'ultimo esegue, ove necessario, la decifratura del payload JWE\glsadd{jwe}, la validazione della firma crittografica apposta sull'\textit{Issuer} JWT\glsadd{jwt} e delle corrispondenti \textit{disclosure} SD-JWT\glsadd{sdjwtg}, la verifica del \textit{nonce} e del \textit{Key Binding} JWT\glsadd{jwt} ai fini della prevenzione di attacchi di tipo \textit{replay}, nonché il controllo di conformità rispetto ai criteri stabiliti nella \textit{DCQL\glsadd{dcqlg} Query}. Al termine del processo di validazione, il Verifier\glsadd{verifierg} persiste il \textit{VP Token\glsadd{vptokeng}} validato su Redis all'interno di un \textit{Response Record} associato a un codice monouso (\texttt{responseCode}), restituendo al Wallet un URI di reindirizzamento che incorpora il parametro \texttt{response\_code}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -545,30 +545,30 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \item Il Wallet trasmette una richiesta HTTP \texttt{POST} all'endpoint, includendo nel payload i parametri \texttt{vp\_token}, \texttt{state} e, in via opzionale, \texttt{presentation\_submission}.
     \item Nel caso in cui sia presente il parametro \texttt{response}:
     \begin{itemize}
-        \item il Verifier determina se il payload costituisca un token JWE\glsadd{jwe};
-        \item qualora venga identificato un token JWE\glsadd{jwe}, il Verifier recupera la chiave privata effimera da Redis tramite il \texttt{kid} specificato nell'header JWE\glsadd{jwe}, procede alla decifratura del messaggio e provvede alla rimozione immediata della chiave privata dal database;
+        \item il Verifier\glsadd{verifierg} determina se il payload costituisca un token JWE\glsadd{jwe};
+        \item qualora venga identificato un token JWE\glsadd{jwe}, il Verifier\glsadd{verifierg} recupera la chiave privata effimera da Redis tramite il \texttt{kid} specificato nell'header JWE\glsadd{jwe}, procede alla decifratura del messaggio e provvede alla rimozione immediata della chiave privata dal database;
         \item il payload decifrato viene sottoposto ad analisi sintattica (\textit{parsing}) nella forma di oggetto JSON o di token JWT\glsadd{jwt};
         \item dal payload risultante vengono estratti i parametri \texttt{state}, \texttt{vp\_token}, \texttt{error} ed \texttt{error\_description}.
     \end{itemize}
-    \item Il Verifier accerta la presenza obbligatoria del parametro \texttt{state}.
-    \item Il Verifier recupera la sessione da Redis in base al valore di \texttt{state} e ne aggiorna lo stato a \texttt{response\_received}.
-    \item Il Verifier esegue il \textit{parsing} del parametro \texttt{vp\_token}.
-    \item Il Verifier valida la conformità della presentazione rispetto ai vincoli definiti nella \textit{DCQL\glsadd{dcqlg} Query} della sessione.
+    \item Il Verifier\glsadd{verifierg} accerta la presenza obbligatoria del parametro \texttt{state}.
+    \item Il Verifier\glsadd{verifierg} recupera la sessione da Redis in base al valore di \texttt{state} e ne aggiorna lo stato a \texttt{response\_received}.
+    \item Il Verifier\glsadd{verifierg} esegue il \textit{parsing} del parametro \texttt{vp\_token}.
+    \item Il Verifier\glsadd{verifierg} valida la conformità della presentazione rispetto ai vincoli definiti nella \textit{DCQL\glsadd{dcqlg} Query} della sessione.
     \item Nel caso in cui sia presente il \textit{Key Binding} JWT\glsadd{jwt} (KB-JWT\glsadd{kbjwtg}):
     \begin{itemize}
         \item viene verificata la firma del KB-JWT\glsadd{kbjwtg} mediante la chiave pubblica dell'\textit{Issuer} JWT\glsadd{jwt};
         \item viene accertato che il parametro \texttt{nonce} contenuto nel KB-JWT\glsadd{kbjwtg} coincida con il \textit{nonce} della sessione, al fine di garantire la protezione contro attacchi di tipo \textit{replay};
-        \item viene verificato che il claim \texttt{aud} (\textit{audience}) corrisponda al \texttt{clientIdValue} del Verifier;
+        \item viene verificato che il claim \texttt{aud} (\textit{audience}) corrisponda al \texttt{clientIdValue} del Verifier\glsadd{verifierg};
         \item viene controllato che il claim \texttt{sd\_hash} presente nel KB-JWT\glsadd{kbjwtg} corrisponda al digest calcolato sulla presentazione SD-JWT\glsadd{sdjwtg}.
     \end{itemize}
     \item Nel caso in cui sia prescritto l'obbligo di \textit{Holder Binding} crittografico ma il KB-JWT\glsadd{kbjwtg} risulti assente, il sistema genera un'eccezione.
-    \item Il Verifier istanzia su Redis un \texttt{ResponseRecord} contenente il \textit{VP Token\glsadd{vptokeng}} validato e il codice \texttt{responseCode} generato.
-    \item Il Verifier restituisce una risposta HTTP \texttt{200 OK} il cui payload JSON contiene il parametro \texttt{redirect\_uri}.
+    \item Il Verifier\glsadd{verifierg} istanzia su Redis un \texttt{ResponseRecord} contenente il \textit{VP Token\glsadd{vptokeng}} validato e il codice \texttt{responseCode} generato.
+    \item Il Verifier\glsadd{verifierg} restituisce una risposta HTTP \texttt{200 OK} il cui payload JSON contiene il parametro \texttt{redirect\_uri}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
 \begin{itemize}
-    \item Nel caso in cui il Wallet notifichi una condizione di errore mediante il parametro \texttt{error} in luogo del \texttt{vp\_token}, il Verifier recupera la sessione tramite lo \texttt{state}, ne imposta lo stato a \texttt{failed} e restituisce un \texttt{redirect\_uri} contenente i parametri di errore.
+    \item Nel caso in cui il Wallet notifichi una condizione di errore mediante il parametro \texttt{error} in luogo del \texttt{vp\_token}, il Verifier\glsadd{verifierg} recupera la sessione tramite lo \texttt{state}, ne imposta lo stato a \texttt{failed} e restituisce un \texttt{redirect\_uri} contenente i parametri di errore.
     \item Nel caso in cui la sessione non risulti presente su Redis o non si trovi nello stato \texttt{pending}, il sistema solleva un'eccezione di tipo \texttt{NotFoundError}.
     \item Nel caso in cui il parametro obbligatorio \texttt{state} risulti assente dalla risposta, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
     \item Nel caso in cui risultino assenti sia il parametro \texttt{vp\_token} sia il parametro \texttt{error}, il sistema solleva un'eccezione di tipo \texttt{InvalidValueError}.
@@ -584,26 +584,26 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.1: Trasmissione della Verifiable Presentation}
 \label{uc:verifier:uc3.1}
 \mbox{}\\
-\noindent\textbf{Attori:} Wallet, Verifier.
+\noindent\textbf{Attori:} Wallet, Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Wallet inoltra al Verifier la risposta contenente la \textit{Verifiable Presentation} mediante una richiesta HTTP \texttt{POST} all'endpoint designato. La trasmissione può avvenire secondo la modalità \texttt{direct\_post}, con parametri nel corpo della richiesta, oppure secondo la modalità \texttt{direct\_post.jwt}, in cui un parametro \texttt{response} contiene un token JWT\glsadd{jwt} o un token JWE\glsadd{jwe} cifrato che incapsula i parametri della risposta. Il payload comprende il parametro \texttt{state}, preposto alla correlazione della risposta con la sessione di origine, il \textit{VP Token\glsadd{vptokeng}}, costituito dalle credenziali verificabili oggetto di presentazione, oppure, in caso di esito negativo, i relativi codici di errore.
+\noindent\textbf{Descrizione:} Il Wallet inoltra al Verifier\glsadd{verifierg} la risposta contenente la \textit{Verifiable Presentation} mediante una richiesta HTTP \texttt{POST} all'endpoint designato. La trasmissione può avvenire secondo la modalità \texttt{direct\_post}, con parametri nel corpo della richiesta, oppure secondo la modalità \texttt{direct\_post.jwt}, in cui un parametro \texttt{response} contiene un token JWT\glsadd{jwt} o un token JWE\glsadd{jwe} cifrato che incapsula i parametri della risposta. Il payload comprende il parametro \texttt{state}, preposto alla correlazione della risposta con la sessione di origine, il \textit{VP Token\glsadd{vptokeng}}, costituito dalle credenziali verificabili oggetto di presentazione, oppure, in caso di esito negativo, i relativi codici di errore.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
     \item Il Wallet ha ricevuto e processato il \textit{Request Object} (rif.\ \ref{uc:verifier:uc2.1}).
     \item L'Utente ha autorizzato la condivisione delle credenziali richieste attraverso l'interfaccia del Wallet.
-    \item L'endpoint del Verifier è raggiungibile e operativo.
+    \item L'endpoint del Verifier\glsadd{verifierg} è raggiungibile e operativo.
 \end{itemize}
 \noindent\textbf{Postcondizioni:}
 \begin{itemize}
-    \item La richiesta HTTP \texttt{POST} è stata ricevuta dal Verifier unitamente al corpo contenente i dati della presentazione.
+    \item La richiesta HTTP \texttt{POST} è stata ricevuta dal Verifier\glsadd{verifierg} unitamente al corpo contenente i dati della presentazione.
 \end{itemize}
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
     \item Il Wallet compone il corpo della richiesta includendo i parametri \texttt{state}, corrispondente al \texttt{requestId} ricevuto nel \textit{Request Object}, e \texttt{vp\_token}, oggetto JSON contenente le presentazioni in formato SD-JWT\glsadd{sdjwtg}.
     \item Nel caso in cui la modalità negoziata sia \texttt{direct\_post.jwt} e il Wallet supporti la cifratura, i parametri vengono incapsulati all'interno di un token JWE\glsadd{jwe} cifrato con la chiave pubblica effimera fornita nel \textit{Request Object}.
-    \item Il Wallet trasmette la richiesta HTTP \texttt{POST} all'endpoint specificato nel parametro \texttt{response\_uri} del Verifier.
+    \item Il Wallet trasmette la richiesta HTTP \texttt{POST} all'endpoint specificato nel parametro \texttt{response\_uri} del Verifier\glsadd{verifierg}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -614,9 +614,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.2: Estrazione del payload dalla risposta}
 \label{uc:verifier:uc3.2}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier esamina il corpo della richiesta HTTP \texttt{POST} pervenuta dal Wallet allo scopo di estrarre i parametri rilevanti (\texttt{state}, \texttt{vp\_token}, \texttt{error}, \texttt{error\_description}).
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} esamina il corpo della richiesta HTTP \texttt{POST} pervenuta dal Wallet allo scopo di estrarre i parametri rilevanti (\texttt{state}, \texttt{vp\_token}, \texttt{error}, \texttt{error\_description}).
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -629,11 +629,11 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier accerta la presenza del parametro \texttt{response} nel corpo della richiesta HTTP.
+    \item Il Verifier\glsadd{verifierg} accerta la presenza del parametro \texttt{response} nel corpo della richiesta HTTP.
     \item Nel caso in cui il parametro \texttt{response} sia assente (modalità \texttt{direct\_post}), i parametri \texttt{state}, \texttt{vp\_token}, \texttt{error} ed \texttt{error\_description} vengono acquisiti direttamente dal corpo della richiesta.
     \item Nel caso in cui il parametro \texttt{response} sia presente (modalità \texttt{direct\_post.jwt}):
     \begin{itemize}
-        \item il Verifier determina se il valore costituisca un token JWE\glsadd{jwe}; in caso affermativo, invoca la procedura di decifratura (rif.\ \ref{uc:verifier:uc3.3});
+        \item il Verifier\glsadd{verifierg} determina se il valore costituisca un token JWE\glsadd{jwe}; in caso affermativo, invoca la procedura di decifratura (rif.\ \ref{uc:verifier:uc3.3});
         \item la stringa in chiaro risultante viene sottoposta ad analisi sintattica, dapprima come oggetto JSON e, in caso di mancata corrispondenza, come token JWT\glsadd{jwt};
         \item i parametri \texttt{state}, \texttt{vp\_token}, \texttt{error} ed \texttt{error\_description} vengono estratti dal payload decodificato.
     \end{itemize}
@@ -648,9 +648,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.3: Decifratura del JWE\glsadd{jwe}}
 \label{uc:verifier:uc3.3}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier esegue la decifratura del token JWE\glsadd{jwe} in formato compatto contenuto nel campo \texttt{response}, impiegando la chiave privata effimera generata nel caso d'uso UC2.3 (rif.\ \ref{uc:verifier:uc2.3}) e precedentemente persistita su Redis. Al fine di preservare la proprietà di \textit{forward secrecy}, la chiave viene rimossa da Redis in modo atomico contestualmente al suo recupero.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} esegue la decifratura del token JWE\glsadd{jwe} in formato compatto contenuto nel campo \texttt{response}, impiegando la chiave privata effimera generata nel caso d'uso UC2.3 (rif.\ \ref{uc:verifier:uc2.3}) e precedentemente persistita su Redis. Al fine di preservare la proprietà di \textit{forward secrecy}, la chiave viene rimossa da Redis in modo atomico contestualmente al suo recupero.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -665,8 +665,8 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier decodifica l'header protetto del JWE\glsadd{jwe} ed estrae il parametro \texttt{kid}.
-    \item Il Verifier recupera la chiave privata effimera da Redis, acquisendone il valore e rimuovendola contestualmente dal datastore.
+    \item Il Verifier\glsadd{verifierg} decodifica l'header protetto del JWE\glsadd{jwe} ed estrae il parametro \texttt{kid}.
+    \item Il Verifier\glsadd{verifierg} recupera la chiave privata effimera da Redis, acquisendone il valore e rimuovendola contestualmente dal datastore.
     \item La chiave privata viene importata nel formato crittografico appropriato.
     \item Il token JWE\glsadd{jwe} viene sottoposto a decifratura.
     \item Il payload in chiaro viene decodificato come stringa.
@@ -682,9 +682,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.4: Recupero e aggiornamento della sessione su Redis}
 \label{uc:verifier:uc3.4}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier recupera la sessione da Redis mediante il valore di \texttt{state}, corrispondente al \texttt{requestId}, estratto dal payload della risposta, e ne aggiorna lo stato in modo atomico da \texttt{pending} a \texttt{response\_received}. Tale transizione atomica garantisce che per ciascuna sessione attiva possa essere accettata ed elaborata una sola risposta.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} recupera la sessione da Redis mediante il valore di \texttt{state}, corrispondente al \texttt{requestId}, estratto dal payload della risposta, e ne aggiorna lo stato in modo atomico da \texttt{pending} a \texttt{response\_received}. Tale transizione atomica garantisce che per ciascuna sessione attiva possa essere accettata ed elaborata una sola risposta.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -699,9 +699,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier accerta atomicamente che la sessione si trovi nello stato \texttt{pending} e ne aggiorna lo stato a \texttt{response\_received}.
-    \item Il Verifier recupera la configurazione del client dall'istanza MongoDB sulla base dei parametri \texttt{domainId} e \texttt{clientId} associati alla sessione.
-    \item Il Verifier ricalcola i parametri di identificazione del client a partire dal \texttt{prefixClientId} della sessione, necessari per le successive verifiche di \textit{audience} del \textit{Key Binding} JWT\glsadd{jwt}.
+    \item Il Verifier\glsadd{verifierg} accerta atomicamente che la sessione si trovi nello stato \texttt{pending} e ne aggiorna lo stato a \texttt{response\_received}.
+    \item Il Verifier\glsadd{verifierg} recupera la configurazione del client dall'istanza MongoDB sulla base dei parametri \texttt{domainId} e \texttt{clientId} associati alla sessione.
+    \item Il Verifier\glsadd{verifierg} ricalcola i parametri di identificazione del client a partire dal \texttt{prefixClientId} della sessione, necessari per le successive verifiche di \textit{audience} del \textit{Key Binding} JWT\glsadd{jwt}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -713,9 +713,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.5: Parsing e validazione strutturale del VP Token\glsadd{vptokeng}}
 \label{uc:verifier:uc3.5}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier esegue il \textit{parsing} del parametro \texttt{vp\_token} ricevuto dal Wallet e ne verifica la conformità strutturale. Il \textit{VP Token\glsadd{vptokeng}} deve essere rappresentato come un oggetto JSON le cui chiavi corrispondono agli identificativi delle query di credenziale (\texttt{credentialQueryId}) specificati nella \textit{DCQL\glsadd{dcqlg} Query}, e i cui valori sono costituiti da array di stringhe rappresentanti le credenziali in formato SD-JWT\glsadd{sdjwtg}.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} esegue il \textit{parsing} del parametro \texttt{vp\_token} ricevuto dal Wallet e ne verifica la conformità strutturale. Il \textit{VP Token\glsadd{vptokeng}} deve essere rappresentato come un oggetto JSON le cui chiavi corrispondono agli identificativi delle query di credenziale (\texttt{credentialQueryId}) specificati nella \textit{DCQL\glsadd{dcqlg} Query}, e i cui valori sono costituiti da array di stringhe rappresentanti le credenziali in formato SD-JWT\glsadd{sdjwtg}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -729,7 +729,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier avvia l'analisi sintattica del parametro \texttt{vp\_token}.
+    \item Il Verifier\glsadd{verifierg} avvia l'analisi sintattica del parametro \texttt{vp\_token}.
     \item Nel caso in cui il parametro \texttt{vp\_token} sia fornito come stringa, ne viene eseguito il \textit{parsing} JSON.
     \item Il sistema verifica che la struttura risultante costituisca un oggetto valido.
     \item Per ciascuna voce dell'oggetto, il sistema accerta che il valore associato sia un array non vuoto di stringhe.
@@ -744,9 +744,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.6: Validazione dell'Holder Binding}
 \label{uc:verifier:uc3.6}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier verifica che il soggetto presentatore della credenziale (\textit{Holder}) dimostri il legittimo possesso della chiave privata associata alla credenziale medesima, prevenendo in tal modo l'utilizzo fraudolento di credenziali sottratte o illecitamente duplicate.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} verifica che il soggetto presentatore della credenziale (\textit{Holder}) dimostri il legittimo possesso della chiave privata associata alla credenziale medesima, prevenendo in tal modo l'utilizzo fraudolento di credenziali sottratte o illecitamente duplicate.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -757,15 +757,15 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \begin{itemize}
     \item La firma crittografica del \textit{Key Binding} JWT\glsadd{jwt} è stata verificata mediante la chiave pubblica dell'\textit{Holder}.
     \item Il parametro \texttt{nonce} contenuto nel KB-JWT\glsadd{kbjwtg} corrisponde al \textit{nonce} della sessione attiva.
-    \item Il claim \texttt{aud} (\textit{audience}) nel KB-JWT\glsadd{kbjwtg} corrisponde al \texttt{clientIdValue} del Verifier.
+    \item Il claim \texttt{aud} (\textit{audience}) nel KB-JWT\glsadd{kbjwtg} corrisponde al \texttt{clientIdValue} del Verifier\glsadd{verifierg}.
     \item Il digest \texttt{sd\_hash} presente nel KB-JWT\glsadd{kbjwtg} coincide con l'hash calcolato sulla presentazione SD-JWT\glsadd{sdjwtg}.
 \end{itemize}
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
     \item Il sistema estrae la chiave pubblica dell'\textit{Holder} dal claim \texttt{cnf.jwk} contenuto nel payload dell'\textit{Issuer} JWT\glsadd{jwt}.
-    \item Viene verificata la firma crittografica del KB-JWT\glsadd{kbjwtg}, accertando contestualmente che il claim \textit{audience} corrisponda al \texttt{clientIdValue} atteso del Verifier e che l'età del token non ecceda la soglia configurata.
-    \item Il Verifier confronta il valore di \texttt{nonce} presente nel payload del KB-JWT\glsadd{kbjwtg} con il \textit{nonce} registrato nella sessione corrente.
+    \item Viene verificata la firma crittografica del KB-JWT\glsadd{kbjwtg}, accertando contestualmente che il claim \textit{audience} corrisponda al \texttt{clientIdValue} atteso del Verifier\glsadd{verifierg} e che l'età del token non ecceda la soglia configurata.
+    \item Il Verifier\glsadd{verifierg} confronta il valore di \texttt{nonce} presente nel payload del KB-JWT\glsadd{kbjwtg} con il \textit{nonce} registrato nella sessione corrente.
     \item Viene calcolato il digest \texttt{sd\_hash} della presentazione e confrontato con il corrispondente claim \texttt{sd\_hash} dichiarato nel KB-JWT\glsadd{kbjwtg}.
 \end{enumerate}
 
@@ -781,9 +781,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.7: Validazione della completezza rispetto alla DCQL\glsadd{dcqlg} Query}
 \label{uc:verifier:uc3.7}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier accerta che il \textit{VP Token\glsadd{vptokeng}} includa l'insieme completo delle credenziali richieste dalla \textit{DCQL\glsadd{dcqlg} Query}, nel rispetto dei vincoli relativi alle credenziali obbligatorie. Viene inoltre verificato il vincolo di molteplicità (\texttt{multiple}), assicurando che il numero di presentazioni fornite per ciascuna query sia conforme a quanto stabilito.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} accerta che il \textit{VP Token\glsadd{vptokeng}} includa l'insieme completo delle credenziali richieste dalla \textit{DCQL\glsadd{dcqlg} Query}, nel rispetto dei vincoli relativi alle credenziali obbligatorie. Viene inoltre verificato il vincolo di molteplicità (\texttt{multiple}), assicurando che il numero di presentazioni fornite per ciascuna query sia conforme a quanto stabilito.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -797,7 +797,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item In assenza di \texttt{credentialSets}: il Verifier verifica che ciascun \texttt{credentialQueryId} specificato nella query di credenziale sia presente all'interno del \textit{VP Token\glsadd{vptokeng}}.
+    \item In assenza di \texttt{credentialSets}: il Verifier\glsadd{verifierg} verifica che ciascun \texttt{credentialQueryId} specificato nella query di credenziale sia presente all'interno del \textit{VP Token\glsadd{vptokeng}}.
     \item In presenza di \texttt{credentialSets}: per ciascun insieme contrassegnato come obbligatorio, il sistema accerta che almeno un'opzione alternativa risulti integralmente soddisfatta nel \textit{VP Token\glsadd{vptokeng}}.
     \item Per ciascuna voce del \textit{VP Token\glsadd{vptokeng}}, nel caso in cui la corrispondente query di credenziale non consenta presentazioni multiple, il sistema verifica che l'array contenga esattamente una singola presentazione.
 \end{enumerate}
@@ -812,9 +812,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.8: Verifica crittografica della presentazione SD-JWT\glsadd{sdjwtg}}
 \label{uc:verifier:uc3.8}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Per ciascuna presentazione SD-JWT\glsadd{sdjwtg} contenuta nel \textit{VP Token\glsadd{vptokeng}}, il Verifier conduce una verifica crittografica esaustiva: esegue il \textit{parsing} della struttura SD-JWT\glsadd{sdjwtg}, risolve la chiave pubblica dell'\textit{Issuer}, valida la firma crittografica dell'\textit{Issuer} JWT\glsadd{jwt} e verifica l'integrità delle \textit{Selective Disclosure}.
+\noindent\textbf{Descrizione:} Per ciascuna presentazione SD-JWT\glsadd{sdjwtg} contenuta nel \textit{VP Token\glsadd{vptokeng}}, il Verifier\glsadd{verifierg} conduce una verifica crittografica esaustiva: esegue il \textit{parsing} della struttura SD-JWT\glsadd{sdjwtg}, risolve la chiave pubblica dell'\textit{Issuer}, valida la firma crittografica dell'\textit{Issuer} JWT\glsadd{jwt} e verifica l'integrità delle \textit{Selective Disclosure}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -829,7 +829,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier scompone la presentazione SD-JWT\glsadd{sdjwtg} nei suoi elementi costitutivi: \textit{Issuer} JWT\glsadd{jwt}, array delle \textit{disclosure} e, ove presente, \textit{Key Binding} JWT\glsadd{jwt}.
+    \item Il Verifier\glsadd{verifierg} scompone la presentazione SD-JWT\glsadd{sdjwtg} nei suoi elementi costitutivi: \textit{Issuer} JWT\glsadd{jwt}, array delle \textit{disclosure} e, ove presente, \textit{Key Binding} JWT\glsadd{jwt}.
     \item Risoluzione della chiave pubblica dell'\textit{Issuer}:
     \begin{itemize}
         \item nel caso in cui siano state configurate delle \textit{trusted authorities}, la chiave pubblica viene risolta mediante la verifica della \textit{Trust Chain\glsadd{trustchaing}};
@@ -857,9 +857,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.9: Validazione dei criteri delle credenziali (VCT e claim)}
 \label{uc:verifier:uc3.9}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier accerta che le credenziali presentate soddisfino i criteri specificati nella \textit{DCQL\glsadd{dcqlg} Query}: il tipo di credenziale (\textit{Verifiable Credential Type}, \texttt{vct}) deve risultare conforme ai valori attesi, e i claim richiesti devono essere presenti e assumere esclusivamente i valori consentiti.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} accerta che le credenziali presentate soddisfino i criteri specificati nella \textit{DCQL\glsadd{dcqlg} Query}: il tipo di credenziale (\textit{Verifiable Credential Type}, \texttt{vct}) deve risultare conforme ai valori attesi, e i claim richiesti devono essere presenti e assumere esclusivamente i valori consentiti.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -891,9 +891,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC3.10: Creazione e persistenza del Response Record}
 \label{uc:verifier:uc3.10}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} A seguito del completamento con esito positivo di tutte le verifiche crittografiche e strutturali sulla presentazione, il Verifier genera un \textit{Response Record}, lo persiste su Redis unitamente al \textit{VP Token\glsadd{vptokeng}} validato e a un identificativo monouso (\texttt{responseCode}), e compone l'URI di reindirizzamento da restituire al Wallet nella risposta HTTP.
+\noindent\textbf{Descrizione:} A seguito del completamento con esito positivo di tutte le verifiche crittografiche e strutturali sulla presentazione, il Verifier\glsadd{verifierg} genera un \textit{Response Record}, lo persiste su Redis unitamente al \textit{VP Token\glsadd{vptokeng}} validato e a un identificativo monouso (\texttt{responseCode}), e compone l'URI di reindirizzamento da restituire al Wallet nella risposta HTTP.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -912,7 +912,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \item Il componente \texttt{SessionService} genera un codice crittografico casuale \texttt{responseCode}.
     \item Viene istanziato un oggetto \texttt{ResponseRecord} contenente i seguenti parametri: \texttt{vpToken}, \texttt{responseCode}, stato impostato a \texttt{pending\_fetch} e \texttt{transactionId}.
     \item Il record viene persistito su Redis con il valore di TTL\glsadd{ttl} configurato.
-    \item Il Verifier compone il parametro \texttt{redirect\_uri} e lo restituisce al Wallet all'interno del payload della risposta HTTP con codice di stato \texttt{200 OK}.
+    \item Il Verifier\glsadd{verifierg} compone il parametro \texttt{redirect\_uri} e lo restituisce al Wallet all'interno del payload della risposta HTTP con codice di stato \texttt{200 OK}.
 \end{enumerate}
 
 \paragraph{\large\bfseries UC4: Recupero della presentazione (fetch)}
@@ -924,34 +924,34 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \caption{UC4 -- Recupero della presentazione (fetch)}
     \label{fig:UC4}
 \end{figure}
-\noindent\textbf{Attori:} RP Frontend, Verifier.
+\noindent\textbf{Attori:} RP Frontend, Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} L'interfaccia \textit{frontend} del Relying Party, a seguito del reindirizzamento operato dal Wallet e recante il parametro \texttt{response\_code}, trasmette una richiesta al Verifier finalizzata al recupero dei dati relativi alle credenziali verificate dell'Utente. Il Verifier accerta la validità del \texttt{responseCode}, restituisce il \textit{VP Token\glsadd{vptokeng}} e provvede alla rimozione contestuale della sessione e del \textit{Response Record} dall'istanza Redis, garantendo la natura monouso dell'operazione di recupero.
+\noindent\textbf{Descrizione:} L'interfaccia \textit{frontend} del Relying Party\glsadd{relyingpartyg}, a seguito del reindirizzamento operato dal Wallet e recante il parametro \texttt{response\_code}, trasmette una richiesta al Verifier\glsadd{verifierg} finalizzata al recupero dei dati relativi alle credenziali verificate dell'Utente. Il Verifier\glsadd{verifierg} accerta la validità del \texttt{responseCode}, restituisce il \textit{VP Token\glsadd{vptokeng}} e provvede alla rimozione contestuale della sessione e del \textit{Response Record} dall'istanza Redis, garantendo la natura monouso dell'operazione di recupero.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
-    \item Il \textit{frontend} del Relying Party è in possesso del parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.4}) e del parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
+    \item Il \textit{frontend} del Relying Party\glsadd{relyingpartyg} è in possesso del parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.4}) e del parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
     \item La sessione associata al \texttt{sessionId} risulta presente nell'istanza Redis.
     \item Il \texttt{ResponseRecord} associato è presente su Redis e non risulta precedentemente consumato, trovandosi nello stato \texttt{pending\_fetch}.
     \item Il parametro \texttt{responseCode} corrisponde a quello generato e persistito dal sistema.
 \end{itemize}
 \noindent\textbf{Postcondizioni:}
 \begin{itemize}
-    \item Il \textit{frontend} del Relying Party ha ricevuto il \textit{VP Token\glsadd{vptokeng}} contenente le credenziali verificate dell'Utente.
+    \item Il \textit{frontend} del Relying Party\glsadd{relyingpartyg} ha ricevuto il \textit{VP Token\glsadd{vptokeng}} contenente le credenziali verificate dell'Utente.
     \item Lo stato della sessione è stato aggiornato a \texttt{completed}.
     \item La sessione e il \texttt{ResponseRecord} sono stati eliminati dall'istanza Redis.
 \end{itemize}
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Wallet effettua il reindirizzamento verso il \textit{frontend} del Relying Party, trasmettendo il parametro \texttt{response\_code} come frammento dell'URI.
+    \item Il Wallet effettua il reindirizzamento verso il \textit{frontend} del Relying Party\glsadd{relyingpartyg}, trasmettendo il parametro \texttt{response\_code} come frammento dell'URI.
     \item Il \textit{frontend} trasmette una richiesta HTTP \texttt{POST} all'endpoint, includendo nel payload i parametri \texttt{sessionId} e \texttt{responseCode}.
-    \item Il Verifier recupera la sessione e il \texttt{ResponseRecord} dall'istanza Redis.
-    \item Il Verifier accerta che il parametro \texttt{responseCode} fornito corrisponda a quello registrato nel \texttt{ResponseRecord}.
-    \item Il Verifier verifica che il \texttt{ResponseRecord} non sia stato precedentemente consumato.
+    \item Il Verifier\glsadd{verifierg} recupera la sessione e il \texttt{ResponseRecord} dall'istanza Redis.
+    \item Il Verifier\glsadd{verifierg} accerta che il parametro \texttt{responseCode} fornito corrisponda a quello registrato nel \texttt{ResponseRecord}.
+    \item Il Verifier\glsadd{verifierg} verifica che il \texttt{ResponseRecord} non sia stato precedentemente consumato.
     \item Lo stato della sessione viene aggiornato a \texttt{completed}.
     \item La sessione e il \texttt{ResponseRecord} vengono rimossi dall'istanza Redis.
-    \item Il Verifier restituisce il \texttt{vpToken} al \textit{frontend} all'interno di una risposta HTTP con codice di stato \texttt{200 OK}.
+    \item Il Verifier\glsadd{verifierg} restituisce il \texttt{vpToken} al \textit{frontend} all'interno di una risposta HTTP con codice di stato \texttt{200 OK}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -965,26 +965,26 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC4.1: Trasmissione della richiesta di recupero}
 \label{uc:verifier:uc4.1}
 \mbox{}\\
-\noindent\textbf{Attori:} Utente (tramite RP Frontend), Verifier.
+\noindent\textbf{Attori:} Utente (tramite RP Frontend), Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} L'Utente, per il tramite dell'interfaccia \textit{frontend} del Relying Party, inoltra una richiesta HTTP \texttt{POST} all'endpoint del Verifier al fine di acquisire le credenziali verificate. La richiesta comprende il parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.4}) e il parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
+\noindent\textbf{Descrizione:} L'Utente, per il tramite dell'interfaccia \textit{frontend} del Relying Party\glsadd{relyingpartyg}, inoltra una richiesta HTTP \texttt{POST} all'endpoint del Verifier\glsadd{verifierg} al fine di acquisire le credenziali verificate. La richiesta comprende il parametro \texttt{sessionId} (rif.\ \ref{uc:verifier:uc1.4}) e il parametro \texttt{responseCode} (rif.\ \ref{uc:verifier:uc3}).
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
     \item L'Utente è in possesso del parametro \texttt{sessionId} generato in fase di inizializzazione della richiesta di presentazione (rif.\ \ref{uc:verifier:uc1.4}).
     \item Il Wallet ha completato la procedura di presentazione (rif.\ \ref{uc:verifier:uc3}) e il \textit{frontend} ha acquisito il parametro \texttt{responseCode} dall'URI di reindirizzamento.
-    \item L'endpoint di \textit{fetch} del Verifier è raggiungibile e operativo.
+    \item L'endpoint di \textit{fetch} del Verifier\glsadd{verifierg} è raggiungibile e operativo.
 \end{itemize}
 \noindent\textbf{Postcondizioni:}
 \begin{itemize}
-    \item La richiesta HTTP \texttt{POST} è stata ricevuta dal Verifier unitamente al payload contenente i parametri \texttt{sessionId} e \texttt{responseCode}.
+    \item La richiesta HTTP \texttt{POST} è stata ricevuta dal Verifier\glsadd{verifierg} unitamente al payload contenente i parametri \texttt{sessionId} e \texttt{responseCode}.
 \end{itemize}
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il \textit{frontend} del Relying Party estrae il parametro \texttt{responseCode} dal frammento dell'URI di reindirizzamento.
+    \item Il \textit{frontend} del Relying Party\glsadd{relyingpartyg} estrae il parametro \texttt{responseCode} dal frammento dell'URI di reindirizzamento.
     \item Viene composto il corpo della richiesta HTTP \texttt{POST}, includendo i campi \texttt{sessionId} e \texttt{responseCode}.
-    \item Il \textit{frontend} inoltra la richiesta all'endpoint di \textit{fetch} del Verifier.
+    \item Il \textit{frontend} inoltra la richiesta all'endpoint di \textit{fetch} del Verifier\glsadd{verifierg}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -995,13 +995,13 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC4.2: Validazione del Response Code}
 \label{uc:verifier:uc4.2}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier accerta che il codice monouso \texttt{responseCode} trasmesso dal \textit{frontend} corrisponda esattamente a quello registrato nel \textit{Response Record} associato alla sessione e che tale record non sia stato precedentemente consumato, prevenendo eventuali tentativi di riutilizzo o di enumerazione dei codici di risposta.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} accerta che il codice monouso \texttt{responseCode} trasmesso dal \textit{frontend} corrisponda esattamente a quello registrato nel \textit{Response Record} associato alla sessione e che tale record non sia stato precedentemente consumato, prevenendo eventuali tentativi di riutilizzo o di enumerazione dei codici di risposta.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
-    \item Il Verifier ha ricevuto la richiesta di \textit{fetch} contenente i parametri \texttt{sessionId} e \texttt{responseCode} (rif.\ \ref{uc:verifier:uc4.1}).
+    \item Il Verifier\glsadd{verifierg} ha ricevuto la richiesta di \textit{fetch} contenente i parametri \texttt{sessionId} e \texttt{responseCode} (rif.\ \ref{uc:verifier:uc4.1}).
     \item La sessione e il corrispondente \texttt{ResponseRecord} risultano presenti nell'istanza Redis.
 \end{itemize}
 \noindent\textbf{Postcondizioni:}
@@ -1011,10 +1011,10 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier recupera la sessione dall'istanza Redis mediante il parametro \texttt{sessionId}.
-    \item Il Verifier recupera il \texttt{ResponseRecord} da Redis tramite il \texttt{transactionId} associato alla sessione.
+    \item Il Verifier\glsadd{verifierg} recupera la sessione dall'istanza Redis mediante il parametro \texttt{sessionId}.
+    \item Il Verifier\glsadd{verifierg} recupera il \texttt{ResponseRecord} da Redis tramite il \texttt{transactionId} associato alla sessione.
     \item Il parametro \texttt{responseCode} fornito nella richiesta viene confrontato con quello custodito nel \texttt{ResponseRecord}.
-    \item Il Verifier accerta che lo stato del \texttt{ResponseRecord} corrisponda a \texttt{pending\_fetch}.
+    \item Il Verifier\glsadd{verifierg} accerta che lo stato del \texttt{ResponseRecord} corrisponda a \texttt{pending\_fetch}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -1028,9 +1028,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC4.3: Consumazione della sessione e consegna del VP Token\glsadd{vptokeng}}
 \label{uc:verifier:uc4.3}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} A seguito della validazione del codice di risposta, il Verifier aggiorna lo stato della sessione a \texttt{completed}, provvede alla rimozione della sessione e del \textit{Response Record} dall'istanza Redis al fine di precluderne qualsivoglia riutilizzo, e restituisce il \textit{VP Token\glsadd{vptokeng}} validato al \textit{frontend} del Relying Party.
+\noindent\textbf{Descrizione:} A seguito della validazione del codice di risposta, il Verifier\glsadd{verifierg} aggiorna lo stato della sessione a \texttt{completed}, provvede alla rimozione della sessione e del \textit{Response Record} dall'istanza Redis al fine di precluderne qualsivoglia riutilizzo, e restituisce il \textit{VP Token\glsadd{vptokeng}} validato al \textit{frontend} del Relying Party\glsadd{relyingpartyg}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1040,14 +1040,14 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \begin{itemize}
     \item Lo stato della sessione è stato aggiornato a \texttt{completed}.
     \item La sessione e il \texttt{ResponseRecord} sono stati rimossi dall'istanza Redis.
-    \item Il \textit{frontend} del Relying Party ha ricevuto il \textit{VP Token\glsadd{vptokeng}} contenente le credenziali verificate dell'Utente.
+    \item Il \textit{frontend} del Relying Party\glsadd{relyingpartyg} ha ricevuto il \textit{VP Token\glsadd{vptokeng}} contenente le credenziali verificate dell'Utente.
 \end{itemize}
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier aggiorna lo stato della sessione a \texttt{completed}.
-    \item Il Verifier elimina la sessione e il \texttt{ResponseRecord} dall'istanza Redis.
-    \item Il Verifier restituisce l'oggetto \texttt{vpToken} al \textit{frontend} del Relying Party.
+    \item Il Verifier\glsadd{verifierg} aggiorna lo stato della sessione a \texttt{completed}.
+    \item Il Verifier\glsadd{verifierg} elimina la sessione e il \texttt{ResponseRecord} dall'istanza Redis.
+    \item Il Verifier\glsadd{verifierg} restituisce l'oggetto \texttt{vpToken} al \textit{frontend} del Relying Party\glsadd{relyingpartyg}.
 \end{enumerate}
 
 \paragraph{\large\bfseries UC5: Gestione del ciclo di vita del client}
@@ -1059,9 +1059,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \caption{UC5 -- Gestione del ciclo di vita del client}
     \label{fig:UC5}
 \end{figure}
-\noindent\textbf{Attori:} Amministratore, Verifier.
+\noindent\textbf{Attori:} Amministratore, Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} L'Amministratore gestisce la configurazione dei client (Verifier) nel sistema attraverso le API\glsadd{api} SCIM\glsadd{scimg}. Tale operazione comprende le funzionalità di creazione, lettura, aggiornamento e cancellazione (CRUD) delle configurazioni dei client, che definiscono parametri fondamentali quali i formati \textit{Verifiable Presentation} supportati, gli URI di reindirizzamento, il set di chiavi crittografiche JWKS\glsadd{jwks} e gli algoritmi crittografici abilitati per la firma e la cifratura.
+\noindent\textbf{Descrizione:} L'Amministratore gestisce la configurazione dei client (Verifier\glsadd{verifierg}) nel sistema attraverso le API\glsadd{api} SCIM\glsadd{scimg}. Tale operazione comprende le funzionalità di creazione, lettura, aggiornamento e cancellazione (CRUD) delle configurazioni dei client, che definiscono parametri fondamentali quali i formati \textit{Verifiable Presentation} supportati, gli URI di reindirizzamento, il set di chiavi crittografiche JWKS\glsadd{jwks} e gli algoritmi crittografici abilitati per la firma e la cifratura.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1078,7 +1078,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item \textbf{Creazione:} l'Amministratore trasmette una richiesta HTTP \texttt{POST} all'endpoint, includendo nel payload la configurazione del client con i campi obbligatori \texttt{redirectUris} e \texttt{vpFormatsSupported}. Il Verifier valida la conformità dei campi, persiste il record nell'istanza MongoDB e restituisce la risorsa creata.
+    \item \textbf{Creazione:} l'Amministratore trasmette una richiesta HTTP \texttt{POST} all'endpoint, includendo nel payload la configurazione del client con i campi obbligatori \texttt{redirectUris} e \texttt{vpFormatsSupported}. Il Verifier\glsadd{verifierg} valida la conformità dei campi, persiste il record nell'istanza MongoDB e restituisce la risorsa creata.
     \item \textbf{Lettura:} l'Amministratore inoltra una richiesta HTTP \texttt{GET} all'endpoint al fine di acquisire la configurazione di un client specifico, oppure di ottenere l'elenco completo dei client registrati nel dominio.
     \item \textbf{Aggiornamento:} l'Amministratore trasmette una richiesta HTTP \texttt{PUT} o \texttt{PATCH} all'endpoint, includendo i parametri oggetto di modifica; il sistema valida le variazioni e aggiorna il record corrispondente su MongoDB.
     \item \textbf{Cancellazione:} l'Amministratore inoltra una richiesta HTTP \texttt{DELETE} all'endpoint al fine di rimuovere definitivamente il client dal sistema.
@@ -1093,9 +1093,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC5.1: Creazione di un nuovo client}
 \label{uc:verifier:uc5.1}
 \mbox{}\\
-\noindent\textbf{Attori:} Amministratore, Verifier.
+\noindent\textbf{Attori:} Amministratore, Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} L'Amministratore registra una nuova configurazione di client (Verifier) all'interno del sistema, trasmettendo i parametri obbligatori e opzionali attraverso le API\glsadd{api} SCIM\glsadd{scimg}.
+\noindent\textbf{Descrizione:} L'Amministratore registra una nuova configurazione di client (Verifier\glsadd{verifierg}) all'interno del sistema, trasmettendo i parametri obbligatori e opzionali attraverso le API\glsadd{api} SCIM\glsadd{scimg}.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1110,8 +1110,8 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
     \item L'Amministratore trasmette una richiesta HTTP \texttt{POST} all'endpoint, il cui corpo include obbligatoriamente i campi \texttt{redirectUris} (array di stringhe) e \texttt{vpFormatsSupported} (con specifica del formato \texttt{dcSdJwt}), unitamente ad eventuali parametri di configurazione crittografica aggiuntivi.
-    \item Il Verifier esegue la validazione della richiesta: accerta la presenza dei campi obbligatori, verifica la conformità al formato array per tutti i campi prescritti e valida la corretta composizione del parametro \texttt{vpFormatsSupported}.
-    \item Il Verifier persiste il record del client nell'istanza MongoDB.
+    \item Il Verifier\glsadd{verifierg} esegue la validazione della richiesta: accerta la presenza dei campi obbligatori, verifica la conformità al formato array per tutti i campi prescritti e valida la corretta composizione del parametro \texttt{vpFormatsSupported}.
+    \item Il Verifier\glsadd{verifierg} persiste il record del client nell'istanza MongoDB.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -1124,7 +1124,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC5.2: Lettura della configurazione del client}
 \label{uc:verifier:uc5.2}
 \mbox{}\\
-\noindent\textbf{Attori:} Amministratore, Verifier.
+\noindent\textbf{Attori:} Amministratore, Verifier\glsadd{verifierg}.
 \\
 \noindent\textbf{Descrizione:} L'Amministratore interroga il sistema per recuperare la configurazione completa di uno specifico client ovvero l'elenco di tutti i client censiti per un determinato dominio.
 \\
@@ -1140,8 +1140,8 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item L'Amministratore trasmette una richiesta HTTP \texttt{GET} all'endpoint specificando l'identificativo del client; il Verifier recupera il record dall'istanza MongoDB e restituisce l'oggetto di configurazione completo all'interno di una risposta HTTP \texttt{200 OK}.
-    \item L'Amministratore trasmette una richiesta HTTP \texttt{GET} all'endpoint al fine di ottenere la lista di tutti i client registrati nel dominio; il Verifier interroga MongoDB e restituisce la collezione dei client associati.
+    \item L'Amministratore trasmette una richiesta HTTP \texttt{GET} all'endpoint specificando l'identificativo del client; il Verifier\glsadd{verifierg} recupera il record dall'istanza MongoDB e restituisce l'oggetto di configurazione completo all'interno di una risposta HTTP \texttt{200 OK}.
+    \item L'Amministratore trasmette una richiesta HTTP \texttt{GET} all'endpoint al fine di ottenere la lista di tutti i client registrati nel dominio; il Verifier\glsadd{verifierg} interroga MongoDB e restituisce la collezione dei client associati.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -1152,7 +1152,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC5.3: Aggiornamento della configurazione del client}
 \label{uc:verifier:uc5.3}
 \mbox{}\\
-\noindent\textbf{Attori:} Amministratore, Verifier.
+\noindent\textbf{Attori:} Amministratore, Verifier\glsadd{verifierg}.
 \\
 \noindent\textbf{Descrizione:} L'Amministratore apporta modifiche parziali o procede alla sostituzione integrale della configurazione di un client precedentemente registrato nel sistema.
 \\
@@ -1169,8 +1169,8 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
     \item L'Amministratore trasmette una richiesta HTTP \texttt{PUT}, per la sostituzione integrale della configurazione, ovvero HTTP \texttt{PATCH}, per l'aggiornamento parziale dei campi, all'endpoint designato.
-    \item Il Verifier valida la conformità sintattica e strutturale dei parametri forniti.
-    \item Il Verifier persiste le modifiche nell'istanza MongoDB e restituisce la risorsa aggiornata con codice di stato HTTP \texttt{200 OK}.
+    \item Il Verifier\glsadd{verifierg} valida la conformità sintattica e strutturale dei parametri forniti.
+    \item Il Verifier\glsadd{verifierg} persiste le modifiche nell'istanza MongoDB e restituisce la risorsa aggiornata con codice di stato HTTP \texttt{200 OK}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -1182,7 +1182,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC5.4: Cancellazione del client}
 \label{uc:verifier:uc5.4}
 \mbox{}\\
-\noindent\textbf{Attori:} Amministratore, Verifier.
+\noindent\textbf{Attori:} Amministratore, Verifier\glsadd{verifierg}.
 \\
 \noindent\textbf{Descrizione:} L'Amministratore dispone la rimozione permanente della configurazione di un client dal sistema.
 \\
@@ -1199,8 +1199,8 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
     \item L'Amministratore trasmette una richiesta HTTP \texttt{DELETE} all'endpoint designato, specificando l'identificativo del client oggetto di cancellazione.
-    \item Il Verifier accerta la presenza del record nell'istanza MongoDB ed esegue l'eliminazione definitiva del client.
-    \item Il Verifier restituisce una risposta di conferma attestante l'avvenuta cancellazione.
+    \item Il Verifier\glsadd{verifierg} accerta la presenza del record nell'istanza MongoDB ed esegue l'eliminazione definitiva del client.
+    \item Il Verifier\glsadd{verifierg} restituisce una risposta di conferma attestante l'avvenuta cancellazione.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -1217,9 +1217,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
     \caption{UC6 -- Validazione della Trust Chain\glsadd{trustchaing}}
     \label{fig:UC6}
 \end{figure}
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Qualora il flusso di autenticazione o presentazione impieghi il prefisso \texttt{openid\_federation}, il Verifier deve costruire e validare una \textit{Trust Chain\glsadd{trustchaing}} gerarchica a partire dall'entità foglia (\textit{Leaf Entity}) fino a un'ancora di fiducia (\textit{Trust Anchor}) preconfigurata. Tale procedura certifica l'affiliazione dell'entità a una federazione di fiducia, accertando la catena ininterrotta delle firme crittografiche, la validità temporale dei singoli \textit{statement} e la coerenza delle relazioni tra soggetti (\texttt{sub}) ed emittenti (\texttt{iss}) lungo l'intera gerarchia.
+\noindent\textbf{Descrizione:} Qualora il flusso di autenticazione o presentazione impieghi il prefisso \texttt{openid\_federation}, il Verifier\glsadd{verifierg} deve costruire e validare una \textit{Trust Chain\glsadd{trustchaing}} gerarchica a partire dall'entità foglia (\textit{Leaf Entity}) fino a un'ancora di fiducia (\textit{Trust Anchor}) preconfigurata. Tale procedura certifica l'affiliazione dell'entità a una federazione di fiducia, accertando la catena ininterrotta delle firme crittografiche, la validità temporale dei singoli \textit{statement} e la coerenza delle relazioni tra soggetti (\texttt{sub}) ed emittenti (\texttt{iss}) lungo l'intera gerarchia.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1237,16 +1237,16 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier avvia la procedura di risoluzione della catena acquisendo l'\textit{Entity Configuration} della \textit{Leaf Entity} dal relativo endpoint.
-    \item Il Verifier accerta che i claim \texttt{iss} e \texttt{sub} della configurazione coincidano con il parametro \texttt{entityId} atteso.
-    \item Il Verifier risale ricorsivamente la gerarchia federativa seguendo i riferimenti dichiarati nel claim \texttt{authority\_hints}, recuperando per ciascuna entità intermedia:
+    \item Il Verifier\glsadd{verifierg} avvia la procedura di risoluzione della catena acquisendo l'\textit{Entity Configuration} della \textit{Leaf Entity} dal relativo endpoint.
+    \item Il Verifier\glsadd{verifierg} accerta che i claim \texttt{iss} e \texttt{sub} della configurazione coincidano con il parametro \texttt{entityId} atteso.
+    \item Il Verifier\glsadd{verifierg} risale ricorsivamente la gerarchia federativa seguendo i riferimenti dichiarati nel claim \texttt{authority\_hints}, recuperando per ciascuna entità intermedia:
     \begin{itemize}
         \item l'\textit{Entity Configuration} dell'intermediario dal rispettivo endpoint;
         \item il \textit{Subordinate Statement} emesso dal superiore.
     \end{itemize}
     \item La ricorsione termina non appena viene raggiunta un'entità identificata come \textit{Trust Anchor} autorizzato.
-    \item Il Verifier esegue la validazione sintattica di ciascun documento della catena, verificando la presenza dei claim obbligatori (\texttt{iss}, \texttt{sub}, \texttt{iat}, \texttt{exp}) e la loro coerenza temporale.
-    \item Il Verifier esegue la validazione crittografica della catena.
+    \item Il Verifier\glsadd{verifierg} esegue la validazione sintattica di ciascun documento della catena, verificando la presenza dei claim obbligatori (\texttt{iss}, \texttt{sub}, \texttt{iat}, \texttt{exp}) e la loro coerenza temporale.
+    \item Il Verifier\glsadd{verifierg} esegue la validazione crittografica della catena.
     \item Viene accertata la coerenza dell'intera catena, assicurando che il claim \texttt{sub} di ciascun \textit{Subordinate Statement} corrisponda al soggetto dell'entità sottostante.
     \item La chiave pubblica dell'Issuer viene estratta dai metadati della \textit{Leaf Entity}.
 \end{enumerate}
@@ -1265,9 +1265,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC6.1: Costruzione della Trust Chain\glsadd{trustchaing}}
 \label{uc:verifier:uc6.1}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier costruisce la \textit{Trust Chain\glsadd{trustchaing}} gerarchica a partire dalla configurazione dell'entità foglia (\textit{Leaf Entity}), risalendo ricorsivamente i riferimenti espressi nel claim \texttt{authority\_hints} sino al raggiungimento di un'ancora di fiducia (\textit{Trust Anchor}) preconfigurata. Durante la traversata della gerarchia vengono acquisite le \textit{Entity Configuration} e i corrispondenti \textit{Subordinate Statement} di ciascuna entità intermedia.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} costruisce la \textit{Trust Chain\glsadd{trustchaing}} gerarchica a partire dalla configurazione dell'entità foglia (\textit{Leaf Entity}), risalendo ricorsivamente i riferimenti espressi nel claim \texttt{authority\_hints} sino al raggiungimento di un'ancora di fiducia (\textit{Trust Anchor}) preconfigurata. Durante la traversata della gerarchia vengono acquisite le \textit{Entity Configuration} e i corrispondenti \textit{Subordinate Statement} di ciascuna entità intermedia.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1282,10 +1282,10 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier acquisisce l'\textit{Entity Configuration} della \textit{Leaf Entity} dal rispettivo endpoint.
+    \item Il Verifier\glsadd{verifierg} acquisisce l'\textit{Entity Configuration} della \textit{Leaf Entity} dal rispettivo endpoint.
     \item Viene accertata la coincidenza dei claim \texttt{iss} e \texttt{sub} con il valore di \texttt{entityId} atteso.
-    \item Nel caso in cui la \textit{Leaf Entity} coincida con un \textit{Trust Anchor}, il Verifier restituisce la catena unitaria.
-    \item In caso contrario, il Verifier itera sui riferimenti contenuti nel claim \texttt{authority\_hints}:
+    \item Nel caso in cui la \textit{Leaf Entity} coincida con un \textit{Trust Anchor}, il Verifier\glsadd{verifierg} restituisce la catena unitaria.
+    \item In caso contrario, il Verifier\glsadd{verifierg} itera sui riferimenti contenuti nel claim \texttt{authority\_hints}:
     \begin{itemize}
         \item acquisisce l'\textit{Entity Configuration} di ciascuna entità intermedia (\textit{hint});
         \item verifica la corrispondenza dei claim \texttt{iss} e \texttt{sub} dell'intermediario;
@@ -1306,9 +1306,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC6.2: Validazione sintattica della Trust Chain\glsadd{trustchaing}}
 \label{uc:verifier:uc6.2}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier accerta la conformità sintattica di ogni \textit{Entity Statement} e di ogni \textit{Entity Configuration} appartenente alla catena, verificando la presenza dei claim obbligatori e il rispetto dei vincoli temporali.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} accerta la conformità sintattica di ogni \textit{Entity Statement} e di ogni \textit{Entity Configuration} appartenente alla catena, verificando la presenza dei claim obbligatori e il rispetto dei vincoli temporali.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1321,7 +1321,7 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Per ciascun token JWT\glsadd{jwt} costituente la catena, il Verifier decodifica l'\textit{header} e il \textit{payload}.
+    \item Per ciascun token JWT\glsadd{jwt} costituente la catena, il Verifier\glsadd{verifierg} decodifica l'\textit{header} e il \textit{payload}.
     \item Viene accertata la presenza dei claim obbligatori: \texttt{iss}, \texttt{sub}, \texttt{iat} ed \texttt{exp}.
     \item Viene verificato che il claim \texttt{iat} (\textit{issued at}) non risulti collocato nel futuro rispetto all'istante corrente.
     \item Viene accertato che il claim \texttt{exp} (\textit{expiration time}) non risulti scaduto rispetto al tempo corrente.
@@ -1337,9 +1337,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC6.3: Validazione crittografica della Trust Chain\glsadd{trustchaing}}
 \label{uc:verifier:uc6.3}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Il Verifier accerta crittograficamente l'integrità e l'autenticità di ogni firma presente nella catena: la firma del \textit{Trust Anchor} è verificata tramite il relativo JWKS\glsadd{jwks} \textit{out-of-band} (persistito su Redis), le firme dei \textit{Subordinate Statement} intermedi sono verificate mediante i JWKS\glsadd{jwks} degli enti sovraordinati, e l'\textit{Entity Configuration} della \textit{Leaf Entity} è validata tramite auto-firma.
+\noindent\textbf{Descrizione:} Il Verifier\glsadd{verifierg} accerta crittograficamente l'integrità e l'autenticità di ogni firma presente nella catena: la firma del \textit{Trust Anchor} è verificata tramite il relativo JWKS\glsadd{jwks} \textit{out-of-band} (persistito su Redis), le firme dei \textit{Subordinate Statement} intermedi sono verificate mediante i JWKS\glsadd{jwks} degli enti sovraordinati, e l'\textit{Entity Configuration} della \textit{Leaf Entity} è validata tramite auto-firma.
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1354,9 +1354,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier recupera il JWKS\glsadd{jwks} del \textit{Trust Anchor} dall'istanza Redis tramite il claim \texttt{iss}; accerta che \texttt{iss} coincida con \texttt{sub} e verifica la firma crittografica mediante la chiave pubblica \textit{out-of-band}.
-    \item Per ciascun documento intermedio, il Verifier accerta che il claim \texttt{iss} dell'elemento corrente coincida con il claim \texttt{sub} dell'elemento sovraordinato, procedendo alla verifica della firma crittografica tramite il JWKS\glsadd{jwks} esposto nel \textit{payload} dell'elemento sovraordinato.
-    \item Il Verifier accerta che \texttt{iss} coincida con \texttt{sub} nell'\textit{Entity Configuration} della \textit{Leaf Entity}, ne verifica l'auto-firma mediante le chiavi JWKS\glsadd{jwks} dell'entità medesima e accerta che il claim \texttt{sub} del primo \textit{Subordinate Statement} coincida con il soggetto della \textit{Leaf Entity}.
+    \item Il Verifier\glsadd{verifierg} recupera il JWKS\glsadd{jwks} del \textit{Trust Anchor} dall'istanza Redis tramite il claim \texttt{iss}; accerta che \texttt{iss} coincida con \texttt{sub} e verifica la firma crittografica mediante la chiave pubblica \textit{out-of-band}.
+    \item Per ciascun documento intermedio, il Verifier\glsadd{verifierg} accerta che il claim \texttt{iss} dell'elemento corrente coincida con il claim \texttt{sub} dell'elemento sovraordinato, procedendo alla verifica della firma crittografica tramite il JWKS\glsadd{jwks} esposto nel \textit{payload} dell'elemento sovraordinato.
+    \item Il Verifier\glsadd{verifierg} accerta che \texttt{iss} coincida con \texttt{sub} nell'\textit{Entity Configuration} della \textit{Leaf Entity}, ne verifica l'auto-firma mediante le chiavi JWKS\glsadd{jwks} dell'entità medesima e accerta che il claim \texttt{sub} del primo \textit{Subordinate Statement} coincida con il soggetto della \textit{Leaf Entity}.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -1372,9 +1372,9 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 \paragraph{\large\bfseries UC6.4: Estrazione della chiave pubblica dell'Issuer}
 \label{uc:verifier:uc6.4}
 \mbox{}\\
-\noindent\textbf{Attori:} Verifier.
+\noindent\textbf{Attori:} Verifier\glsadd{verifierg}.
 \\
-\noindent\textbf{Descrizione:} Al completamento della validazione della \textit{Trust Chain\glsadd{trustchaing}}, il Verifier estrae la chiave pubblica dell'Issuer dai metadati contenuti nell'\textit{Entity Configuration} della \textit{Leaf Entity}, rendendola disponibile per la successiva verifica crittografica dell'Issuer JWT\glsadd{jwt} (rif.\ \ref{uc:verifier:uc3.4}).
+\noindent\textbf{Descrizione:} Al completamento della validazione della \textit{Trust Chain\glsadd{trustchaing}}, il Verifier\glsadd{verifierg} estrae la chiave pubblica dell'Issuer dai metadati contenuti nell'\textit{Entity Configuration} della \textit{Leaf Entity}, rendendola disponibile per la successiva verifica crittografica dell'Issuer JWT\glsadd{jwt} (rif.\ \ref{uc:verifier:uc3.4}).
 \\
 \noindent\textbf{Precondizioni:}
 \begin{itemize}
@@ -1387,10 +1387,10 @@ Nelle sottosezioni seguenti vengono descritti nel dettaglio i casi d'uso relativ
 
 \noindent\textbf{Scenario principale:}
 \begin{enumerate}
-    \item Il Verifier accede alla sezione \texttt{metadata} dell'\textit{Entity Configuration} della \textit{Leaf Entity}.
+    \item Il Verifier\glsadd{verifierg} accede alla sezione \texttt{metadata} dell'\textit{Entity Configuration} della \textit{Leaf Entity}.
     \item Il sistema ricerca il set di chiavi JWKS\glsadd{jwks} all'interno dei ruoli metadati definiti, adottando una politica di risoluzione a cascata.
     \item Qualora l'\textit{header} del token indichi un identificativo di chiave (\texttt{kid}), viene selezionata la chiave corrispondente dal set JWKS\glsadd{jwks}; in assenza di indicazione esplicita, viene impiegata la prima chiave disponibile.
-    \item Il Verifier provvede all'importazione della chiave pubblica mediante la libreria crittografica (invocando \texttt{jose.importJWK()}), assicurando la rimozione di eventuali parametri riservati.
+    \item Il Verifier\glsadd{verifierg} provvede all'importazione della chiave pubblica mediante la libreria crittografica (invocando \texttt{jose.importJWK()}), assicurando la rimozione di eventuali parametri riservati.
 \end{enumerate}
 
 \noindent\textbf{Scenario alternativo:}
@@ -1447,43 +1447,80 @@ Al fine di classificare i requisiti in modo univoco, rigoroso e strutturato, è 
 \endlastfoot
 
 \textbf{RFO-1} & Il sistema deve permettere l'inizializzazione di una richiesta di presentazione di credenziali verificabili. & UC1 \\
+\hline
 \textbf{RFO-2} & Il sistema deve recuperare la configurazione del client dal database. & UC1.1 \\
+\hline
 \textbf{RFO-3} & Il sistema deve validare il prefisso del Client ID e determinarne le proprietà di firma. & UC1.2 \\
+\hline
 \textbf{RFO-4} & Il sistema deve creare una sessione con identificativi univoci e URL-safe. & UC1.4 \\
+\hline
 \textbf{RFO-5} & Il sistema deve costruire l'URL di autorizzazione in base al tipo di prefisso del client. & UC1.5 \\
+\hline
 \textbf{RFO-6} & Il sistema deve generare il Request Object JWT\glsadd{jwt} su richiesta del Wallet. & UC2 \\
+\hline
 \textbf{RFO-7} & Il sistema deve verificare che il Request URI non sia già stato consumato. & UC2.1 \\
+\hline
 \textbf{RFO-8} & Il sistema deve analizzare i \texttt{wallet\_metadata} per negoziare gli algoritmi crittografici comuni. & UC2.2 \\
+\hline
 \textbf{RFO-9} & Il sistema deve assemblare il payload del Request Object con i parametri del protocollo OID4VP\glsadd{oid4vp}. & UC2.4 \\
+\hline
 \textbf{RFO-10} & Il sistema deve firmare il Request Object con la chiave privata del client. & UC2.6 \\
+\hline
 \textbf{RFO-11} & Il sistema deve impedire il riutilizzo del Request URI aggiornando la sessione dopo la generazione. & UC2.7 \\
-\textbf{RFO-12} & Il Wallet deve poter trasmettere le \textit{Verifiable Presentation} al Verifier. & UC3.1 \\
+\hline
+\textbf{RFO-12} & Il Wallet deve poter trasmettere le \textit{Verifiable Presentation} al Verifier\glsadd{verifierg}. & UC3.1 \\
+\hline
 \textbf{RFO-13} & Il sistema deve estrarre i parametri dalla risposta del Wallet, supportando i formati \texttt{direct\_post} e \texttt{direct\_post.jwt}. & UC3.2 \\
+\hline
 \textbf{RFO-14} & Il sistema deve recuperare la sessione e aggiornarla atomicamente allo stato \texttt{response\_received}. & UC3.4 \\
+\hline
 \textbf{RFO-15} & Il sistema deve parsare e validare la struttura del \textit{VP Token\glsadd{vptokeng}}. & UC3.5 \\
+\hline
 \textbf{RFO-16} & Il sistema deve validare la completezza del \textit{VP Token\glsadd{vptokeng}} rispetto alla query DCQL\glsadd{dcqlg}. & UC3.7 \\
+\hline
 \textbf{RFO-17} & Il sistema deve verificare crittograficamente ogni presentazione SD-JWT\glsadd{sdjwtg} nel \textit{VP Token\glsadd{vptokeng}}. & UC3.8 \\
+\hline
 \textbf{RFO-18} & Il sistema deve validare il tipo di credenziale e i claim richiesti dalla query DCQL\glsadd{dcqlg}. & UC3.9 \\
 \textbf{RFO-19} & Il sistema deve generare un \textit{Response Record} con \texttt{responseCode} monouso e restituire un \textit{redirect URI} al Wallet. & UC3.10 \\
+\hline
 \textbf{RFO-20} & L'Utente deve poter recuperare le credenziali verificate tramite \texttt{sessionId} e \texttt{responseCode}. & UC4.1 \\
+\hline
 \textbf{RFO-21} & Il sistema deve validare il \texttt{responseCode} e verificare che non sia già stato consumato. & UC4.2 \\
+\hline
 \textbf{RFO-22} & Il sistema deve consumare la sessione, eliminare i dati da Redis e restituire il \textit{VP Token\glsadd{vptokeng}} all'Utente. & UC4.3 \\
+\hline
 \textbf{RFO-23} & Il sistema deve permettere la creazione di un nuovo client. & UC5.1 \\
+\hline
 \textbf{RFO-24} & Il sistema deve permettere la lettura della configurazione di un client. & UC5.2 \\
+\hline
 \textbf{RFO-25} & Il sistema deve permettere l'aggiornamento della configurazione di un client. & UC5.3 \\
+\hline
 \textbf{RFO-26} & Il sistema deve permettere la cancellazione di un client. & UC5.4 \\
+\hline
 \textbf{RFO-27} & Il sistema deve supportare sei prefissi di Client ID conformi al protocollo OID4VP\glsadd{oid4vp}. & UC1.2 \\
+\hline
 \textbf{RFO-28} & Il sistema deve gestire gli errori del Wallet aggiornando la sessione a \texttt{failed} e restituendo un \textit{redirect URI} di errore. & UC3 \\
+\hline
 \textbf{RFD-1} & Il sistema deve generare chiavi effimere JWE\glsadd{jwe} e salvarle su Redis per la cifratura della risposta. & UC2.3 \\
+\hline
 \textbf{RFD-2} & Il sistema deve decifrare la risposta JWE\glsadd{jwe} del Wallet e distruggere la chiave effimera dopo l'uso. & UC3.3 \\
+\hline
 \textbf{RFD-3} & Il sistema deve generare un \textit{Entity Configuration} JWT\glsadd{jwt} per il protocollo OpenID Federation. & UC2.5 \\
+\hline
 \textbf{RFD-4} & Il sistema deve validare la \textit{Trust Chain\glsadd{trustchaing}} dell'OpenID Provider durante l'inizializzazione. & UC1.3 \\
+\hline
 \textbf{RFD-5} & Il sistema deve costruire la \textit{Trust Chain\glsadd{trustchaing}} tramite risoluzione ricorsiva degli \textit{Entity Statement}. & UC6.1 \\
+\hline
 \textbf{RFD-6} & Il sistema deve validare sintatticamente ogni \textit{Entity Statement} nella \textit{Trust Chain\glsadd{trustchaing}}. & UC6.2 \\
+\hline
 \textbf{RFD-7} & Il sistema deve validare crittograficamente ogni firma nella \textit{Trust Chain\glsadd{trustchaing}}. & UC6.3 \\
+\hline
 \textbf{RFD-8} & Il sistema deve estrarre la chiave pubblica dell'Issuer dalla \textit{Leaf Entity Configuration}. & UC6.4 \\
+\hline
 \textbf{RFD-9} & Il sistema deve validare l'\textit{Holder Binding} verificando il Key Binding JWT\glsadd{jwt}. & UC3.6 \\
+\hline
 \textbf{RFD-10} & Il sistema deve verificare la corrispondenza tra chiave privata e certificato \textit{leaf} per i prefissi X.509. & UC2.6 \\
+\hline
 \textbf{RFF-1} & Il sistema deve supportare il fallback dell'algoritmo \texttt{enc} ad \texttt{A128GCM} in fase di negoziazione. & UC2.2 \\
 \end{longtable}
 
@@ -1509,10 +1546,15 @@ Al fine di classificare i requisiti in modo univoco, rigoroso e strutturato, è 
 \endlastfoot
 
 \textbf{RQO-1} & Il sistema deve restituire messaggi di errore specifici per ogni condizione di errore. & -- \\
+\hline
 \textbf{RQO-2} & Il sistema deve adottare una gestione centralizzata degli errori tramite middleware con mappatura verso i codici HTTP appropriati. & -- \\
+\hline
 \textbf{RQO-3} & Il sistema deve registrare nei log ogni fase significativa del flusso di presentazione. & -- \\
+\hline
 \textbf{RQO-4} & Il sistema deve convertire automaticamente tra le convenzioni \textit{camelCase} e \textit{snake\_case} per i payload del protocollo. & -- \\
+\hline
 \textbf{RQD-1} & Il codice deve essere organizzato secondo un'architettura a strati per garantire separazione delle responsabilità. & -- \\
+\hline
 \textbf{RQD-2} & Il sistema deve utilizzare valori di default sicuri per i parametri configurabili. & -- \\
 \end{longtable}
 
@@ -1538,15 +1580,25 @@ Al fine di classificare i requisiti in modo univoco, rigoroso e strutturato, è 
 \endlastfoot
 
 \textbf{RVO-1} & Il sistema deve essere implementato in TypeScript con runtime Node.js. & -- \\
+\hline
 \textbf{RVO-2} & Il sistema deve utilizzare Redis per la gestione delle sessioni, delle chiavi effimere e dei \textit{Response Record}. & -- \\
+\hline
 \textbf{RVO-3} & Il sistema deve utilizzare MongoDB per la persistenza delle configurazioni dei client. & -- \\
+\hline
 \textbf{RVO-4} & Il sistema deve utilizzare la libreria \texttt{jose} per le operazioni crittografiche JWT\glsadd{jwt}/JWE\glsadd{jwe}/JWS\glsadd{jws}. & -- \\
+\hline
 \textbf{RVO-5} & Il sistema deve esporre le API\glsadd{api} REST tramite il framework Express.js. & -- \\
+\hline
 \textbf{RVO-6} & Il sistema deve implementare il protocollo OID4VP\glsadd{oid4vp} per la verifica di credenziali verificabili. & -- \\
+\hline
 \textbf{RVO-7} & Il sistema deve supportare il formato SD-JWT\glsadd{sdjwtg} come formato di credenziale verificabile. & -- \\
+\hline
 \textbf{RVO-8} & Il sistema deve implementare il protocollo DCQL\glsadd{dcqlg} per la definizione dei requisiti di presentazione. & -- \\
+\hline
 \textbf{RVO-9} & Il sistema deve utilizzare l'operazione atomica \texttt{GETDEL} di Redis per la distruzione delle chiavi effimere. & -- \\
+\hline
 \textbf{RVD-1} & Il sistema deve supportare il protocollo OpenID Federation per la gestione della fiducia. & -- \\
+\hline
 \textbf{RVD-2} & Il sistema deve supportare la containerizzazione tramite Docker. & -- \\
 \end{longtable}
 

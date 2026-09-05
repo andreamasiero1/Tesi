@@ -6,7 +6,7 @@ La verifica è un processo orientato verso l'interno del prodotto, ovvero si occ
 
 La validazione, invece, è un processo orientato verso l'esterno, verso l'utente finale e il contesto d'uso: ha lo scopo di confermare in modo definitivo che le caratteristiche del software siano conformi ai bisogni dell'utente e all'uso previsto. La validazione richiede tipicamente l'esecuzione del sistema in condizioni che simulino l'uso reale. Nel caso di un software che implementa uno standard pubblico, la forma più autorevole di validazione è il superamento dei test di conformità (\textit{conformance test}) rilasciati dall'ente che governa lo standard.
 
-Nel caso del progetto \texttt{monokee-relyingparty-core}, la strategia di verifica e validazione ha combinato meccanismi di verifica statica, testing manuale dei flussi operativi e, come strumento di validazione formale, l'esecuzione dei Conformance Test della OpenID Foundation per il profilo OID4VP\glsadd{oid4vpg}\glsfirstoccur{} Verifier.
+Nel caso del progetto \texttt{monokee-relyingparty-core}, la strategia di verifica e validazione ha combinato meccanismi di verifica statica, testing manuale dei flussi operativi e, come strumento di validazione formale, l'esecuzione dei Conformance Test della OpenID Foundation\glsadd{oidf} per il profilo OID4VP\glsadd{oid4vpg}\glsfirstoccur{} Verifier\glsadd{verifierg}.
 
 \section{Verifica statica}
 \label{sec:verifica_statica}
@@ -75,18 +75,18 @@ Accanto ai flussi nominali, sono stati verificati manualmente i principali scena
 \section{Validazione tramite Conformance Test}
 \label{sec:validazione_conformance}
 
-\subsection{La Conformance Test Suite della OpenID Foundation}
-La forma più autorevole di validazione per un'implementazione del protocollo OID4VP\glsadd{oid4vpg} è il superamento dei Conformance Test ufficiali rilasciati dalla OpenID Foundation (OIDF). La suite di conformità, accessibile pubblicamente all'indirizzo \url{https://www.certification.openid.net/}, rappresenta lo strumento di riferimento adottato a livello internazionale per certificare la conformità delle implementazioni agli standard OpenID.
+\subsection{La Conformance Test Suite della OpenID Foundation\glsadd{oidf}}
+La forma più autorevole di validazione per un'implementazione del protocollo OID4VP\glsadd{oid4vpg} è il superamento dei Conformance Test ufficiali rilasciati dalla OpenID Foundation\glsadd{oidf} (OIDF\glsadd{oidf}\glsfirstoccur{}). La suite di conformità, accessibile pubblicamente all'indirizzo \url{https://www.certification.openid.net/}, rappresenta lo strumento di riferimento adottato a livello internazionale per certificare la conformità delle implementazioni agli standard OpenID.
 
-La suite opera come un simulatore di Digital Wallet: si sostituisce al wallet dell'utente e interagisce con il Verifier sotto test, verificando che le risposte, i formati, i parametri di sicurezza e i comportamenti di errore siano aderenti alle specifiche. L'obiettivo non è testare la logica interna del software, ma validare che il comportamento osservabile dall'esterno sia conforme allo standard.
+La suite opera come un simulatore di Digital Wallet\glsadd{digitalwalletg}: si sostituisce al wallet dell'utente e interagisce con il Verifier\glsadd{verifierg} sotto test, verificando che le risposte, i formati, i parametri di sicurezza e i comportamenti di errore siano aderenti alle specifiche. L'obiettivo non è testare la logica interna del software, ma validare che il comportamento osservabile dall'esterno sia conforme allo standard.
 
 \subsection{Configurazione dell'ambiente di test}
-L'esecuzione dei Conformance Test ha richiesto una configurazione specifica dell'ambiente di lavoro. Poiché la suite OIDF opera da server remoti che devono poter raggiungere il Verifier sotto test, il backend locale è stato esposto su Internet tramite un tunnel ngrok:
+L'esecuzione dei Conformance Test ha richiesto una configurazione specifica dell'ambiente di lavoro. Poiché la suite OIDF\glsadd{oidf} opera da server remoti che devono poter raggiungere il Verifier\glsadd{verifierg} sotto test, il backend locale è stato esposto su Internet tramite un tunnel ngrok:
 
 \begin{lstlisting}[language=bash, numbers=none]
 MONOKEE_BASE_URL=https://dronish-unlabiate-jaylah.ngrok-free.dev
 \end{lstlisting}
-Questo URL pubblico è stato configurato come \texttt{VERIFIER\_ENTITY\_IDENTIFIER}, ovvero l'identità del Verifier nell'ecosistema OID4VP\glsadd{oid4vpg}, e registrato nel test plan della suite OIDF con l'alias \texttt{monokee-oauth2-openid4vci}:
+Questo URL pubblico è stato configurato come \texttt{VERIFIER\_ENTITY\_IDENTIFIER}, ovvero l'identità del Verifier\glsadd{verifierg} nell'ecosistema OID4VP\glsadd{oid4vpg}, e registrato nel test plan della suite OIDF\glsadd{oidf} con l'alias \texttt{monokee-oauth2-openid4vci}:
 
 \begin{lstlisting}[language=bash, numbers=none]
 OPENID4VCI_AUTHORIZE_URL=https://www.certification.openid.net/test/a/monokee-oauth2-openid4vci/authorize
@@ -94,26 +94,26 @@ OPENID4VCI_AUTHORIZE_URL=https://www.certification.openid.net/test/a/monokee-oau
 
 \subsection{Categorie di test eseguiti}
 \label{subsec:categorie_test}
-Il test plan OID4VP\glsadd{oid4vpg} Verifier della OpenID Foundation comprende diverse categorie di verifiche, ciascuna progettata per validare un aspetto specifico della conformità del Verifier.
+Il test plan OID4VP\glsadd{oid4vpg} Verifier\glsadd{verifierg} della OpenID Foundation\glsadd{oidf} comprende diverse categorie di verifiche, ciascuna progettata per validare un aspetto specifico della conformità del Verifier\glsadd{verifierg}.
 
 \subsubsection{Test di flusso nominale}
-Questi test verificano che il Verifier sia in grado di completare con successo un'interazione completa con un wallet conforme:
+Questi test verificano che il Verifier\glsadd{verifierg} sia in grado di completare con successo un'interazione completa con un wallet conforme:
 
 \begin{itemize}
-    \item il Verifier genera correttamente un Request Object JWT\glsadd{jwtg} con tutti i parametri obbligatori (\texttt{response\_type}, \texttt{response\_mode}, \texttt{nonce}, \texttt{state}, \texttt{dcql\_query}, \texttt{client\_id});
+    \item il Verifier\glsadd{verifierg} genera correttamente un Request Object JWT\glsadd{jwtg} con tutti i parametri obbligatori (\texttt{response\_type}, \texttt{response\_mode}, \texttt{nonce}, \texttt{state}, \texttt{dcql\_query}, \texttt{client\_id});
     \item il Request Object è firmato con un algoritmo conforme e contiene header validi (\texttt{typ: oauth-authz-req+jwt});
-    \item il Verifier accetta un VP Token\glsadd{vptokeng} valido e restituisce il redirect URI con il \texttt{response\_code};
+    \item il Verifier\glsadd{verifierg} accetta un VP Token\glsadd{vptokeng} valido e restituisce il redirect URI con il \texttt{response\_code};
     \item il formato \texttt{dc+sd-jwt} è gestito correttamente (parsing, \textit{disclosure}, firma dell'emittente).
 \end{itemize}
 
 \subsubsection{Test negativi}
-Questi test verificano che il Verifier rifiuti correttamente input invalidi o malevoli:
+Questi test verificano che il Verifier\glsadd{verifierg} rifiuti correttamente input invalidi o malevoli:
 
 \begin{itemize}
-    \item \textbf{Firma invalida sulla credenziale}: la suite invia un VP Token\glsadd{vptokeng} con una firma dell'emittente volutamente corrotta; il Verifier deve rifiutarla, dimostrando che la verifica crittografica è effettivamente operativa;
+    \item \textbf{Firma invalida sulla credenziale}: la suite invia un VP Token\glsadd{vptokeng} con una firma dell'emittente volutamente corrotta; il Verifier\glsadd{verifierg} deve rifiutarla, dimostrando che la verifica crittografica è effettivamente operativa;
     \item \textbf{KB-JWT\glsadd{kbjwtg} con nonce errato}: la suite invia un Key Binding JWT\glsadd{jwtg} il cui nonce non corrisponde a quello generato nella fase di inizializzazione; il rifiuto dimostra la protezione contro gli attacchi di tipo \textit{replay}\glsadd{replayattackg};
-    \item \textbf{KB-JWT\glsadd{kbjwtg} con audience errata}: la suite invia un Key Binding JWT\glsadd{jwtg} il cui \texttt{aud} non corrisponde all'identificativo del Verifier; il rifiuto impedisce che una presentazione generata per un altro Verifier venga accettata;
-    \item \textbf{Integrità della sessione e anti-replay}: la suite tenta di riutilizzare un \texttt{request\_uri} già consumato o di inviare una risposta su una sessione non più in stato \texttt{pending}; il Verifier deve rifiutare questi tentativi.
+    \item \textbf{KB-JWT\glsadd{kbjwtg} con audience errata}: la suite invia un Key Binding JWT\glsadd{jwtg} il cui \texttt{aud} non corrisponde all'identificativo del Verifier\glsadd{verifierg}; il rifiuto impedisce che una presentazione generata per un altro Verifier\glsadd{verifierg} venga accettata;
+    \item \textbf{Integrità della sessione e anti-replay}: la suite tenta di riutilizzare un \texttt{request\_uri} già consumato o di inviare una risposta su una sessione non più in stato \texttt{pending}; il Verifier\glsadd{verifierg} deve rifiutare questi tentativi.
 \end{itemize}
 
 \subsubsection{Verifica dei parametri di protocollo}
@@ -141,10 +141,10 @@ Le principali aree su cui si è intervenuti includono:
 Questo ciclo di test, correzione e ri-esecuzione è stato fondamentale per affinare l'implementazione e portarla a un livello di conformità verificabile dall'esterno, costituendo il processo di validazione più significativo dell'intero progetto.
 
 \subsection{Valore della validazione tramite Conformance Test}
-Il superamento dei Conformance Test della OpenID Foundation fornisce un valore di validazione che va oltre il semplice testing funzionale:
+Il superamento dei Conformance Test della OpenID Foundation\glsadd{oidf} fornisce un valore di validazione che va oltre il semplice testing funzionale:
 
 \begin{itemize}
-    \item \textbf{Validazione dell'interoperabilità}: i test garantiscono che il Verifier sia in grado di interagire con qualsiasi Digital Wallet conforme allo standard OID4VP\glsadd{oid4vpg}, indipendentemente dalla sua implementazione interna;
+    \item \textbf{Validazione dell'interoperabilità}: i test garantiscono che il Verifier\glsadd{verifierg} sia in grado di interagire con qualsiasi Digital Wallet\glsadd{digitalwalletg} conforme allo standard OID4VP\glsadd{oid4vpg}, indipendentemente dalla sua implementazione interna;
     \item \textbf{Validazione della sicurezza di protocollo}: i test negativi verificano che le contromisure di sicurezza funzionino correttamente, fornendo evidenza oggettiva della robustezza del sistema;
-    \item \textbf{Validazione rispetto ai bisogni dell'utente}: il bisogno fondamentale per questo sistema è l'aderenza allo standard. Un Verifier OID4VP\glsadd{oid4vpg} che non supera i Conformance Test è, per definizione, non conforme e quindi non utilizzabile in ecosistemi regolamentati, come quelli governativi europei per l'identità digitale dove la conformità agli standard EUDI è un requisito normativo.
+    \item \textbf{Validazione rispetto ai bisogni dell'utente}: il bisogno fondamentale per questo sistema è l'aderenza allo standard. Un Verifier\glsadd{verifierg} OID4VP\glsadd{oid4vpg} che non supera i Conformance Test è, per definizione, non conforme e quindi non utilizzabile in ecosistemi regolamentati, come quelli governativi europei per l'identità digitale dove la conformità agli standard EUDI è un requisito normativo.
 \end{itemize}
