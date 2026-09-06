@@ -1,0 +1,9 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{privateKeyJwk}\PYG{p}{.}\PYG{n+nx}{kty}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}EC\PYGZsq{}}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{    }\PYG{p}{(}\PYG{n+nx}{privateKeyJwk}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{!==}\PYG{+w}{ }\PYG{n+nx}{certPublicKeyJwk}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{privateKeyJwk}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{!==}\PYG{+w}{ }\PYG{n+nx}{certPublicKeyJwk}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k}{throw}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{InvalidValueError}\PYG{p}{(}
+\PYG{+w}{    }\PYG{l+s+s1}{\PYGZsq{}Key mismatch: The private key does not correspond to the leaf certificate \PYGZsq{}}
+\PYG{+w}{    }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}in the x5c chain.\PYGZsq{}}
+\PYG{+w}{  }\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

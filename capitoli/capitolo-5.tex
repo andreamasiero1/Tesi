@@ -6,7 +6,7 @@ La verifica è un processo orientato verso l'interno del prodotto, ovvero si occ
 
 La validazione, invece, è un processo orientato verso l'esterno, verso l'utente finale e il contesto d'uso: ha lo scopo di confermare in modo definitivo che le caratteristiche del software siano conformi ai bisogni dell'utente e all'uso previsto. La validazione richiede tipicamente l'esecuzione del sistema in condizioni che simulino l'uso reale. Nel caso di un software che implementa uno standard pubblico, la forma più autorevole di validazione è il superamento dei test di conformità (\textit{conformance test}) rilasciati dall'ente che governa lo standard.
 
-Nel caso del progetto \texttt{monokee-relyingparty-core}, la strategia di verifica e validazione ha combinato meccanismi di verifica statica, testing manuale dei flussi operativi e, come strumento di validazione formale, l'esecuzione dei Conformance Test della OpenID Foundation\glsadd{oidf} per il profilo OID4VP\glsadd{oid4vpg}\glsfirstoccur{} Verifier\glsadd{verifierg}.
+Nel caso del progetto \texttt{monokee-relyingparty-core}, la strategia di verifica e validazione ha combinato meccanismi di verifica statica, testing manuale dei flussi operativi e, come strumento di validazione formale, l'esecuzione dei Conformance Test della OpenID Foundation\glsadd{oidf}\glsfirstoccur{} per il profilo OID4VP\glsadd{oid4vpg} Verifier\glsadd{verifierg}.
 
 \section{Verifica statica}
 \label{sec:verifica_statica}
@@ -14,7 +14,7 @@ Nel caso del progetto \texttt{monokee-relyingparty-core}, la strategia di verifi
 \subsection{Type checking e compilazione TypeScript}
 Il primo livello di verifica è fornito dal compilatore TypeScript stesso. L'intero progetto è scritto in TypeScript con configurazione \texttt{alwaysStrict:true}, il che impone al compilatore di verificare staticamente la coerenza dei tipi in ogni assegnazione, invocazione di metodo e accesso a proprietà. Qualsiasi errore di tipo viene intercettato a tempo di compilazione, prima ancora che il codice venga eseguito.
 
-L'ampio impiego di enumeratori tipizzati (come \texttt{JWSAlgorithm}, \texttt{JWEAlgorithm}, \texttt{JWEEncAlgorithm}, \texttt{CdSdJwtAlg} definiti in \texttt{client.model.ts}) vincola i valori ammissibili per gli algoritmi crittografici a un insieme finito e chiuso. Ciò significa che un errore di battitura in un nome di algoritmo (ad esempio \texttt{"EC256"} invece di \texttt{"ES256"}) non può sfuggire alla fase di compilazione, eliminando un'intera classe di errori crittografici potenzialmente critici che coinvolgerebbero le suite JWS\glsadd{jwsg}\glsfirstoccur{} e JWE\glsadd{jweg}\glsfirstoccur{}.
+L'ampio impiego di enumeratori tipizzati (come \texttt{JWSAlgorithm}, \texttt{JWEAlgorithm}, \texttt{JWEEncAlgorithm}, \texttt{CdSdJwtAlg} definiti in \texttt{client.model.ts}) vincola i valori ammissibili per gli algoritmi crittografici a un insieme finito e chiuso. Ciò significa che un errore di battitura in un nome di algoritmo (ad esempio \texttt{"EC256"} invece di \texttt{"ES256"}) non può sfuggire alla fase di compilazione, eliminando un'intera classe di errori crittografici potenzialmente critici che coinvolgerebbero le suite JWS\glsadd{jwsg} e JWE\glsadd{jweg}.
 
 Il comando \texttt{yarn typecheck} (definito in \texttt{package.json}) consente di eseguire la verifica dei tipi in modo isolato, senza produrre artefatti di build, facilitandone l'integrazione in pipeline di verifica continua.
 
@@ -40,11 +40,11 @@ static isUrlSafe(text: string): boolean {
 \caption{Metodo \texttt{isUrlSafe} per la validazione di stringhe URL-safe}
 \label{listing:is_url_safe}
 \end{listing}
-impedisce l'inserimento di caratteri speciali nei parametri destinati a comparire in URL OAuth\glsadd{oauthg}\glsfirstoccur{} e nei parametri di redirect, neutralizzando potenziali vulnerabilità di manipolazione degli indirizzi.
+impedisce l'inserimento di caratteri speciali nei parametri destinati a comparire in URL OAuth\glsadd{oauthg} e nei parametri di redirect, neutralizzando potenziali vulnerabilità di manipolazione degli indirizzi.
 
-Per le operazioni CRUD\glsadd{crudg}\glsfirstoccur{} sui client, il framework SCIM\glsadd{scimg}\glsfirstoccur{} 2.0 applica automaticamente la validazione dei payload in ingresso confrontando gli schemi definiti in \texttt{client.schema.json}, garantendo che nessuna configurazione sintatticalmente invalida possa essere persistita in MongoDB.
+Per le operazioni CRUD\glsadd{crudg} sui client, il framework SCIM\glsadd{scimg} 2.0 applica automaticamente la validazione dei payload in ingresso confrontando gli schemi definiti in \texttt{client.schema.json}, garantendo che nessuna configurazione sintatticalmente invalida possa essere persistita in MongoDB.
 
-Infine, la gerarchia di errori tipizzata (\texttt{InvalidValueError}, \texttt{ForbiddenError}, \texttt{NotFoundError}, \texttt{PreconditionFailedError}, \texttt{NotImplementedError}) e la relativa mappatura deterministica in codici HTTP\glsadd{http}\glsfirstoccur{}, già descritta nel Capitolo~\ref{cap:codifica}, garantisce che ogni condizione anomala sia codificata esplicitamente e che gli errori interni restituiscano un messaggio generico, prevenendo la fuga accidentale di informazioni sull'architettura interna del sistema.
+Infine, la gerarchia di errori tipizzata (\texttt{InvalidValueError}, \texttt{ForbiddenError}, \texttt{NotFoundError}, \texttt{PreconditionFailedError}, \texttt{NotImplementedError}) e la relativa mappatura deterministica in codici HTTP\glsadd{http}, già descritta nel Capitolo~\ref{cap:codifica}, garantisce che ogni condizione anomala sia codificata esplicitamente e che gli errori interni restituiscano un messaggio generico, prevenendo la fuga accidentale di informazioni sull'architettura interna del sistema.
 
 \section{Verifica dinamica}
 \label{sec:verifica_dinamica}
@@ -56,9 +56,9 @@ Per ciascuna delle quattro fasi del protocollo descritte nel Capitolo~\ref{cap:c
 
 \begin{itemize}
     \item \textbf{Fase 1 (Init)}: corretta creazione della sessione, generazione degli identificativi crittografici, costruzione dell'\texttt{authUrl}, e rifiuto in caso di client inesistente o dominio non configurato;
-    \item \textbf{Fase 2 (Request Object)}: corretta firma del JWT\glsadd{jwtg}\glsfirstoccur{}, inclusione delle chiavi effimere nel \texttt{client\_metadata}, funzionamento del flag anti-replay, e gestione dei diversi schemi di prefisso;
-    \item \textbf{Fase 3 (Response)}: corretta decifratura dei payload JWE\glsadd{jweg}, transizione atomica dello stato della sessione, validazione delle \textit{disclosure} SD-JWT\glsadd{sdjwtg}, verifica del Key Binding JWT (KB-JWT\glsadd{kbjwtg}\glsfirstoccur{}), e generazione del \texttt{responseCode} monouso;
-    \item \textbf{Fase 4 (Fetch)}: corretta restituzione del VP Token\glsadd{vptokeng}\glsfirstoccur{} al frontend, rifiuto di \texttt{responseCode} errati o già consumati, e cancellazione della sessione da Redis.
+    \item \textbf{Fase 2 (Request Object)}: corretta firma del JWT\glsadd{jwtg}, inclusione delle chiavi effimere nel \texttt{client\_metadata}, funzionamento del flag anti-replay, e gestione dei diversi schemi di prefisso;
+    \item \textbf{Fase 3 (Response)}: corretta decifratura dei payload JWE\glsadd{jweg}, transizione atomica dello stato della sessione, validazione delle \textit{disclosure} SD-JWT\glsadd{sdjwtg}, verifica del Key Binding JWT (KB-JWT\glsadd{kbjwtg}), e generazione del \texttt{responseCode} monouso;
+    \item \textbf{Fase 4 (Fetch)}: corretta restituzione del VP Token\glsadd{vptokeng} al frontend, rifiuto di \texttt{responseCode} errati o già consumati, e cancellazione della sessione da Redis.
 \end{itemize}
 
 \subsection{Testing manuale dei flussi di errore}
@@ -68,7 +68,7 @@ Accanto ai flussi nominali, sono stati verificati manualmente i principali scena
     \item invio di parametri mancanti o malformati (verifica della corretta restituzione di \texttt{400 Bad Request});
     \item richiesta di sessioni scadute o inesistenti (verifica del \texttt{404 Not Found});
     \item tentativo di consumare una sessione già in stato \texttt{response\_received};
-    \item invocazione doppia del Request Object sulla stessa sessione (verifica del \texttt{403 Forbidden} per replay\glsadd{replayattackg}\glsfirstoccur{});
+    \item invocazione doppia del Request Object sulla stessa sessione (verifica del \texttt{403 Forbidden} per replay\glsadd{replayattackg});
     \item invio di un VP Token\glsadd{vptokeng} con nonce errato (verifica del \texttt{403 Forbidden} nella validazione del Key Binding).
 \end{itemize}
 
@@ -76,7 +76,7 @@ Accanto ai flussi nominali, sono stati verificati manualmente i principali scena
 \label{sec:validazione_conformance}
 
 \subsection{La Conformance Test Suite della OpenID Foundation\glsadd{oidf}}
-La forma più autorevole di validazione per un'implementazione del protocollo OID4VP\glsadd{oid4vpg} è il superamento dei Conformance Test ufficiali rilasciati dalla OpenID Foundation\glsadd{oidf} (OIDF\glsadd{oidf}\glsfirstoccur{}). La suite di conformità, accessibile pubblicamente all'indirizzo \url{https://www.certification.openid.net/}, rappresenta lo strumento di riferimento adottato a livello internazionale per certificare la conformità delle implementazioni agli standard OpenID.
+La forma più autorevole di validazione per un'implementazione del protocollo OID4VP\glsadd{oid4vpg} è il superamento dei Conformance Test ufficiali rilasciati dalla OpenID Foundation\glsadd{oidf} (OIDF\glsadd{oidf}). La suite di conformità, accessibile pubblicamente all'indirizzo \url{https://www.certification.openid.net/}, rappresenta lo strumento di riferimento adottato a livello internazionale per certificare la conformità delle implementazioni agli standard OpenID.
 
 La suite opera come un simulatore di Digital Wallet\glsadd{digitalwalletg}: si sostituisce al wallet dell'utente e interagisce con il Verifier\glsadd{verifierg} sotto test, verificando che le risposte, i formati, i parametri di sicurezza e i comportamenti di errore siano aderenti alle specifiche. L'obiettivo non è testare la logica interna del software, ma validare che il comportamento osservabile dall'esterno sia conforme allo standard.
 
@@ -122,7 +122,7 @@ La suite controlla la conformità formale dei parametri scambiati:
 \begin{itemize}
     \item la presenza e la correttezza del \texttt{Content-Type} nelle risposte;
     \item la coerenza tra \texttt{client\_id} e lo schema di prefisso dichiarato;
-    \item la struttura e i claim del Request Object JWT\glsadd{jwtg} secondo la specifica JAR\glsadd{jarg}\glsfirstoccur{};
+    \item la struttura e i claim del Request Object JWT\glsadd{jwtg} secondo la specifica JAR\glsadd{jar}\glsadd{jarg};
     \item l'inclusione del \texttt{client\_metadata} quando lo schema di prefisso lo richiede (\texttt{MUST\_INCLUDE}).
 \end{itemize}
 
@@ -135,7 +135,7 @@ Le principali aree su cui si è intervenuti includono:
     \item la corretta formattazione del \texttt{Content-Type} nelle risposte HTTP\glsadd{http} del Request Object;
     \item la gestione precisa del \texttt{response\_mode} e delle sue varianti (\texttt{direct\_post} e \texttt{direct\_post.jwt});
     \item la corretta inclusione dei parametri di cifratura nel \texttt{client\_metadata} quando la negoziazione JWE\glsadd{jweg} è attiva;
-    \item l'aderenza alla struttura DCQL\glsadd{dcqlg}\glsfirstoccur{} nella serializzazione \textit{snake\_case} della query all'interno del Request Object;
+    \item l'aderenza alla struttura DCQL\glsadd{dcqlg} nella serializzazione \textit{snake\_case} della query all'interno del Request Object;
     \item la gestione corretta degli errori provenienti dal wallet (campo \texttt{error} e \texttt{error\_description}), con il redirect appropriato al frontend.
 \end{itemize}
 Questo ciclo di test, correzione e ri-esecuzione è stato fondamentale per affinare l'implementazione e portarla a un livello di conformità verificabile dall'esterno, costituendo il processo di validazione più significativo dell'intero progetto.

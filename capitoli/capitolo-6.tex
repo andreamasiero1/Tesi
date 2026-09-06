@@ -1,17 +1,17 @@
 \chapter{Valutazione finale}
 \label{cap:valutazione_finale}
 
-Le attività di progettazione e sviluppo del progetto \textit{monokee-relyingparty-core} si sono concluse con la realizzazione di un microservizio backend completo, in grado di ricoprire il ruolo di Relying Party\glsadd{relyingpartyg}\glsfirstoccur{} all'interno dell'ecosistema OID4VP\glsadd{oid4vp}\glsfirstoccur{}.
+Le attività di progettazione e sviluppo del progetto \textit{monokee-relyingparty-core} si sono concluse con la realizzazione di un microservizio backend completo, in grado di ricoprire il ruolo di Relying Party\glsadd{relyingpartyg} all'interno dell'ecosistema OID4VP\glsadd{oid4vp}\glsadd{oid4vpg}.
 
 \section{Sintesi e bilancio generale}
-L'obiettivo primario del lavoro era costruire un sistema capace di richiedere, ricevere e validare credenziali digitali verificabili nel formato SD-JWT\glsadd{sdjwtg}\glsfirstoccur{}, garantendo al contempo l'interoperabilità con qualsiasi wallet conforme allo standard e la protezione crittografica dei dati in transito. Questo obiettivo è stato raggiunto nella sua interezza: il sistema supporta l'intero ciclo di vita delle \textit{Verifiable Presentations} nelle sue quattro fasi operative (inizializzazione, generazione del Request Object, elaborazione della risposta e ritiro dei dati), ed è stato validato con successo attraverso i Conformance Test della OpenID Foundation\glsadd{oidf}.
+L'obiettivo primario del lavoro era costruire un sistema capace di richiedere, ricevere e validare credenziali digitali verificabili nel formato SD-JWT\glsadd{sdjwtg}, garantendo al contempo l'interoperabilità con qualsiasi wallet conforme allo standard e la protezione crittografica dei dati in transito. Questo obiettivo è stato raggiunto nella sua interezza: il sistema supporta l'intero ciclo di vita delle \textit{Verifiable Presentations} nelle sue quattro fasi operative (inizializzazione, generazione del Request Object, elaborazione della risposta e ritiro dei dati), ed è stato validato con successo attraverso i Conformance Test della OpenID Foundation\glsadd{oidf}.
 
 Il valore aggiunto dell'implementazione risiede nelle sue proprietà architetturali, che la rendono adatta a un contesto di produzione \textit{enterprise}:
 
 \begin{itemize}
-    \item \textbf{Affidabilità e tolleranza ai guasti:} lo stato transazionale è interamente esternalizzato su Redis con TTL\glsadd{ttl}\glsfirstoccur{} automatici, garantendo che nessuna sessione rimanga orfana e che il sistema possa riprendersi da crash senza perdita di coerenza.
-    \item \textbf{Sicurezza by design:} l'implementazione della Forward Secrecy\glsadd{forwardsecrecyg}\glsfirstoccur{} tramite chiavi effimere monouso con distruzione atomica, la verifica crittografica end-to-end delle Trust Chain\glsadd{trustchaing}\glsfirstoccur{} OpenID Federation, e la validazione multi-livello delle SD-JWT (firma issuer, hash \textit{disclosure}, KB-JWT\glsadd{kbjwtg}\glsfirstoccur{}) costituiscono difese in profondità contro un ampio spettro di attacchi.
-    \item \textbf{Multi-tenancy nativa:} l'isolamento logico per dominio, garantito sia a livello applicativo sia a livello di database (indici composti su MongoDB), rende il sistema immediatamente utilizzabile in contesti  dove organizzazioni diverse condividono la medesima infrastruttura.
+    \item \textbf{Affidabilità e tolleranza ai guasti:} lo stato transazionale è interamente esternalizzato su Redis con TTL\glsadd{ttl}\glsadd{ttlg} automatici, garantendo che nessuna sessione rimanga orfana e che il sistema possa riprendersi da crash senza perdita di coerenza.
+    \item \textbf{Sicurezza by design:} l'implementazione della Forward Secrecy\glsadd{forwardsecrecyg} tramite chiavi effimere monouso con distruzione atomica, la verifica crittografica end-to-end delle Trust Chain\glsadd{trustchaing} OpenID Federation, e la validazione multi-livello delle SD-JWT (firma issuer, hash \textit{disclosure}, KB-JWT\glsadd{kbjwtg}) costituiscono difese in profondità contro un ampio spettro di attacchi.
+    \item \textbf{Multi-tenancy\glsadd{multitenancyg} nativa:} l'isolamento logico per dominio, garantito sia a livello applicativo sia a livello di database (indici composti su MongoDB), rende il sistema immediatamente utilizzabile in contesti  dove organizzazioni diverse condividono la medesima infrastruttura.
     \item \textbf{Scalabilità orizzontale:} non salvando dati nella memoria del singolo server, è possibile replicare facilmente il backend su più nodi dietro a un load balancer, senza dover modificare l'architettura del sistema.
 \end{itemize}
 
@@ -31,9 +31,9 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, �
 \midrule
 \textbf{RF-01} & Inizializzazione sessione OID4VP & Il sistema deve creare una sessione transazionale, generare identificativi crittografici (nonce, requestId, sessionId, transactionId) e restituire un URL di autorizzazione. & Soddisfatto \\
 \hline
-\textbf{RF-02} & Generazione Request Object JWT & Il sistema deve costruire e firmare un JWT\glsadd{jwt}\glsfirstoccur{} conforme a JAR\glsadd{jar}\glsfirstoccur{} (RFC 9101) contenente i parametri OID4VP, la query DCQL\glsadd{dcqlg}\glsfirstoccur{} e le chiavi effimere. & Soddisfatto \\
+\textbf{RF-02} & Generazione Request Object JWT & Il sistema deve costruire e firmare un JWT\glsadd{jwt}\glsadd{jwtg} conforme a JAR\glsadd{jar}\glsadd{jarg} contenente i parametri OID4VP, la query DCQL\glsadd{dcqlg} e le chiavi effimere. & Soddisfatto \\
 \hline
-\textbf{RF-03} & Elaborazione risposta del Wallet & Il sistema deve ricevere il VP Token\glsadd{vptokeng}\glsfirstoccur{}, decifrare il payload JWE\glsadd{jwe}\glsfirstoccur{} se necessario, validare la presentazione e generare un codice di ritiro monouso. & Soddisfatto \\
+\textbf{RF-03} & Elaborazione risposta del Wallet & Il sistema deve ricevere il VP Token\glsadd{vptokeng}, decifrare il payload JWE\glsadd{jwe}\glsadd{jweg} se necessario, validare la presentazione e generare un codice di ritiro monouso. & Soddisfatto \\
 \hline
 \textbf{RF-04} & Fetch e consegna della presentazione & Il sistema deve validare il responseCode, consegnare il VP Token verificato al Frontend e cancellare la sessione. & Soddisfatto \\
 \hline
@@ -41,15 +41,15 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, �
 \hline
 \textbf{RF-06} & Verifica crittografica SD-JWT & Il sistema deve parsare le SD-JWT, verificare la firma dell'issuer, validare gli hash delle disclosures e controllare il Key Binding JWT. & Soddisfatto \\
 \hline
-\textbf{RF-07} & Risoluzione Trust Chain (OpenID Fed.) & Il sistema deve risolvere ricorsivamente catene di fiducia tramite DFS\glsadd{dfs}\glsfirstoccur{} con cycle detection e validare crittograficamente ogni anello della catena. & Soddisfatto \\
+\textbf{RF-07} & Risoluzione Trust Chain (OpenID Fed.) & Il sistema deve risolvere ricorsivamente catene di fiducia tramite DFS\glsadd{dfs} con cycle detection e validare crittograficamente ogni anello della catena. & Soddisfatto \\
 \hline
-\textbf{RF-08} & Negoziazione algoritmica Verifier-Wallet & Il sistema deve negoziare dinamicamente gli algoritmi JWE, JWS\glsadd{jws}\glsfirstoccur{} e i formati VP supportati tra il Client configurato e le capability del wallet. & Soddisfatto \\
+\textbf{RF-08} & Negoziazione algoritmica Verifier-Wallet & Il sistema deve negoziare dinamicamente gli algoritmi JWE, JWS\glsadd{jws}\glsadd{jwsg} e i formati VP supportati tra il Client configurato e le capability del wallet. & Soddisfatto \\
 \hline
 \textbf{RF-09} & Validazione DCQL completa & Il sistema deve verificare la corrispondenza delle credenziali presentate rispetto alla query DCQL, con supporto a \texttt{credentialSets} (valutati in ), \texttt{claimSets}, path traversal e vincoli \texttt{vct}. & Soddisfatto \\
 \hline
 \textbf{RF-10} & Gestione chiavi effimere JWE & Il sistema deve generare coppie di chiavi asimmetriche effimere, salvarle in Redis con TTL, e distruggerle atomicamente dopo il primo utilizzo. & Soddisfatto \\
 \hline
-\textbf{RF-11} & CRUD\glsadd{crud}\glsfirstoccur{} Client via SCIM\glsadd{scimg}\glsfirstoccur{} 2.0 & Il sistema deve esporre endpoint REST\glsadd{rest}\glsfirstoccur{} per la creazione, lettura, aggiornamento e cancellazione delle configurazioni Client, conformi allo standard SCIM 2.0. & Soddisfatto \\
+\textbf{RF-11} & CRUD\glsadd{crudg} Client via SCIM\glsadd{scimg} 2.0 & Il sistema deve esporre endpoint REST\glsadd{rest} per la creazione, lettura, aggiornamento e cancellazione delle configurazioni Client, conformi allo standard SCIM 2.0. & Soddisfatto \\
 \hline
 \textbf{RF-12} & Gestione errori del Wallet & Il sistema deve gestire le risposte di errore del wallet (\texttt{error}, \texttt{error\_description}), aggiornare lo stato della sessione a \texttt{failed} e produrre un redirect URI con i parametri di errore. & Soddisfatto \\
 \hline
@@ -73,9 +73,9 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, �
 \midrule
 \textbf{RNF-01} & Statelessness del backend & Nessuno stato transazionale in memoria locale; tutto esternalizzato su Redis. & Soddisfatto \\
 \hline
-\textbf{RNF-02} & Multitenancy\glsadd{multitenancyg}\glsfirstoccur{} & Isolamento dati per dominio a livello applicativo e di database. & Soddisfatto \\
+\textbf{RNF-02} & Multitenancy\glsadd{multitenancyg} & Isolamento dati per dominio a livello applicativo e di database. & Soddisfatto \\
 \hline
-\textbf{RNF-03} & Forward Secrecy & Chiavi effimere monouso con distruzione atomica post-uso. & Soddisfatto \\
+\textbf{RNF-03} & Forward Secrecy\glsadd{forwardsecrecyg} & Chiavi effimere monouso con distruzione atomica post-uso. & Soddisfatto \\
 \hline
 \textbf{RNF-04} & Osservabilità & Logging strutturato con correlazione contestuale via AsyncLocalStorage. & Soddisfatto \\
 \hline
@@ -126,8 +126,8 @@ Il debito tecnico precedentemente individuato, unito alla continua evoluzione de
 Sviluppare un sistema di questa complessità ha richiesto di acquisire e consolidare diverse competenze tecniche, spingendosi ben oltre il tradizionale sviluppo web:
 
 \begin{itemize}
-    \item \textbf{Crittografia applicata e protocolli di sicurezza:} applicazione concreta della firma digitale asimmetrica (JWS), della cifratura ibrida (JWE), della generazione di chiavi effimere per la Forward Secrecy, e della verifica di catene di fiducia. L'implementazione del parser SD-JWT ha rappresentato la sfida più complessa, richiedendo la convalida di hash, la ricostruzione di digest crittografici e l'analisi di Key Binding JWT.
-    \item \textbf{Protocolli di identità decentralizzata:} studio approfondito dell'ecosistema normativo (OID4VP, DCQL, SD-JWT, OpenID Federation 1.0, JAR). Leggere, interpretare e tradurre in codice funzionante un \textit{draft} di specifica internazionale rappresenta una competenza fondamentale in questo settore.
+    \item \textbf{Crittografia applicata e protocolli di sicurezza:} applicazione concreta della firma digitale asimmetrica (JWS), della cifratura ibrida (JWE), della generazione di chiavi effimere per la \textit{Forward Secrecy\glsadd{forwardsecrecyg}}, e della verifica di catene di fiducia. L'implementazione del parser SD-JWT ha rappresentato la sfida più complessa, richiedendo la convalida di hash, la ricostruzione di digest crittografici e l'analisi di Key Binding JWT.
+    \item \textbf{Protocolli di identità decentralizzata:} studio approfondito dell'ecosistema normativo (OID4VP, DCQL\glsadd{dcqlg}, SD-JWT, OpenID Federation 1.0, JAR\glsadd{jar}\glsadd{jarg}). Leggere, interpretare e tradurre in codice funzionante un \textit{draft} di specifica internazionale rappresenta una competenza fondamentale in questo settore.
     \item \textbf{TypeScript e Node.js in ambito server-side:} consolidamento di TypeScript in scenari critici, sfruttando la tipizzazione statica per modellare i contratti tra servizi, e padronanza del runtime asincrono Node.js.
     \item \textbf{Architettura a microservizi e pattern:} progettazione modulare consapevole, sfruttando pattern come \textit{Layered Architecture}, \textit{Facade}, \textit{Pipeline} e \textit{Strategy}, bilanciando costi e benefici delle scelte architetturali.
     \item \textbf{Gestione di database dual-layer:} utilizzo combinato di Redis per lo stato transitorio e MongoDB per la persistenza configurativa, sfruttando funzionalità avanzate per rispondere a rigorosi requisiti di sicurezza.
@@ -144,7 +144,7 @@ L'attività progettuale ha favorito inoltre lo sviluppo di importanti competenze
 \end{itemize}
 
 \section{Riflessione e chiusura}
-L'esperienza di tirocinio ha rappresentato un'opportunità formativa preziosa, consentendo di consolidare le nozioni teoriche apprese durante il percorso accademico e di applicarle all'interno di un contesto aziendale reale. La progettazione e lo sviluppo del modulo Relying Party hanno richiesto un impegno costante, rendendo necessaria la gestione dell'intero ciclo di vita del prodotto software: dall'analisi dei requisiti fino alla fase di collaudo. A questo processo si è aggiunta la complessità del dominio applicativo. Se, infatti, a livello teorico una firma digitale può apparire come un'operazione elementare, nella realtà ingegneristica essa impone la negoziazione dinamica degli algoritmi, la validazione rigorosa dei certificati X.509 nei JWK\glsadd{jwk}\glsfirstoccur{} e la prevenzione attiva delle vulnerabilità crittografiche.
+L'esperienza di tirocinio ha rappresentato un'opportunità formativa preziosa, consentendo di consolidare le nozioni teoriche apprese durante il percorso accademico e di applicarle all'interno di un contesto aziendale reale. La progettazione e lo sviluppo del modulo Relying Party hanno richiesto un impegno costante, rendendo necessaria la gestione dell'intero ciclo di vita del prodotto software: dall'analisi dei requisiti fino alla fase di collaudo. A questo processo si è aggiunta la complessità del dominio applicativo. Se, infatti, a livello teorico una firma digitale può apparire come un'operazione elementare, nella realtà ingegneristica essa impone la negoziazione dinamica degli algoritmi, la validazione rigorosa dei certificati X.509 nei JWK\glsadd{jwk}\glsadd{jwkg} e la prevenzione attiva delle vulnerabilità crittografiche.
 
 Inoltre, l'ingegneria del software applicata a contesti critici, quale l'identità digitale decentralizzata, richiede una profonda assunzione di responsabilità.
 

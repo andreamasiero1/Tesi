@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{process}\PYG{p}{.}\PYG{n+nx}{env}\PYG{p}{.}\PYG{n+nx}{NODE\PYGZus{}ENV}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}development\PYGZsq{}}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{    }\PYG{o}{!}\PYG{n+nx}{matchingDnsName}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{responseUriFqdn}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}host.docker.internal\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n+nx}{matchingDnsName}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{dnsNames}\PYG{p}{.}\PYG{n+nx}{find}\PYG{p}{((}\PYG{n+nx}{dns}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{dns}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}localhost\PYGZsq{}}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}
