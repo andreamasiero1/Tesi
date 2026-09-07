@@ -1,0 +1,22 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Logo di Monokee}}{1}{figure.caption.15}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Diagramma dei casi d'uso -- Scenario principale del Relying Party\glsadd {relyingpartyg}}}{8}{figure.caption.16}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces UC1 -- Inizializzazione della richiesta di presentazione}}{9}{figure.caption.18}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces UC2 -- Generazione del Request Object}}{13}{figure.caption.25}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces UC3 -- Ricezione ed analisi della risposta del \textit {Wallet}}}{19}{figure.caption.34}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces UC4 -- Recupero della presentazione (fetch)}}{28}{figure.caption.46}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces UC5 -- Gestione del ciclo di vita del client}}{31}{figure.caption.51}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces UC6 -- Validazione della Trust Chain\glsadd {trustchaing}}}{34}{figure.caption.57}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Architettura generale del sistema Relying Party\glsadd {relyingpartyg}}}{44}{figure.caption.62}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Organizzazione della codebase}}{46}{figure.caption.63}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Flusso di inizializzazione della sessione di presentazione}}{54}{figure.caption.64}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Sessione salvata su Redis}}{55}{figure.caption.65}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Generazione del Request Object}}{56}{figure.caption.66}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

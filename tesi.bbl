@@ -81,6 +81,30 @@
       \verb https://eur-lex.europa.eu/eli/reg/2024/1183/oj
       \endverb
     \endentry
+    \entry{docker}{online}{}{}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labeltitlesource}{title}
+      \field{title}{Docker: Accelerated Container Application Development}
+      \verb{urlraw}
+      \verb https://www.docker.com/
+      \endverb
+      \verb{url}
+      \verb https://www.docker.com/
+      \endverb
+    \endentry
+    \entry{eslint}{online}{}{}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labeltitlesource}{title}
+      \field{title}{ESLint: Find and fix problems in your JavaScript code}
+      \verb{urlraw}
+      \verb https://eslint.org/
+      \endverb
+      \verb{url}
+      \verb https://eslint.org/
+      \endverb
+    \endentry
     \entry{eudi-arf}{online}{}{}
       \name{author}{1}{}{%
         {{hash=5f157a82413f7834e81540cb50a320d8}{%
@@ -109,6 +133,18 @@
       \endverb
       \verb{url}
       \verb https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework
+      \endverb
+    \endentry
+    \entry{expressjs}{online}{}{}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labeltitlesource}{title}
+      \field{title}{Express: Fast, unopinionated, minimalist web framework for Node.js}
+      \verb{urlraw}
+      \verb https://expressjs.com/
+      \endverb
+      \verb{url}
+      \verb https://expressjs.com/
       \endverb
     \endentry
     \entry{sd-jwt}{online}{}{}
@@ -272,19 +308,80 @@
       \strng{authornamehash}{a89deb1160f5c4cb2b4ca1c0fd738891}
       \strng{authorfullhash}{7bd5b79d8ac0d861642ba957d93e1f1c}
       \strng{authorfullhashraw}{7bd5b79d8ac0d861642ba957d93e1f1c}
+      \field{extraname}{1}
       \field{sortinit}{H}
       \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{RFC 7643: System for Cross-domain Identity Management (SCIM): Core Schema}
       \field{year}{2015}
-      \true{nocite}
       \verb{urlraw}
       \verb https://datatracker.ietf.org/doc/html/rfc7643
       \endverb
       \verb{url}
       \verb https://datatracker.ietf.org/doc/html/rfc7643
       \endverb
+    \endentry
+    \entry{rfc7644}{online}{}{}
+      \name{author}{5}{}{%
+        {{hash=c67c9576c06534f305ff02071c8701e9}{%
+           family={Hunt},
+           familyi={H\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=c1d0cf959731d9904611c2b30bdd6f0c}{%
+           family={Grizzle},
+           familyi={G\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=81a2323624c2d7b1c9dac6416645d303}{%
+           family={Ansari},
+           familyi={A\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=bab7763fc1ead197089902e1cfba792b}{%
+           family={Wahlstroem},
+           familyi={W\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=53ed05574d78c1c5c5115fa112d0f73d}{%
+           family={Mortimore},
+           familyi={M\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{a89deb1160f5c4cb2b4ca1c0fd738891}
+      \strng{fullhash}{22207133eaa1bf3bb40842747d224f39}
+      \strng{fullhashraw}{22207133eaa1bf3bb40842747d224f39}
+      \strng{bibnamehash}{a89deb1160f5c4cb2b4ca1c0fd738891}
+      \strng{authorbibnamehash}{a89deb1160f5c4cb2b4ca1c0fd738891}
+      \strng{authornamehash}{a89deb1160f5c4cb2b4ca1c0fd738891}
+      \strng{authorfullhash}{22207133eaa1bf3bb40842747d224f39}
+      \strng{authorfullhashraw}{22207133eaa1bf3bb40842747d224f39}
+      \field{extraname}{2}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{RFC 7644: System for Cross-domain Identity Management (SCIM): Protocol}
+      \field{year}{2015}
+      \verb{urlraw}
+      \verb https://datatracker.ietf.org/doc/html/rfc7644
+      \endverb
+      \verb{url}
+      \verb https://datatracker.ietf.org/doc/html/rfc7644
+      \endverb
+    \endentry
+    \entry{ieee1012}{standard}{}{}
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labeltitlesource}{title}
+      \field{number}{IEEE Std 1012-2016}
+      \field{title}{IEEE Standard for System, Software, and Hardware Verification and Validation}
+      \field{year}{2017}
     \endentry
     \entry{rfc7515}{online}{}{}
       \name{author}{3}{}{%
@@ -403,6 +500,33 @@
       \verb https://datatracker.ietf.org/doc/html/rfc7516
       \endverb
     \endentry
+    \entry{azurecr}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhashraw}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhashraw}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Azure Container Registry}
+      \verb{urlraw}
+      \verb https://azure.microsoft.com/services/container-registry/
+      \endverb
+      \verb{url}
+      \verb https://azure.microsoft.com/services/container-registry/
+      \endverb
+    \endentry
     \entry{typescript}{online}{}{}
       \name{author}{1}{}{%
         {{hash=140864078aeca1c7c35b4beb33c53c34}{%
@@ -417,6 +541,7 @@
       \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
       \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
       \strng{authorfullhashraw}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{2}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -456,6 +581,18 @@
       \verb https://www.monokee.com/
       \endverb
     \endentry
+    \entry{ngrok}{online}{}{}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labeltitlesource}{title}
+      \field{title}{ngrok: Unified Application Delivery Platform}
+      \verb{urlraw}
+      \verb https://ngrok.com/
+      \endverb
+      \verb{url}
+      \verb https://ngrok.com/
+      \endverb
+    \endentry
     \entry{nodejs}{online}{}{}
       \field{sortinit}{N}
       \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
@@ -469,6 +606,30 @@
       \verb https://nodejs.org/
       \endverb
     \endentry
+    \entry{nodemon}{online}{}{}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labeltitlesource}{title}
+      \field{title}{Nodemon: Monitor for any changes in your node.js application}
+      \verb{urlraw}
+      \verb https://nodemon.io/
+      \endverb
+      \verb{url}
+      \verb https://nodemon.io/
+      \endverb
+    \endentry
+    \entry{prettier}{online}{}{}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labeltitlesource}{title}
+      \field{title}{Prettier: Opinionated Code Formatter}
+      \verb{urlraw}
+      \verb https://prettier.io/
+      \endverb
+      \verb{url}
+      \verb https://prettier.io/
+      \endverb
+    \endentry
     \entry{redis}{online}{}{}
       \field{sortinit}{R}
       \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
@@ -480,6 +641,45 @@
       \endverb
       \verb{url}
       \verb https://redis.io/
+      \endverb
+    \endentry
+    \entry{rfc9101}{online}{}{}
+      \name{author}{3}{}{%
+        {{hash=2764fe7207c045fdc85a76e2d51203a3}{%
+           family={Sakimura},
+           familyi={S\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=3ac7ec83304c92610359a406f07ad45a}{%
+           family={Bradley},
+           familyi={B\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=3656094aa90ce6b5927293e625dedee3}{%
+           family={Jones},
+           familyi={J\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{df832d5509a2f6efca00672b51f5075a}
+      \strng{fullhash}{df832d5509a2f6efca00672b51f5075a}
+      \strng{fullhashraw}{df832d5509a2f6efca00672b51f5075a}
+      \strng{bibnamehash}{df832d5509a2f6efca00672b51f5075a}
+      \strng{authorbibnamehash}{df832d5509a2f6efca00672b51f5075a}
+      \strng{authornamehash}{df832d5509a2f6efca00672b51f5075a}
+      \strng{authorfullhash}{df832d5509a2f6efca00672b51f5075a}
+      \strng{authorfullhashraw}{df832d5509a2f6efca00672b51f5075a}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{RFC 9101: The OAuth 2.0 Authorization Framework: JWT-Secured Authorization Request (JAR)}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://datatracker.ietf.org/doc/html/rfc9101
+      \endverb
+      \verb{url}
+      \verb https://datatracker.ietf.org/doc/html/rfc9101
       \endverb
     \endentry
     \entry{jose-lib}{online}{}{}
@@ -511,6 +711,33 @@
       \verb https://github.com/panva/jose
       \endverb
     \endentry
+    \entry{sommerville}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=70341b3bfcce7026902f4eb1e4111b58}{%
+           family={Sommerville},
+           familyi={S\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{fullhash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{fullhashraw}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{bibnamehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{authorbibnamehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{authornamehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{authorfullhash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{authorfullhashraw}{70341b3bfcce7026902f4eb1e4111b58}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{10th}
+      \field{title}{Software Engineering}
+      \field{year}{2015}
+    \endentry
     \entry{w3c-vc}{online}{}{}
       \name{author}{1}{}{%
         {{hash=446a1ae6601a5c59360c7d591c3992da}{%
@@ -536,6 +763,52 @@
       \endverb
       \verb{url}
       \verb https://www.w3.org/TR/vc-data-model-2.0/
+      \endverb
+    \endentry
+    \entry{yarn}{online}{}{}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{labeltitlesource}{title}
+      \field{title}{Yarn: Fast, reliable, and secure dependency management}
+      \verb{urlraw}
+      \verb https://yarnpkg.com/
+      \endverb
+      \verb{url}
+      \verb https://yarnpkg.com/
+      \endverb
+    \endentry
+    \entry{dcql}{online}{}{}
+      \name{author}{2}{}{%
+        {{hash=6d437ed3955a915125cd1ef3a1e480f5}{%
+           family={Yasuda},
+           familyi={Y\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=ec7958bfd29d85e176d6038302ce62f4}{%
+           family={Lodderstedt},
+           familyi={L\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{6a73ea9c43a04f6633166c7491403b9b}
+      \strng{fullhash}{6a73ea9c43a04f6633166c7491403b9b}
+      \strng{fullhashraw}{6a73ea9c43a04f6633166c7491403b9b}
+      \strng{bibnamehash}{6a73ea9c43a04f6633166c7491403b9b}
+      \strng{authorbibnamehash}{6a73ea9c43a04f6633166c7491403b9b}
+      \strng{authornamehash}{6a73ea9c43a04f6633166c7491403b9b}
+      \strng{authorfullhash}{6a73ea9c43a04f6633166c7491403b9b}
+      \strng{authorfullhashraw}{6a73ea9c43a04f6633166c7491403b9b}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{IETF Internet-Draft}
+      \field{title}{Digital Credentials Query Language (DCQL)}
+      \verb{urlraw}
+      \verb https://datatracker.ietf.org/doc/draft-ietf-oauth-dcql/
+      \endverb
+      \verb{url}
+      \verb https://datatracker.ietf.org/doc/draft-ietf-oauth-dcql/
       \endverb
     \endentry
   \enddatalist
