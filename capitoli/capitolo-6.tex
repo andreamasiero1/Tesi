@@ -1,18 +1,18 @@
 \chapter{Valutazione finale}
 \label{cap:valutazione_finale}
 
-Le attività di progettazione e sviluppo del progetto \textit{monokee-relyingparty-core} si sono concluse con la realizzazione di un microservizio backend completo, in grado di ricoprire il ruolo di Relying Party\glsadd{relyingpartyg} all'interno dell'ecosistema OID4VP\glsadd{oid4vp}\glsadd{oid4vpg}.
+Le attività di progettazione e sviluppo del progetto \textit{monokee-relyingparty-core} si sono concluse con la realizzazione di un microservizio \textit{backend} completo, in grado di ricoprire il ruolo di Relying Party\glsadd{relyingpartyg} all'interno dell'ecosistema OID4VP\glsadd{oid4vp}\glsadd{oid4vpg}.
 
 \section{Sintesi e bilancio generale}
-L'obiettivo primario del lavoro era costruire un sistema capace di richiedere, ricevere e validare credenziali digitali verificabili nel formato SD-JWT\glsadd{sdjwtg}, garantendo al contempo l'interoperabilità con qualsiasi wallet conforme allo standard e la protezione crittografica dei dati in transito. Questo obiettivo è stato raggiunto nella sua interezza: il sistema supporta l'intero ciclo di vita delle \textit{Verifiable Presentations} nelle sue quattro fasi operative (inizializzazione, generazione del Request Object, elaborazione della risposta e ritiro dei dati), ed è stato validato con successo attraverso i Conformance Test della OpenID Foundation\glsadd{oidf}.
+L'obiettivo primario del lavoro era costruire un sistema capace di richiedere, ricevere e validare credenziali digitali verificabili nel formato SD-JWT\glsadd{sdjwtg}, garantendo al contempo l'interoperabilità con qualsiasi \textit{wallet} conforme allo standard e la protezione crittografica dei dati in transito. Questo obiettivo è stato raggiunto nella sua interezza: il sistema supporta l'intero ciclo di vita delle \textit{Verifiable Presentations} nelle sue quattro fasi operative (inizializzazione, generazione del Request Object, elaborazione della risposta e ritiro dei dati), ed è stato validato con successo attraverso i Conformance Test della OpenID Foundation\glsadd{oidf}.
 
 Il valore aggiunto dell'implementazione risiede nelle sue proprietà architetturali, che la rendono adatta a un contesto di produzione \textit{enterprise}:
 
 \begin{itemize}
-    \item \textbf{Affidabilità e tolleranza ai guasti:} lo stato transazionale è interamente esternalizzato su Redis con TTL\glsadd{ttl}\glsadd{ttlg} automatici, garantendo che nessuna sessione rimanga orfana e che il sistema possa riprendersi da crash senza perdita di coerenza.
+    \item \textbf{Affidabilità e tolleranza ai guasti:} lo stato transazionale è interamente esternalizzato su Redis con TTL\glsadd{ttl}\glsadd{ttlg} automatici, garantendo che nessuna sessione rimanga orfana e che il sistema possa riprendersi da \textit{crash} senza perdita di coerenza.
     \item \textbf{Sicurezza by design:} l'implementazione della Forward Secrecy\glsadd{forwardsecrecyg} tramite chiavi effimere monouso con distruzione atomica, la verifica crittografica end-to-end delle Trust Chain\glsadd{trustchaing} OpenID Federation, e la validazione multi-livello delle SD-JWT (firma issuer, hash \textit{disclosure}, KB-JWT\glsadd{kbjwtg}) costituiscono difese in profondità contro un ampio spettro di attacchi.
     \item \textbf{Multi-tenancy\glsadd{multitenancyg} nativa:} l'isolamento logico per dominio, garantito sia a livello applicativo sia a livello di database (indici composti su MongoDB), rende il sistema immediatamente utilizzabile in contesti  dove organizzazioni diverse condividono la medesima infrastruttura.
-    \item \textbf{Scalabilità orizzontale:} non salvando dati nella memoria del singolo server, è possibile replicare facilmente il backend su più nodi dietro a un load balancer, senza dover modificare l'architettura del sistema.
+    \item \textbf{Scalabilità orizzontale:} non salvando dati nella memoria del singolo server, è possibile replicare facilmente il \textit{backend} su più nodi dietro a un load balancer, senza dover modificare l'architettura del sistema.
 \end{itemize}
 
 Il risultato finale consiste, pertanto, in un componente \textit{production-ready} progettato per essere integrato in un ecosistema di identità digitale reale, la cui conformità è stata certificata formalmente.
@@ -33,9 +33,9 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, �
 \hline
 \textbf{RF-02} & Generazione Request Object JWT & Il sistema deve costruire e firmare un JWT\glsadd{jwt}\glsadd{jwtg} conforme a JAR\glsadd{jar}\glsadd{jarg} contenente i parametri OID4VP, la query DCQL\glsadd{dcqlg} e le chiavi effimere. & Soddisfatto \\
 \hline
-\textbf{RF-03} & Elaborazione risposta del Wallet & Il sistema deve ricevere il VP Token\glsadd{vptokeng}, decifrare il payload JWE\glsadd{jwe}\glsadd{jweg} se necessario, validare la presentazione e generare un codice di ritiro monouso. & Soddisfatto \\
+\textbf{RF-03} & Elaborazione risposta del \textit{Wallet} & Il sistema deve ricevere il VP Token\glsadd{vptokeng}, decifrare il \textit{payload} JWE\glsadd{jwe}\glsadd{jweg} se necessario, validare la presentazione e generare un codice di ritiro monouso. & Soddisfatto \\
 \hline
-\textbf{RF-04} & Fetch e consegna della presentazione & Il sistema deve validare il responseCode, consegnare il VP Token verificato al Frontend e cancellare la sessione. & Soddisfatto \\
+\textbf{RF-04} & Fetch e consegna della presentazione & Il sistema deve validare il responseCode, consegnare il VP Token verificato al \textit{Frontend} e cancellare la sessione. & Soddisfatto \\
 \hline
 \textbf{RF-05} & Supporto a 6 schemi Client ID & Il sistema deve gestire i prefissi \texttt{redirect\_uri}, \texttt{x509\_san\_dns}, \texttt{x509\_hash}, \texttt{openid\_federation}, \texttt{verifier\_attestation}, \texttt{pre\_registered}. & Soddisfatto \\
 \hline
@@ -43,15 +43,15 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, �
 \hline
 \textbf{RF-07} & Risoluzione Trust Chain (OpenID Fed.) & Il sistema deve risolvere ricorsivamente catene di fiducia tramite DFS\glsadd{dfs} con cycle detection e validare crittograficamente ogni anello della catena. & Soddisfatto \\
 \hline
-\textbf{RF-08} & Negoziazione algoritmica Verifier-Wallet & Il sistema deve negoziare dinamicamente gli algoritmi JWE, JWS\glsadd{jws}\glsadd{jwsg} e i formati VP supportati tra il Client configurato e le capability del wallet. & Soddisfatto \\
+\textbf{RF-08} & Negoziazione algoritmica Verifier-\textit{Wallet} & Il sistema deve negoziare dinamicamente gli algoritmi JWE, JWS\glsadd{jws}\glsadd{jwsg} e i formati VP supportati tra il Client configurato e le capability del \textit{wallet}. & Soddisfatto \\
 \hline
 \textbf{RF-09} & Validazione DCQL completa & Il sistema deve verificare la corrispondenza delle credenziali presentate rispetto alla query DCQL, con supporto a \texttt{credentialSets} (valutati in ), \texttt{claimSets}, path traversal e vincoli \texttt{vct}. & Soddisfatto \\
 \hline
 \textbf{RF-10} & Gestione chiavi effimere JWE & Il sistema deve generare coppie di chiavi asimmetriche effimere, salvarle in Redis con TTL, e distruggerle atomicamente dopo il primo utilizzo. & Soddisfatto \\
 \hline
-\textbf{RF-11} & CRUD\glsadd{crudg} Client via SCIM\glsadd{scimg} 2.0 & Il sistema deve esporre endpoint REST\glsadd{rest} per la creazione, lettura, aggiornamento e cancellazione delle configurazioni Client, conformi allo standard SCIM 2.0. & Soddisfatto \\
+\textbf{RF-11} & CRUD\glsadd{crudg} Client via SCIM\glsadd{scimg} 2.0 & Il sistema deve esporre \textit{endpoint} REST\glsadd{rest} per la creazione, lettura, aggiornamento e cancellazione delle configurazioni Client, conformi allo standard SCIM 2.0. & Soddisfatto \\
 \hline
-\textbf{RF-12} & Gestione errori del Wallet & Il sistema deve gestire le risposte di errore del wallet (\texttt{error}, \texttt{error\_description}), aggiornare lo stato della sessione a \texttt{failed} e produrre un redirect URI con i parametri di errore. & Soddisfatto \\
+\textbf{RF-12} & Gestione errori del \textit{Wallet} & Il sistema deve gestire le risposte di errore del \textit{wallet} (\texttt{error}, \texttt{error\_description}), aggiornare lo stato della sessione a \texttt{failed} e produrre un redirect URI con i parametri di errore. & Soddisfatto \\
 \hline
 \textbf{RF-13} & Anti-replay del Request Object & Il sistema deve impedire la generazione multipla del Request Object per la stessa sessione tramite il flag \texttt{isRequestUriConsumed}. & Soddisfatto \\
 \hline
@@ -71,7 +71,7 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, �
 \toprule
 \textbf{\#} & \textbf{Requisito} & \textbf{Descrizione} & \textbf{Stato} \\
 \midrule
-\textbf{RNF-01} & Statelessness del backend & Nessuno stato transazionale in memoria locale; tutto esternalizzato su Redis. & Soddisfatto \\
+\textbf{RNF-01} & Statelessness del \textit{backend} & Nessuno stato transazionale in memoria locale; tutto esternalizzato su Redis. & Soddisfatto \\
 \hline
 \textbf{RNF-02} & Multitenancy\glsadd{multitenancyg} & Isolamento dati per dominio a livello applicativo e di database. & Soddisfatto \\
 \hline
@@ -96,7 +96,7 @@ Il bilancio complessivo mostra che tutti i 15 requisiti funzionali e 6 dei 7 req
 Oltre ai risultati positivi raggiunti, è fondamentale documentare con trasparenza il debito tecnico accumulato durante lo sviluppo. Analizzare queste limitazioni è essenziale per comprendere lo stato attuale del sistema e per pianificare gli interventi futuri. Di seguito vengono descritte le principali problematiche individuate, dalla più alla meno critica:
 
 \begin{itemize}
-    \item \textbf{Assenza di test automatizzati (Criticità Alta):} l'assenza di un framework di testing dedicato è un problema rilevante per un sistema che gestisce identità digitali, in quanto l'attuale verifica del software dipende interamente da procedure manuali. Questa mancanza, dovuta ai tempi ristretti del progetto che hanno imposto di dare priorità alle funzionalità principali (\textit{core}), aumenta il rischio che vulnerabilità o malfunzionamenti crittografici possano passare inosservati, con conseguenze potenzialmente gravi per la sicurezza.
+    \item \textbf{Assenza di test automatizzati (Criticità Alta):} l'assenza di un \textit{framework} di testing dedicato è un problema rilevante per un sistema che gestisce identità digitali, in quanto l'attuale verifica del software dipende interamente da procedure manuali. Questa mancanza, dovuta ai tempi ristretti del progetto che hanno imposto di dare priorità alle funzionalità principali (\textit{core}), aumenta il rischio che vulnerabilità o malfunzionamenti crittografici possano passare inosservati, con conseguenze potenzialmente gravi per la sicurezza.
     
     \item \textbf{Curva ellittica limitata a P-256 (Criticità Media):} l'\texttt{EphemeralKeyService} è attualmente implementato per generare chiavi effimere utilizzando esclusivamente la curva ellittica P-256, indipendentemente dall'algoritmo di cifratura (JWE) negoziato. Tale vincolo limita l'interoperabilità del sistema, in particolare con i \textit{wallet} che richiedono curve crittografiche maggiormente robuste.
     
