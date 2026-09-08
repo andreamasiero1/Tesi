@@ -192,11 +192,11 @@ La guardia \texttt{process.env.NODE\_ENV === 'development'} assicura che questo 
 if (typeof jwtStr === 'string' && jwtStr.split('.').length === 5) {
   jwtStr = await this.decipherJWEService.decipherJWE(jwtStr)
 }
-let \textit{payload}: any
+let payload: any
 try {
-  \textit{payload} = JSON.parse(jwtStr)
+  payload = JSON.parse(jwtStr)
 } catch (e) {
-  \textit{payload} = jose.decodeJwt(jwtStr)
+  payload = jose.decodeJwt(jwtStr)
 }
 \end{minted}
 \caption{Discriminazione tra \textit{payload} in chiaro e \textit{payload} cifrato nella risposta del \textit{Wallet}}
