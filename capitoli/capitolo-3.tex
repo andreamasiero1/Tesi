@@ -14,14 +14,15 @@ I principi guida che hanno orientato ogni scelta architetturale sono:
 \end{itemize}
 Il sistema adotta un'architettura a microservizio distribuito con separazione netta tra i livelli (riassunta in Figura~\ref{fig:architettura_generale}). Non essendo un'applicazione client-side, il progetto non contiene un livello di interfaccia utente proprio: il ruolo di \emph{client} è svolto da componenti esterni (\textit{Frontend} RP e \textit{Wallet} dell'utente).
 
-\begin{figure}[H]
+
+\subsection{Stratificazione architetturale}
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.4\textwidth]{./immagini/Architettura-sistema.png}    
+    \includegraphics[width=0.7\textwidth]{./immagini/Architettura-sistema.png}    
     \caption{Architettura generale del sistema Relying Party\glsadd{relyingpartyg}}
     \label{fig:architettura_generale}
 \end{figure}
 
-\subsection{Stratificazione architetturale}
 Per mantenere il codice pulito e facile da gestire, e per separare bene le responsabilità, il sistema si basa su una struttura a strati orizzontali, chiamata \textit{Layered Architecture}. Come mostra la Figura~\ref{fig:architettura_generale}, l’architettura è divisa in quattro livelli principali, posti tra gli attori esterni (interfacce client e Digital \textit{Wallet}\glsadd{digitalwalletg}) e i sistemi di persistenza.
 
 \subsubsection{Presentation Layer (Presentazione e instradamento)}
@@ -35,7 +36,7 @@ Il \textit{Business Logic Layer} rappresenta il cuore computazionale dell'intera
 Accanto a questi servizi di fase lavorano alcuni moduli trasversali con compiti specifici sul piano della sicurezza. Tra le loro responsabilità rientrano la risoluzione ricorsiva delle catene di fiducia (\textit{Trust Chains}\glsadd{trustchaing}), condotta in conformità alle specifiche OpenID Federation 1.0, la negoziazione delle suite crittografiche disponibili e la generazione di coppie di chiavi asimmetriche effimere, necessarie ad assicurare la \textit{Forward Secrecy\glsadd{forwardsecrecyg}\glsfirstoccur{}}. A questi si aggiunge l'analisi crittografica delle firme e delle \textit{selective disclosures} presenti all'interno delle credenziali SD-JWT\glsadd{sdjwtg}.
 
 \subsubsection{Data Model Layer (Modelli di dominio e contratti dati)}
-Il \textit{Data Model Layer} ha il compito di definire il vocabolario tipizzato e i contratti dati che l'intera applicazione condivide. Grazie al sistema di tipi offerto da TypeScript, questo livello fissa la struttura logica di ciascun dato e i vincoli a cui esso deve sottostare prima di poter essere elaborato oppure persistito. Vi trovano posto tanto i modelli destinati alla persistenza, come \texttt{ClientModel}, che cattura la configurazione di un Verifier\glsadd{verifierg}, quanto i modelli transazionali di natura volatile, come ad esempio \texttt{SessionModel}, il cui scopo è tenere traccia dello stato effimero e della query DCQL\glsadd{dcqlg} associata alla sessione in corso.
+Il \textit{Data Model Layer} ha il compito di definire il vocabolario tipizzato e i contratti dati che l'intera applicazione condivide. Grazie al sistema di tipi offerto da TypeScript, questo livello fissa la struttura logica di ciascun dato e i vincoli a cui esso deve sottostare prima di poter essere elaborato oppure memorizzato. Vi trovano posto tanto i modelli destinati alla persistenza, come \texttt{ClientModel}, che cattura la configurazione di un Verifier\glsadd{verifierg}, quanto i modelli transazionali di natura volatile, come ad esempio \texttt{SessionModel}, il cui scopo è tenere traccia dello stato effimero e della query DCQL\glsadd{dcqlg} associata alla sessione in corso.
 
 Un aspetto caratterizzante di questi modelli di dominio è la presenza di meccanismi di auto-validazione incorporati direttamente al loro interno: già in fase di costruzione dell'istanza, i costruttori si occupano di accertare che i campi obbligatori siano effettivamente valorizzati, che i formati URI siano conformi a quanto atteso e che gli identificativi soddisfino i requisiti di sicurezza previsti.
 
@@ -49,7 +50,7 @@ Questo layer coordina l'accesso a due tecnologie di database differenti ma tra l
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{./immagini/organizzazione_codebase.png}    
+    \includegraphics[width=0.55\textwidth]{./immagini/organizzazione_codebase.png}    
     \caption{Organizzazione della codebase}
     \label{fig:organizzazione_codebase}
 \end{figure}
@@ -71,7 +72,7 @@ La distribuzione delle responsabilità dentro la directory \texttt{src/} si arti
 \subsubsection{Layer dei modelli di dominio (\texttt{src/models/})}
 Qui i modelli non sono semplici contenitori passivi di dati: si tratta di vere e proprie entità di dominio, dotate di tipizzazione rigorosa e capaci di auto-validarsi.
 \begin{itemize}
-    \item \textbf{\texttt{ClientModel}:} descrive le capacità operative e i vincoli crittografici di ogni Verifier\glsadd{verifierg} registrato. Attraverso enumeratori tipizzati specifica gli algoritmi di firma JWS\glsadd{jws}\glsadd{jwsg} ammessi (ad esempio \texttt{ES256}, \texttt{RS256}), quelli di cifratura JWE\glsadd{jwe}\glsadd{jweg} (come \texttt{RSA-OAEP-256}), i set di chiavi JWKS\glsadd{jwks} e gli \textit{endpoint} autorizzati.
+    \item \textbf{\texttt{ClientModel}:} descrive le capacità operative e i vincoli crittografici di ogni Verifier\glsadd{verifierg} registrato. Attraverso enumeratori tipizzati specifica gli algoritmi di firma JWS\glsadd{jws}\glsadd{jwsg} ammessi (ad esempio \texttt{ES256}, \texttt{RS256}), quelli di cifratura JWE\glsadd{jwe}\glsadd{jweg} (come \texttt{RSA-\allowbreak{}OAEP-\allowbreak{}256}), i set di chiavi JWKS\glsadd{jwks} e gli \textit{endpoint} autorizzati.
     \item \textbf{\texttt{VpFormatsSupported}:} raccoglie in forma aggregata ed estensibile i formati di Credenziali Verificabili supportati, includendo specializzazioni come \texttt{SdJwtFormatSupported} (che parametrizza SD-JWT\glsadd{sdjwtg} e Key Binding JWT\glsadd{jwt}\glsadd{jwtg}).
     \item \textbf{\texttt{SessionModel}:} governa lo stato transazionale effimero presente su Redis. Oltre a conservare la query DCQL\glsadd{dcqlg}, il \textit{nonce} crittografico e gli identificativi di transazione, questo modello effettua controlli di sicurezza preventivi già in fase di istanziazione: blocca la creazione di sessioni il cui identificativo risulti non conforme o privo di codifica \textit{URL-safe}.
 \end{itemize}
@@ -87,16 +88,16 @@ Il modulo \texttt{presentation.route.ts} è volutamente privo di logica di busin
 Questo è il cuore computazionale del sistema, organizzato in sotto-moduli altamente specializzati:
 \begin{itemize}
     \item \textbf{Orchestratore principale (\texttt{presentation.service.ts}):} applica il pattern \textit{Facade} e offre un punto di accesso unificato attraverso cui coordinare l'intero ciclo di vita della presentazione.
-    \item \textbf{Fasi transazionali OID4VP\glsadd{oid4vp}\glsadd{oid4vpg}:} sotto-directory dedicate (\texttt{initialization}, \texttt{request-object}, \texttt{response-processor}, \texttt{fetch}) isolano la logica propria di ciascuna fase del protocollo.
-    \item \textbf{Validazione polimorfica (\texttt{prefix-validator.service.ts}):} seleziona dinamicamente la strategia di validazione del client in funzione del prefisso del Client ID impiegato (\texttt{redirect\_uri}, certificati X.509, \texttt{openid\_federation}, \texttt{verifier\_attestation}).
+    \item \textbf{Fasi transazionali OID4VP\glsadd{oid4vp}\glsadd{oid4vpg}:} sotto-directory dedicate (\texttt{initialization}, \texttt{request-\allowbreak{}object}, \texttt{response-\allowbreak{}processor}, \texttt{fetch}) isolano la logica propria di ciascuna fase del protocollo.
+    \item \textbf{Validazione polimorfica (\texttt{prefix-\allowbreak{}validator.service.ts}):} seleziona dinamicamente la strategia di validazione del client in funzione del prefisso del Client ID impiegato (\texttt{redirect\_\allowbreak{}uri}, certificati X.509, \texttt{openid\_\allowbreak{}federation}, \texttt{verifier\_\allowbreak{}attestation}).
     \item \textbf{Sicurezza e crittografia:} i moduli nelle cartelle \texttt{decipher} e \texttt{verifier} racchiudono le operazioni crittografiche (decifratura JWE\glsadd{jwe}\glsadd{jweg} con chiavi effimere, verifica delle firme SD-JWT\glsadd{sdjwtg}, convalida dell'\textit{Holder Binding}), tenendo la complessità computazionale separata dalla gestione del flusso applicativo.
 \end{itemize}
 
 \subsubsection{Layer di accesso ai dati (\texttt{src/repositories/})}
 Questo layer incapsula ogni interazione con i sistemi di storage, seguendo il \textit{Repository pattern}:
 \begin{itemize}
-    \item \textbf{\texttt{mongodb-client.repository.ts}:} si occupa della persistenza a lungo termine delle configurazioni client su MongoDB. Eredita da interfacce conformi allo standard SCIM\glsadd{scimg} 2.0, così da supportare nativamente la gestione multi-\textit{tenant} delle identità.
-    \item \textbf{\texttt{redis-session.repository.ts}:} astrae la gestione della memoria volatile su Redis, nascondendo l'esecuzione di comandi atomici a basso livello come \texttt{GETDEL}, impiegato per la cancellazione sicura delle chiavi effimere.
+    \item \textbf{\texttt{mongodb-\allowbreak{}client.repository.ts}:} si occupa della persistenza a lungo termine delle configurazioni client su MongoDB. Eredita da interfacce conformi allo standard SCIM\glsadd{scimg} 2.0, così da supportare nativamente la gestione multi-\textit{tenant} delle identità.
+    \item \textbf{\texttt{redis-\allowbreak{}session.repository.ts}:} astrae la gestione della memoria volatile su Redis, nascondendo l'esecuzione di comandi atomici a basso livello come \texttt{GETDEL}, impiegato per la cancellazione sicura delle chiavi effimere.
 \end{itemize}
 
 \section{Modellazione dei dati di dominio}
@@ -136,7 +137,7 @@ La gestione dello stato transazionale in tempo reale è affidata a Redis, impieg
 
 L'interazione con Redis è mediata dall'astrazione del \textit{repository} \texttt{RedisSessionRepository}, la quale applica sistematicamente il meccanismo di scadenza nativa basato su \textit{Time-To-Live} (TTL\glsadd{ttl}\glsadd{ttlg}). Ogni istanza di sessione o record transazionale è vincolata a un tempo di vita prefissato (e.g., dieci minuti): qualora un utente interrompa anticipatamente il flusso di presentazione sul \textit{Wallet}, i relativi dati scadono e vengono rimossi automaticamente dal motore di Redis. Tale comportamento elimina l'accumulo di record orfani senza richiedere processi periodici di bonifica (\textit{garbage collection}) in background, riducendo l'overhead computazionale e prevenendo la saturazione della memoria.
 
-Per prevenire condizioni di competizione (\textit{race conditions}) e tentativi di riutilizzo della sessione (\textit{replay attack}\glsadd{replayattackg}\glsfirstoccur{}), il ciclo di vita della presentazione è regolato da transizioni di stato atomiche: il metodo \texttt{consumeSessionForResponse()} verifica che lo stato della sessione sia \texttt{pending} e ne applica contestualmente la mutazione a \texttt{response\_received}, sfruttando le primitive monothread di Redis. Qualsiasi richiesta concorrente sul medesimo identificativo viene immediatamente rigettata.
+Per prevenire condizioni di competizione (\textit{race conditions}) e tentativi di riutilizzo della sessione (\textit{replay attack}\glsadd{replayattackg}\glsfirstoccur{}), il ciclo di vita della presentazione è regolato da transizioni di stato atomiche: il metodo \texttt{consumeSessionForResponse()} verifica che lo stato della sessione sia \texttt{pending} e ne applica contestualmente la mutazione a \texttt{response\_\allowbreak{}received}, sfruttando le primitive monothread di Redis. Qualsiasi richiesta concorrente sul medesimo identificativo viene immediatamente rigettata.
 
 \subsection{Storage persistente e multi-\textit{tenant}: MongoDB}
 La persistenza a lungo termine delle entità di configurazione permanente (quali i modelli \texttt{ClientModel} e i relativi metadati) è delegata a MongoDB, database NoSQL orientato ai documenti. Tale tecnologia risulta particolarmente idonea alla rappresentazione di strutture gerarchiche e annidate complesse in formato BSON\glsadd{bson}/JSON, in piena aderenza agli schemi previsti dallo standard SCIM\glsadd{scimg} 2.0.

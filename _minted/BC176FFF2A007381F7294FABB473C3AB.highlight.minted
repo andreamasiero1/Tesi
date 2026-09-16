@@ -1,5 +1,0 @@
-\begin{MintedVerbatim}[commandchars=\\\{\}]
-\PYG{k}{static}\PYG{+w}{ }\PYG{n+nx}{isUrlSafe}\PYG{p}{(}\PYG{n+nx}{text}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kt}{string}\PYG{p}{)}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kt}{boolean}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
-\PYG{+w}{  }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+sr}{/\PYGZca{}[a\PYGZhy{}zA\PYGZhy{}Z0\PYGZhy{}9.\PYGZus{}\PYGZti{}\PYGZhy{}]+\PYGZdl{}/}\PYG{p}{.}\PYG{n+nx}{test}\PYG{p}{(}\PYG{n+nx}{text}\PYG{p}{)}
-\PYG{p}{\PYGZcb{}}
-\end{MintedVerbatim}

@@ -6,7 +6,7 @@ La verifica è un processo orientato verso l'interno del prodotto, ovvero si occ
 
 La validazione, invece, è un processo orientato verso l'esterno, verso l'utente finale e il contesto d'uso: ha lo scopo di confermare in modo definitivo che le caratteristiche del software siano conformi ai bisogni dell'utente e all'uso previsto. La validazione richiede tipicamente l'esecuzione del sistema in condizioni che simulino l'uso reale. Nel caso di un software che implementa uno standard pubblico, la forma più autorevole di validazione è il superamento dei test di conformità (\textit{conformance test}) rilasciati dall'ente che governa lo standard.
 
-Nel caso del progetto \texttt{monokee-relyingparty-core}, la strategia di verifica e validazione ha combinato meccanismi di verifica statica, testing manuale dei flussi operativi e, come strumento di validazione formale, l'esecuzione dei Conformance Test della OpenID Foundation\glsadd{oidf}\glsfirstoccur{} per il profilo OID4VP\glsadd{oid4vpg} Verifier\glsadd{verifierg}.
+Nel caso del progetto \texttt{monokee-\allowbreak{}relyingparty-\allowbreak{}core}, la strategia di verifica e validazione ha combinato meccanismi di verifica statica, testing manuale dei flussi operativi e, come strumento di validazione formale, l'esecuzione dei Conformance Test della OpenID Foundation\glsadd{oidf}\glsfirstoccur{} per il profilo OID4VP\glsadd{oid4vpg} Verifier\glsadd{verifierg}.
 
 \section{Verifica statica}
 \label{sec:verifica_statica}
@@ -19,12 +19,12 @@ L'ampio impiego di enumeratori tipizzati (come \texttt{JWSAlgorithm}, \texttt{JW
 Il comando \texttt{yarn typecheck} (definito in \texttt{package.json}) consente di eseguire la verifica dei tipi in modo isolato, senza produrre artefatti di build, facilitandone l'integrazione in \textit{pipeline} di verifica continua.
 
 \subsection{Analisi statica con ESLint}
-Un secondo livello di verifica statica è garantito dalla configurazione di ESLint con il plugin \texttt{@typescript-eslint}, che analizza il codice alla ricerca di pattern problematici, variabili non utilizzate, importazioni circolari e violazioni delle best practice JavaScript/TypeScript. La configurazione Prettier (\texttt{.prettierrc}) garantisce inoltre la coerenza stilistica del codice, riducendo il rumore durante le revisioni e facilitando la leggibilità.
+Un secondo livello di verifica statica è garantito dalla configurazione di ESLint con il plugin \texttt{@typescript-\allowbreak{}eslint}, che analizza il codice alla ricerca di pattern problematici, variabili non utilizzate, importazioni circolari e violazioni delle best practice JavaScript/TypeScript. La configurazione Prettier (\texttt{.prettierrc}) garantisce inoltre la coerenza stilistica del codice, riducendo il rumore durante le revisioni e facilitando la leggibilità.
 
 Il processo di sviluppo, come configurato nel file \texttt{nodemon.json}, esegue automaticamente \texttt{yarn lint} ad ogni riavvio del server di sviluppo, integrando così la verifica statica nel ciclo di feedback dello sviluppatore.
 
 \subsection{Audit automatico delle dipendenze}
-Il file \texttt{nodemon.json} integra un'ulteriore misura di verifica nel ciclo di sviluppo: il comando \texttt{yarn audit --groups dependencies --level high} viene eseguito automaticamente ad ogni riavvio del server. Questo comando interroga i database pubblici di vulnerabilità note per verificare che nessuna delle dipendenze del progetto contenga falle di sicurezza ad alta criticità. In un sistema che manipola dati di identità digitale e credenziali crittografiche, questa verifica è particolarmente rilevante.
+Il file \texttt{nodemon.json} integra un'ulteriore misura di verifica nel ciclo di sviluppo: il comando \texttt{yarn audit -\allowbreak{}-\allowbreak{}groups dependencies -\allowbreak{}-\allowbreak{}level high} viene eseguito automaticamente ad ogni riavvio del server. Questo comando interroga i database pubblici di vulnerabilità note per verificare che nessuna delle dipendenze del progetto contenga falle di sicurezza ad alta criticità. In un sistema che manipola dati di identità digitale e credenziali crittografiche, questa verifica è particolarmente rilevante.
 
 \section{Verifica dinamica}
 \label{sec:verifica_dinamica}
@@ -45,7 +45,7 @@ static isUrlSafe(text: string): boolean {
 \end{listing}
 impedisce l'inserimento di caratteri speciali nei parametri destinati a comparire in URL OAuth\glsadd{oauthg} e nei parametri di redirect, neutralizzando potenziali vulnerabilità di manipolazione degli indirizzi.
 
-Per le operazioni CRUD\glsadd{crudg} sui client, il \textit{framework} SCIM\glsadd{scimg} 2.0 applica automaticamente la validazione dei \textit{payload} in ingresso confrontando gli schemi definiti in \texttt{client.schema.json}, garantendo che nessuna configurazione sintatticalmente invalida possa essere persistita in MongoDB.
+Per le operazioni CRUD\glsadd{crudg} sui client, il \textit{framework} SCIM\glsadd{scimg} 2.0 applica automaticamente la validazione dei \textit{payload} in ingresso confrontando gli schemi definiti in \texttt{client.schema.json}, garantendo che nessuna configurazione sintatticalmente invalida possa essere memorizzata in MongoDB.
 
 Infine, la gerarchia di errori tipizzata (\texttt{InvalidValueError}, \texttt{ForbiddenError}, \texttt{NotFoundError}, \texttt{PreconditionFailedError}, \texttt{NotImplementedError}) e la relativa mappatura deterministica in codici HTTP\glsadd{http}, già descritta nel Capitolo~\ref{cap:codifica}, garantisce che ogni condizione anomala sia codificata esplicitamente e che gli errori interni restituiscano un messaggio generico, prevenendo la fuga accidentale di informazioni sull'architettura interna del sistema.
 
@@ -56,7 +56,7 @@ Per ciascuna delle quattro fasi del protocollo descritte nel Capitolo~\ref{cap:c
 
 \begin{itemize}
     \item \textbf{Fase 1 (Init)}: corretta creazione della sessione, generazione degli identificativi crittografici, costruzione dell'\texttt{authUrl}, e rifiuto in caso di client inesistente o dominio non configurato;
-    \item \textbf{Fase 2 (Request Object)}: corretta firma del JWT\glsadd{jwtg}, inclusione delle chiavi effimere nel \texttt{client\_metadata}, funzionamento del flag anti-replay, e gestione dei diversi schemi di prefisso;
+    \item \textbf{Fase 2 (Request Object)}: corretta firma del JWT\glsadd{jwtg}, inclusione delle chiavi effimere nel \texttt{client\_\allowbreak{}metadata}, funzionamento del flag anti-replay, e gestione dei diversi schemi di prefisso;
     \item \textbf{Fase 3 (Response)}: corretta decifratura dei \textit{payload} JWE\glsadd{jweg}, transizione atomica dello stato della sessione, validazione delle \textit{disclosure} SD-JWT\glsadd{sdjwtg}, verifica del Key Binding JWT (KB-JWT\glsadd{kbjwtg}), e generazione del \texttt{responseCode} monouso;
     \item \textbf{Fase 4 (Fetch)}: corretta restituzione del VP Token\glsadd{vptokeng} al \textit{frontend}, rifiuto di \texttt{responseCode} errati o già consumati, e cancellazione della sessione da Redis.
 \end{itemize}
@@ -67,7 +67,7 @@ Accanto ai flussi nominali, sono stati verificati manualmente i principali scena
 \begin{itemize}
     \item invio di parametri mancanti o malformati (verifica della corretta restituzione di \texttt{400 Bad Request});
     \item richiesta di sessioni scadute o inesistenti (verifica del \texttt{404 Not Found});
-    \item tentativo di consumare una sessione già in stato \texttt{response\_received};
+    \item tentativo di consumare una sessione già in stato \texttt{response\_\allowbreak{}received};
     \item invocazione doppia del Request Object sulla stessa sessione (verifica del \texttt{403 Forbidden} per replay\glsadd{replayattackg});
     \item invio di un VP Token\glsadd{vptokeng} con nonce errato (verifica del \texttt{403 Forbidden} nella validazione del Key Binding).
 \end{itemize}
@@ -86,7 +86,7 @@ L'esecuzione dei Conformance Test ha richiesto una configurazione specifica dell
 \begin{lstlisting}[language=bash, numbers=none]
 MONOKEE_BASE_URL=https://dronish-unlabiate-jaylah.ngrok-free.dev
 \end{lstlisting}
-Questo URL pubblico è stato configurato come \texttt{VERIFIER\_ENTITY\_IDENTIFIER}, ovvero l'identità del Verifier\glsadd{verifierg} nell'ecosistema OID4VP\glsadd{oid4vpg}, e registrato nel test plan della suite OIDF\glsadd{oidf} con l'alias \texttt{monokee-oauth2-openid4vci}:
+Questo URL pubblico è stato configurato come \texttt{VERIFIER\_\allowbreak{}ENTITY\_\allowbreak{}IDENTIFIER}, ovvero l'identità del Verifier\glsadd{verifierg} nell'ecosistema OID4VP\glsadd{oid4vpg}, e registrato nel test plan della suite OIDF\glsadd{oidf} con l'alias \texttt{monokee-\allowbreak{}oauth2-\allowbreak{}openid4vci}:
 
 \begin{lstlisting}[language=bash, numbers=none]
 OPENID4VCI_AUTHORIZE_URL=https://www.certification.openid.net/test/a/monokee-oauth2-openid4vci/authorize
@@ -100,10 +100,10 @@ Il test plan OID4VP\glsadd{oid4vpg} Verifier\glsadd{verifierg} della OpenID Foun
 Questi test verificano che il Verifier\glsadd{verifierg} sia in grado di completare con successo un'interazione completa con un \textit{wallet} conforme:
 
 \begin{itemize}
-    \item il Verifier\glsadd{verifierg} genera correttamente un Request Object JWT\glsadd{jwtg} con tutti i parametri obbligatori (\texttt{response\_type}, \texttt{response\_mode}, \texttt{nonce}, \texttt{state}, \texttt{dcql\_query}, \texttt{client\_id});
-    \item il Request Object è firmato con un algoritmo conforme e contiene header validi (\texttt{typ: oauth-authz-req+jwt});
-    \item il Verifier\glsadd{verifierg} accetta un VP Token\glsadd{vptokeng} valido e restituisce il redirect URI con il \texttt{response\_code};
-    \item il formato \texttt{dc+sd-jwt} è gestito correttamente (parsing, \textit{disclosure}, firma dell'emittente).
+    \item il Verifier\glsadd{verifierg} genera correttamente un Request Object JWT\glsadd{jwtg} con tutti i parametri obbligatori (\texttt{response\_\allowbreak{}type}, \texttt{response\_\allowbreak{}mode}, \texttt{nonce}, \texttt{state}, \texttt{dcql\_\allowbreak{}query}, \texttt{client\_\allowbreak{}id});
+    \item il Request Object è firmato con un algoritmo conforme e contiene header validi (\texttt{typ: oauth-\allowbreak{}authz-\allowbreak{}req+jwt});
+    \item il Verifier\glsadd{verifierg} accetta un VP Token\glsadd{vptokeng} valido e restituisce il redirect URI con il \texttt{response\_\allowbreak{}code};
+    \item il formato \texttt{dc+sd-\allowbreak{}jwt} è gestito correttamente (parsing, \textit{disclosure}, firma dell'emittente).
 \end{itemize}
 
 \subsubsection{Test negativi}
@@ -113,17 +113,17 @@ Questi test verificano che il Verifier\glsadd{verifierg} rifiuti correttamente i
     \item \textbf{Firma invalida sulla credenziale}: la suite invia un VP Token\glsadd{vptokeng} con una firma dell'emittente volutamente corrotta; il Verifier\glsadd{verifierg} deve rifiutarla, dimostrando che la verifica crittografica è effettivamente operativa;
     \item \textbf{KB-JWT\glsadd{kbjwtg} con nonce errato}: la suite invia un Key Binding JWT\glsadd{jwtg} il cui nonce non corrisponde a quello generato nella fase di inizializzazione; il rifiuto dimostra la protezione contro gli attacchi di tipo \textit{replay}\glsadd{replayattackg};
     \item \textbf{KB-JWT\glsadd{kbjwtg} con audience errata}: la suite invia un Key Binding JWT\glsadd{jwtg} il cui \texttt{aud} non corrisponde all'identificativo del Verifier\glsadd{verifierg}; il rifiuto impedisce che una presentazione generata per un altro Verifier\glsadd{verifierg} venga accettata;
-    \item \textbf{Integrità della sessione e anti-replay}: la suite tenta di riutilizzare un \texttt{request\_uri} già consumato o di inviare una risposta su una sessione non più in stato \texttt{pending}; il Verifier\glsadd{verifierg} deve rifiutare questi tentativi.
+    \item \textbf{Integrità della sessione e anti-replay}: la suite tenta di riutilizzare un \texttt{request\_\allowbreak{}uri} già consumato o di inviare una risposta su una sessione non più in stato \texttt{pending}; il Verifier\glsadd{verifierg} deve rifiutare questi tentativi.
 \end{itemize}
 
 \subsubsection{Verifica dei parametri di protocollo}
 La suite controlla la conformità formale dei parametri scambiati:
 
 \begin{itemize}
-    \item la presenza e la correttezza del \texttt{Content-Type} nelle risposte;
-    \item la coerenza tra \texttt{client\_id} e lo schema di prefisso dichiarato;
+    \item la presenza e la correttezza del \texttt{Content-\allowbreak{}Type} nelle risposte;
+    \item la coerenza tra \texttt{client\_\allowbreak{}id} e lo schema di prefisso dichiarato;
     \item la struttura e i claim del Request Object JWT\glsadd{jwtg} secondo la specifica JAR\glsadd{jar}\glsadd{jarg};
-    \item l'inclusione del \texttt{client\_metadata} quando lo schema di prefisso lo richiede (\texttt{MUST\_INCLUDE}).
+    \item l'inclusione del \texttt{client\_\allowbreak{}metadata} quando lo schema di prefisso lo richiede (\texttt{MUST\_\allowbreak{}INCLUDE}).
 \end{itemize}
 
 \subsection{Risultati e iterazioni correttive}
@@ -132,11 +132,11 @@ L'esecuzione dei Conformance Test non è stata un'operazione puntuale con esito 
 Le principali aree su cui si è intervenuti includono:
 
 \begin{itemize}
-    \item la corretta formattazione del \texttt{Content-Type} nelle risposte HTTP\glsadd{http} del Request Object;
-    \item la gestione precisa del \texttt{response\_mode} e delle sue varianti (\texttt{direct\_post} e \texttt{direct\_post.jwt});
-    \item la corretta inclusione dei parametri di cifratura nel \texttt{client\_metadata} quando la negoziazione JWE\glsadd{jweg} è attiva;
+    \item la corretta formattazione del \texttt{Content-\allowbreak{}Type} nelle risposte HTTP\glsadd{http} del Request Object;
+    \item la gestione precisa del \texttt{response\_\allowbreak{}mode} e delle sue varianti (\texttt{direct\_\allowbreak{}post} e \texttt{direct\_\allowbreak{}post.jwt});
+    \item la corretta inclusione dei parametri di cifratura nel \texttt{client\_\allowbreak{}metadata} quando la negoziazione JWE\glsadd{jweg} è attiva;
     \item l'aderenza alla struttura DCQL\glsadd{dcqlg} nella serializzazione \textit{snake\_case} della query all'interno del Request Object;
-    \item la gestione corretta degli errori provenienti dal \textit{wallet} (campo \texttt{error} e \texttt{error\_description}), con il redirect appropriato al \textit{frontend}.
+    \item la gestione corretta degli errori provenienti dal \textit{wallet} (campo \texttt{error} e \texttt{error\_\allowbreak{}description}), con il redirect appropriato al \textit{frontend}.
 \end{itemize}
 Questo ciclo di test, correzione e ri-esecuzione è stato fondamentale per affinare l'implementazione e portarla a un livello di conformità verificabile dall'esterno, costituendo il processo di validazione più significativo dell'intero progetto.
 

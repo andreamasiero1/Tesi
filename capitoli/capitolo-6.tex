@@ -37,7 +37,7 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, Ã
 \hline
 \textbf{RF-04} & Fetch e consegna della presentazione & Il sistema deve validare il responseCode, consegnare il VP Token verificato al \textit{Frontend} e cancellare la sessione. & Soddisfatto \\
 \hline
-\textbf{RF-05} & Supporto a 6 schemi Client ID & Il sistema deve gestire i prefissi \texttt{redirect\_uri}, \texttt{x509\_san\_dns}, \texttt{x509\_hash}, \texttt{openid\_federation}, \texttt{verifier\_attestation}, \texttt{pre\_registered}. & Soddisfatto \\
+\textbf{RF-05} & Supporto a 6 schemi Client ID & Il sistema deve gestire i prefissi \texttt{redirect\_\allowbreak{}uri}, \texttt{x509\_\allowbreak{}san\_\allowbreak{}dns}, \texttt{x509\_\allowbreak{}hash}, \texttt{openid\_\allowbreak{}federation}, \texttt{verifier\_\allowbreak{}attestation}, \texttt{pre\_\allowbreak{}registered}. & Soddisfatto \\
 \hline
 \textbf{RF-06} & Verifica crittografica SD-JWT & Il sistema deve parsare le SD-JWT, verificare la firma dell'issuer, validare gli hash delle disclosures e controllare il Key Binding JWT. & Soddisfatto \\
 \hline
@@ -51,11 +51,11 @@ Per fornire un'evidenza strutturata del livello di completamento del progetto, Ã
 \hline
 \textbf{RF-11} & CRUD\glsadd{crudg} Client via SCIM\glsadd{scimg} 2.0 & Il sistema deve esporre \textit{endpoint} REST\glsadd{rest} per la creazione, lettura, aggiornamento e cancellazione delle configurazioni Client, conformi allo standard SCIM 2.0. & Soddisfatto \\
 \hline
-\textbf{RF-12} & Gestione errori del \textit{Wallet} & Il sistema deve gestire le risposte di errore del \textit{wallet} (\texttt{error}, \texttt{error\_description}), aggiornare lo stato della sessione a \texttt{failed} e produrre un redirect URI con i parametri di errore. & Soddisfatto \\
+\textbf{RF-12} & Gestione errori del \textit{Wallet} & Il sistema deve gestire le risposte di errore del \textit{wallet} (\texttt{error}, \texttt{error\_\allowbreak{}description}), aggiornare lo stato della sessione a \texttt{failed} e produrre un redirect URI con i parametri di errore. & Soddisfatto \\
 \hline
 \textbf{RF-13} & Anti-replay del Request Object & Il sistema deve impedire la generazione multipla del Request Object per la stessa sessione tramite il flag \texttt{isRequestUriConsumed}. & Soddisfatto \\
 \hline
-\textbf{RF-14} & Conversione camelCase \(\leftrightarrow\) snake\_case & Il sistema deve convertire bidirezionalmente i formati interni e quelli di protocollo, preservando le chiavi speciali (\texttt{jwks}, \texttt{dc+sd-jwt}). & Soddisfatto \\
+\textbf{RF-14} & Conversione camelCase \(\leftrightarrow\) snake\_case & Il sistema deve convertire bidirezionalmente i formati interni e quelli di protocollo, preservando le chiavi speciali (\texttt{jwks}, \texttt{dc+sd-\allowbreak{}jwt}). & Soddisfatto \\
 \hline
 \textbf{RF-15} & Supporto JWT non firmati per pre\_registered & Il sistema deve generare Unsecured JWT per i client pre-registrati, conformemente alla specifica OID4VP. & Soddisfatto \\
 \bottomrule

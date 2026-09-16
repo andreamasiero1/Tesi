@@ -1,0 +1,235 @@
+\documentclass{beamer}
+
+\usetheme{Padova}
+
+\title{Progettazione e sviluppo di un Relying Party conforme allo standard EUDI Wallet}
+\subtitle{dal parsing di query DCQL alla convalida crittografica}
+\author{Andrea Masiero}
+\date{Settembre 2026}
+
+\begin{document}
+
+	\begin{frame}
+		\maketitle
+	\end{frame}
+
+	\begin{frame}{Indice degli argomenti}
+		\tableofcontents
+	\end{frame}
+
+
+	\section{L'azienda}
+
+	\begin{frame}{L'azienda}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{../../immagini/logo-monokee.png}
+		\end{figure}
+		\begin{itemize}
+			\item \textbf{Piattaforma avanzata IAM} (Identity and Access Management). \vspace{.5em}
+			\item Orchestratore visivo per l'automazione di flussi complessi. \vspace{.5em}
+			\item \textbf{Contesto tecnologico:} gestione dell'identità digitale, credenziali decentralizzate ed ecosistema EUDI Wallet.
+		\end{itemize}
+	\end{frame}
+
+
+	\section{Il progetto}
+
+	\begin{frame}{Il progetto}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Contesto e idea}}} \par}
+		\vspace{0.5em}
+		\begin{itemize}
+			\item \textbf{Il modulo:} progettazione e sviluppo da zero di \texttt{monokee-relyingparty-core}. \vspace{.5em}
+			\item \textbf{L'idea:} implementare un \textit{Relying Party} (Verifier) capace di richiedere, ricevere e validare \textit{Verifiable Credentials}. \vspace{.5em}
+			\item \textbf{Nel contesto aziendale:} abilitare l'autenticazione tramite \textit{wallet} digitali integrando il protocollo \textit{OpenID4VP} nell'infrastruttura IAM.
+		\end{itemize}
+		\vfill
+	\end{frame}
+
+	\begin{frame}{Il progetto}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Tecnologie}}} \par}
+		\vspace{0.5em}
+		\begin{columns}[T,onlytextwidth]
+			\begin{column}{0.3\textwidth}
+				\centering
+				\begin{minipage}[c][1.5cm][c]{\linewidth}
+					\centering
+					\includegraphics[width=0.9\linewidth,height=1.5cm,keepaspectratio]{images/Typescript.png}
+				\end{minipage} \\
+				\vspace{0.3cm}
+				\textbf{TypeScript}
+				
+				\vspace{0.8cm}
+				\begin{minipage}[c][1.5cm][c]{\linewidth}
+					\centering
+					\includegraphics[width=0.9\linewidth,height=1.5cm,keepaspectratio]{images/express.png}
+				\end{minipage} \\
+				\vspace{0.3cm}
+				\textbf{Express.js}
+			\end{column}
+			\hfill
+			\begin{column}{0.3\textwidth}
+				\centering
+				\begin{minipage}[c][1.5cm][c]{\linewidth}
+					\centering
+					\includegraphics[width=0.9\linewidth,height=1.5cm,keepaspectratio]{images/Node.js_logo.png}
+				\end{minipage} \\
+				\vspace{0.3cm}
+				\textbf{Node.js}
+				
+				\vspace{0.8cm}
+				\begin{minipage}[c][1.5cm][c]{\linewidth}
+					\centering
+					\includegraphics[width=0.9\linewidth,height=1.5cm,keepaspectratio]{images/mongoDB_sorint_lab_workshop.png}
+				\end{minipage} \\
+				\vspace{0.3cm}
+				\textbf{MongoDB}
+			\end{column}
+			\hfill
+			\begin{column}{0.3\textwidth}
+				\centering
+				\begin{minipage}[c][1.5cm][c]{\linewidth}
+					\centering
+					\includegraphics[width=0.9\linewidth,height=1.5cm,keepaspectratio]{images/Docker_Logo.png}
+				\end{minipage} \\
+				\vspace{0.3cm}
+				\textbf{Docker}
+				
+				\vspace{0.8cm}
+				\begin{minipage}[c][1.5cm][c]{\linewidth}
+					\centering
+					\includegraphics[width=0.9\linewidth,height=1.5cm,keepaspectratio]{images/Redis_logo.png}
+				\end{minipage} \\
+				\vspace{0.3cm}
+				\textbf{Redis}
+			\end{column}
+		\end{columns}
+		\vfill
+	\end{frame}
+
+
+	\section{La soluzione}
+
+	\begin{frame}{La soluzione}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Architettura bottom-up}}} \par}
+		\vspace{0.5em}
+		Sviluppo incrementale articolato in quattro layer: \vspace{.5em}
+		\begin{enumerate}
+			\item \textbf{Modellazione dei dati:} entità di dominio (\texttt{ClientModel}, \texttt{SessionModel}) ed enumeratori crittografici. \vspace{.5em}
+			\item \textbf{Layer di accesso ai dati:} \textit{repository} su \textbf{Redis} (sessioni) e \textbf{MongoDB} (configurazioni). \vspace{.5em}
+			\item \textbf{Layer di logica applicativa:} servizi di inizializzazione, elaborazione risposta e validazione crittografica. \vspace{.5em}
+			\item \textbf{Layer di presentazione:} \textit{route} Express e interfacce REST.
+		\end{enumerate}
+		\vfill
+	\end{frame}
+
+	\begin{frame}{La soluzione}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Sicurezza by design}}} \par}
+		\vspace{0.5em}
+		Come garantire la solidità di un sistema crittografico? \vspace{.5em}
+		\begin{itemize}
+			\item \textbf{Verifica statica:} type checking rigoroso (\texttt{alwaysStrict: true}) per vincolare staticamente gli algoritmi crittografici supportati. \vspace{.5em}
+			\item \textbf{Misure difensive:} validazione preventiva e isolamento \textit{URL-safe} degli input per evitare manipolazioni e \textit{injection}. \vspace{.5em}
+			\item \textbf{Audit automatico:} controllo continuo delle vulnerabilità nelle dipendenze eseguito ad ogni riavvio (\texttt{yarn audit}).
+		\end{itemize}
+		\vfill
+	\end{frame}
+
+	\begin{frame}{La soluzione}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Validazione Crittografica}}} \par}
+		\vspace{0.5em}
+		\begin{block}{OpenID Federation (Trust Chain)}
+			Navigazione ricorsiva tramite visita in profondità (DFS) con \textit{cycle detection} per validare l'intera catena di fiducia.
+		\end{block}
+
+		\begin{alertblock}{SD-JWT (Selective Disclosure)}
+			Parsifica del \textit{token}, controllo della firma dell'\textit{Issuer}, validazione degli \textit{hash} (disclosures) e verifica del \textit{Key Binding}.
+		\end{alertblock}
+
+		\begin{exampleblock}{Query DCQL}
+			Parsing strutturato e validazione semantica avanzata delle richieste formali espresse in \textit{Digital Credentials Query Language}.
+		\end{exampleblock}
+		\vfill
+	\end{frame}
+
+	\begin{frame}{La soluzione}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Affidabilità}}} \par}
+		\vspace{0.5em}
+		Come evitare inconsistenze di stato per le sessioni utente? \vspace{.5em}
+		\begin{itemize}
+			\item \textbf{Stato su Redis:} ogni sessione ha un \textit{TTL} automatico e le chiavi asimmetriche (Forward Secrecy) vengono distrutte atomicamente post-utilizzo. \vspace{.5em}
+			\item \textbf{Scalabilità orizzontale:} assenza di stato in memoria, i server possono essere replicati nativamente dietro a un load balancer. \vspace{.5em}
+			\item \textbf{Multi-tenancy nativa:} isolamento per dominio garantito sia a livello applicativo che sui database tramite indici composti.
+		\end{itemize}
+		\vfill
+	\end{frame}
+	
+	\begin{frame}{La soluzione}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Validazione Formale}}} \par}
+		\vspace{0.5em}
+		\begin{itemize}
+			\item \textbf{Conformance Test:} superamento dell'intera suite di certificazione ufficiale fornita dalla \textbf{OpenID Foundation}. \vspace{.5em}
+			\item \textbf{Profilo Verificato:} superamento completo del profilo \textit{OID4VP Verifier}. \vspace{.5em}
+			\item \textbf{Obiettivo:} garanzia di interoperabilità assoluta con qualsiasi \textit{Wallet} certificato europeo presente sul mercato.
+		\end{itemize}
+		\vfill
+	\end{frame}
+
+
+	\section{Risultati}
+	\begin{frame}{Risultati}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Obiettivi Raggiunti}}} \par}
+		\vspace{0.5em}
+		\begin{table}[]
+		\centering
+		\begin{tabular}{|l|c|}
+		\hline
+		\textbf{Requisito} & \textbf{Stato} \\ \hline
+		RF-01: Inizializzazione sessione OID4VP & Soddisfatto \\ \hline
+		RF-05: Supporto a 6 schemi \textit{Client ID} & Soddisfatto \\ \hline
+		RF-06: Verifica crittografica SD-JWT & Soddisfatto \\ \hline
+		RF-07: Risoluzione \textit{Trust Chain} & Soddisfatto \\ \hline
+		RF-09: Validazione DCQL completa & Soddisfatto \\ \hline
+		RF-10: Gestione chiavi effimere JWE & Soddisfatto \\ \hline
+		\end{tabular}
+		\end{table}
+		\vspace{1em}
+		\begin{itemize}
+			\item \textbf{Completamento:} 10/10 Requisiti Funzionali soddisfatti (100\%).
+		\end{itemize}
+		\vfill
+	\end{frame}
+
+
+	\section{Conclusioni}
+
+	\begin{frame}{Conclusioni}
+		\vfill
+		{\centering \huge{\textbf{\textcolor{rossoPantano}{Retrospettiva}}} \par}
+		\vspace{0.5em}
+		\begin{itemize}
+			\item \textbf{Valore aggiunto architetturale:}
+			\begin{itemize}
+				\item Sicurezza crittografica \textit{end-to-end}.
+				\item Alta disponibilità ed estrema flessibilità.
+			\end{itemize}
+			\vspace{1em}
+			\item \textbf{Utilità reale:} realizzato un microservizio \textit{backend} completo, testato, affidabile e \textbf{production-ready}, pronto per l'integrazione nell'ecosistema \textit{enterprise} di Monokee.
+		\end{itemize}
+		\vfill
+	\end{frame}
+
+	\begin{frame}
+		\centering
+		\Huge{Grazie per l'attenzione}
+	\end{frame}
+
+\end{document}
